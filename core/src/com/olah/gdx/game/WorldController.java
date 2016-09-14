@@ -10,7 +10,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.InputAdapter;
 
-
+/**
+ * A class that handles the locations and movements of game objects, and the camera.
+ * @author Brad Olah
+ */
 public class WorldController extends InputAdapter
 {
 	private static final String TAG = WorldController.class.getName();
