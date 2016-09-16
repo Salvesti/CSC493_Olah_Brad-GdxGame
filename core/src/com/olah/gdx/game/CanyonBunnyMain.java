@@ -3,6 +3,7 @@ package com.olah.gdx.game;
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 
 /**
@@ -21,9 +22,10 @@ public class CanyonBunnyMain implements ApplicationListener
 	@Override
 	public void create()
 	{
-		//TODO change log level to a more appropriate level when releasing.
 		//Set LibGDX log level to DEBUG
-		Gdx.app.setLogLevel(Application.LOG_DEBUG);
+		Gdx.app.setLogLevel(Application.LOG_DEBUG); //TODO change log level to a more appropriate level when releasing.
+		//Load assets
+		Assets.instance.init(new AssetManager());
 		//Initialize controller and renderer
 		worldController = new WorldController();
 		worldRenderer = new WorldRenderer(worldController);
@@ -41,7 +43,6 @@ public class CanyonBunnyMain implements ApplicationListener
 	@Override
 	public void render()
 	{
-
 		//Do not update the game if it is paused.
 		if(!paused)
 		{
@@ -68,11 +69,14 @@ public class CanyonBunnyMain implements ApplicationListener
 	public void resume()
 	{
 		paused = false;
+		//Load assets
+		Assets.instance.init(new AssetManager());
 	}
 
 	@Override
 	public void dispose()
 	{
 		worldRenderer.dispose();
+		Assets.instance.dispose();
 	}
 }

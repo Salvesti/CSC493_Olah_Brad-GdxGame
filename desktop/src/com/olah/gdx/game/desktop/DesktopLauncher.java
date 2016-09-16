@@ -7,16 +7,17 @@ import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
 import com.olah.gdx.game.CanyonBunnyMain;
 
 /**
- * Auto-generated Desktop launcher from the LibGDX setup app.
+ * Launches the Desktop version of the LibGDX game.
  * @author Brad Olah
  */
 public class DesktopLauncher
 {
-	private static boolean rebuildAtlas = true;
+	private static boolean rebuildAtlas = false;
 	private static boolean drawDebugOutline = false;
 
 	public static void main (String[] arg)
 	{
+		//Creates a texture atlas
 		if(rebuildAtlas)
 		{
 			Settings settings = new Settings();
@@ -26,6 +27,8 @@ public class DesktopLauncher
 			settings.debug = drawDebugOutline;
 			TexturePacker.processIfModified(settings, "assets-raw/images", "../core/assets/images","canyonbunny.pack");
 		}
+
+		//Sets the configurations for the desktop window.
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Canyon Bunny - Olah";
 		config.width = 800;

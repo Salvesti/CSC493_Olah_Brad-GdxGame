@@ -7,7 +7,9 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.InputAdapter;
 
 /**
@@ -33,20 +35,23 @@ public class WorldController extends InputAdapter
 		initTestObjects();
 	}
 
+	/**
+	 * Initializes some test objects to display
+	 */
 	private void initTestObjects()
 	{
 		//Create new array for 5 sprites
 		testSprites = new Sprite[5];
-		//Create empty POT-sized Pixmap with 8 bit RGBA picel data
-		int width = 32;
-		int height = 32;
-		Pixmap pixmap = createProceduralPixmap(width,height);
-		//Create a new texture from pixmap data
-		Texture texture = new Texture(pixmap);
-		//Create new sprites using the just created texture
+		//Create a list of texture regions
+		Array<TextureRegion> regions = new Array<TextureRegion>();
+		regions.add(Assets.instance.bunny.head);
+		regions.add(Assets.instance.feather.feather);
+		regions.add(Assets.instance.goldCoin.goldCoin);
+
+		//Create new sprites using a random texture region
 		for( int i = 0; i< testSprites.length;i++)
 		{
-			Sprite spr = new Sprite(texture);
+			Sprite spr = new Sprite(regions.random());
 			//Define sprite size to be 1m x 1m in game world
 			spr.setSize(1, 1);
 			//Set origin to sprite's center
@@ -62,6 +67,12 @@ public class WorldController extends InputAdapter
 		selectedSprite = 0;
 	}
 
+	/**
+	 * TODO Is this still needed?
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	private Pixmap createProceduralPixmap (int width, int height)
 	{
 		Pixmap pixmap = new Pixmap(width,height,Format.RGBA8888);
@@ -85,6 +96,10 @@ public class WorldController extends InputAdapter
 		cameraHelper.update(deltaTime);
 	}
 
+	/**
+	 * Rotates the currently selected sprite
+	 * @param deltaTime
+	 */
 	private void updateTestObjects(float deltaTime)
 	{
 		//Get current rotation from selected sprite
@@ -97,6 +112,10 @@ public class WorldController extends InputAdapter
 		testSprites[selectedSprite].setRotation(rotation);
 	}
 
+	/**
+	 * Controls for moving the test objects.
+	 * @param deltaTime
+	 */
 	private void handleDebugInput (float deltaTime)
 	{
 		if (Gdx.app.getType() != ApplicationType.Desktop)
