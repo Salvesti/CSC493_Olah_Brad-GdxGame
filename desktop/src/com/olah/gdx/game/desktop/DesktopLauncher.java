@@ -4,7 +4,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 import com.badlogic.gdx.tools.texturepacker.TexturePacker.Settings;
-import com.olah.gdx.game.CanyonBunnyMain;
+import com.olah.gdx.game.CatGameMain;
 
 /**
  * Launches the Desktop version of the LibGDX game.
@@ -25,7 +25,7 @@ public class DesktopLauncher
 			settings.maxHeight= 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			TexturePacker.processIfModified(settings, "assets-raw/images", "../core/assets/images","canyonbunny.pack");
+			TexturePacker.processIfModified(settings, "assets-raw/items", "../core/assets/images","items.pack");
 		}
 
 		//Sets the configurations for the desktop window.
@@ -33,6 +33,6 @@ public class DesktopLauncher
 		config.title = "Canyon Bunny - Olah";
 		config.width = 800;
 		config.height = 480;
-		new LwjglApplication(new CanyonBunnyMain(), config);
+		new LwjglApplication(new CatGameMain(), config);
 	}
 }

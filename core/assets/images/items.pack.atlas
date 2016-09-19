@@ -1,0 +1,125 @@
+
+items.pack.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+beer_bottle
+  rotate: false
+  xy: 320, 10
+  size: 18, 51
+  orig: 18, 51
+  offset: 0, 0
+  index: -1
+can
+  rotate: false
+  xy: 407, 21
+  size: 21, 40
+  orig: 21, 40
+  offset: 0, 0
+  index: -1
+cardboard_box
+  rotate: false
+  xy: 2, 3
+  size: 51, 58
+  orig: 51, 58
+  offset: 0, 0
+  index: -1
+cup
+  rotate: false
+  xy: 290, 16
+  size: 28, 45
+  orig: 28, 45
+  offset: 0, 0
+  index: -1
+glass_jar
+  rotate: false
+  xy: 360, 25
+  size: 25, 36
+  orig: 25, 36
+  offset: 0, 0
+  index: -1
+laser_pointer
+  rotate: false
+  xy: 165, 9
+  size: 20, 20
+  orig: 20, 20
+  offset: 0, 0
+  index: -1
+laundary_detergent
+  rotate: false
+  xy: 96, 3
+  size: 36, 58
+  orig: 36, 58
+  offset: 0, 0
+  index: -1
+milk_jug
+  rotate: false
+  xy: 55, 4
+  size: 39, 57
+  orig: 39, 57
+  offset: 0, 0
+  index: -1
+mug
+  rotate: false
+  xy: 134, 2
+  size: 29, 27
+  orig: 29, 27
+  offset: 0, 0
+  index: -1
+newspaper
+  rotate: false
+  xy: 196, 31
+  size: 55, 30
+  orig: 55, 30
+  offset: 0, 0
+  index: -1
+paper_bag
+  rotate: false
+  xy: 253, 15
+  size: 35, 46
+  orig: 35, 46
+  offset: 0, 0
+  index: -1
+pizza_box
+  rotate: false
+  xy: 134, 31
+  size: 60, 30
+  orig: 60, 30
+  offset: 0, 0
+  index: -1
+sardines
+  rotate: false
+  xy: 430, 31
+  size: 23, 30
+  orig: 23, 30
+  offset: 0, 0
+  index: -1
+soda_bottle
+  rotate: false
+  xy: 340, 11
+  size: 18, 50
+  orig: 18, 50
+  offset: 0, 0
+  index: -1
+soda_can
+  rotate: false
+  xy: 474, 27
+  size: 18, 34
+  orig: 18, 34
+  offset: 0, 0
+  index: -1
+spraypaint
+  rotate: false
+  xy: 455, 21
+  size: 17, 40
+  orig: 17, 40
+  offset: 0, 0
+  index: -1
+water_bottle
+  rotate: false
+  xy: 387, 14
+  size: 18, 47
+  orig: 18, 47
+  offset: 0, 0
+  index: -1

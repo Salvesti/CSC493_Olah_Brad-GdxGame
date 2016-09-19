@@ -27,11 +27,11 @@ public class Assets implements Disposable, AssetErrorListener
 	private Assets(){}
 
 	//A copy of each local Asset class to be used elsewhere.
-	public AssetBunny bunny;
-	public AssetRock rock;
-	public AssetGoldCoin goldCoin;
-	public AssetFeather feather;
-	public AssetLevelDecoration levelDecoration;
+	public AssetCat cat;
+	public AssetSardines sardines;
+	public AssetLaser laserPointer;
+	public AssetScoreObject scoreObject;
+	//public AssetLevelDecoration levelDecoration;
 
 	public void init(AssetManager assetManager)
 	{
@@ -39,7 +39,7 @@ public class Assets implements Disposable, AssetErrorListener
 		//Set asset manager error handler
 		assetManager.setErrorListener(this);
 		//Load texture atlas
-		assetManager.load(Constants.TEXTURE_ATLAS_OBJECTS,TextureAtlas.class);
+		assetManager.load(Constants.ITEM_ATLAS_OBJECTS,TextureAtlas.class);
 		//Start loading assets and wait until finished
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: "+assetManager.getAssetNames().size);
@@ -49,7 +49,7 @@ public class Assets implements Disposable, AssetErrorListener
 		}
 
 		//Gets the value for the Texture Atlas location from the constants class.
-		TextureAtlas atlas = assetManager.get(Constants.TEXTURE_ATLAS_OBJECTS);
+		TextureAtlas atlas = assetManager.get(Constants.ITEM_ATLAS_OBJECTS);
 		//Enable texture filtering for pixel smoothing
 		for(Texture t : atlas.getTextures())
 		{
@@ -57,11 +57,10 @@ public class Assets implements Disposable, AssetErrorListener
 		}
 
 		//Create game resource objects
-		bunny = new AssetBunny(atlas);
-		rock = new AssetRock(atlas);
-		goldCoin = new AssetGoldCoin(atlas);
-		feather = new AssetFeather(atlas);
-		levelDecoration = new AssetLevelDecoration(atlas);
+		sardines = new AssetSardines(atlas);
+		laserPointer = new AssetLaser(atlas);
+		scoreObject = new AssetScoreObject(atlas);
+		//levelDecoration = new AssetLevelDecoration(atlas);
 	}
 
 	@Override
@@ -87,33 +86,46 @@ public class Assets implements Disposable, AssetErrorListener
 	 * Inner classes for the asset images from the Texture atlas.
 	 */
 
+	
 	/**
-	 * A class that holds the information about the Bunny Asset
+	 * A class that holds the information about the cat Asset
 	 * @author Brad Olah
 	 */
-	public class AssetBunny
+	public class AssetCat
 	{
-		public final AtlasRegion head;
+		public final AtlasRegion sardines;
 
-		public AssetBunny (TextureAtlas atlas)
+		public AssetCat(TextureAtlas atlas)
 		{
-			head = atlas.findRegion("bunny_head");
+			sardines = atlas.findRegion("sardines");
+		}
+	}
+	
+	/**
+	 * A class that holds the information about the Sardines Asset
+	 * @author Brad Olah
+	 */
+	public class AssetSardines
+	{
+		public final AtlasRegion sardines;
+
+		public AssetSardines (TextureAtlas atlas)
+		{
+			sardines = atlas.findRegion("sardines");
 		}
 	}
 
 	/**
-	 * A class that holds the information about the Bunny Asset
+	 * A class that holds the information about the Laser Pointer Asset
 	 * @author Brad Olah
 	 */
-	public class AssetRock
+	public class AssetLaser
 	{
-		public final AtlasRegion edge;
-		public final AtlasRegion middle;
+		public final AtlasRegion laser;
 
-		public AssetRock (TextureAtlas atlas)
+		public AssetLaser (TextureAtlas atlas)
 		{
-			edge = atlas.findRegion("rock_edge");
-			middle = atlas.findRegion("rock_middle");
+			laser = atlas.findRegion("laser_pointer");
 		}
 	}
 
@@ -121,27 +133,39 @@ public class Assets implements Disposable, AssetErrorListener
 	 * A class that holds the information about the Gold Coin Asset
 	 * @author Brad Olah
 	 */
-	public class AssetGoldCoin
+	public class AssetScoreObject
 	{
-		public final AtlasRegion goldCoin;
+		public final AtlasRegion beerBottle;
+		public final AtlasRegion can;
+		public final AtlasRegion cardboardBox;
+		public final AtlasRegion cup;
+		public final AtlasRegion glassJar;
+		public final AtlasRegion laundaryDetergent;
+		public final AtlasRegion milkJug;
+		public final AtlasRegion mug;
+		public final AtlasRegion newspaper;
+		public final AtlasRegion paperBag;
+		public final AtlasRegion pizzaBox;
+		public final AtlasRegion sodaBottle;
+		public final AtlasRegion sodaCan;
+		public final AtlasRegion waterBottle;
 
-		public AssetGoldCoin (TextureAtlas atlas)
+		public AssetScoreObject (TextureAtlas atlas)
 		{
-			goldCoin = atlas.findRegion("item_gold_coin");
-		}
-	}
-
-	/**
-	 * A class that holds the information about the Feather Asset
-	 * @author Brad Olah
-	 */
-	public class AssetFeather
-	{
-		public final AtlasRegion feather;
-
-		public AssetFeather (TextureAtlas atlas)
-		{
-			feather = atlas.findRegion("item_feather");
+			beerBottle = atlas.findRegion("beer_bottle");
+			can = atlas.findRegion("can");
+			cardboardBox = atlas.findRegion("cardboard_box");
+			cup = atlas.findRegion("cup");
+			glassJar = atlas.findRegion("glass_jar");
+			laundaryDetergent = atlas.findRegion("laundary_detergent");
+			milkJug = atlas.findRegion("milk_jug");
+			mug = atlas.findRegion("mug");
+			newspaper = atlas.findRegion("newspaper");
+			paperBag = atlas.findRegion("paper_bag");
+			pizzaBox = atlas.findRegion("pizza_box");
+			sodaBottle = atlas.findRegion("soda_bottle");
+			sodaCan = atlas.findRegion("soda_can");
+			waterBottle = atlas.findRegion("water_bottle");
 		}
 	}
 
@@ -149,7 +173,7 @@ public class Assets implements Disposable, AssetErrorListener
 	 * A class that holds the information about the Decoration Assets
 	 * @author Brad Olah
 	 */
-	public class AssetLevelDecoration
+	/*public class AssetLevelDecoration
 	{
 		public final AtlasRegion cloud01;
 		public final AtlasRegion cloud02;
@@ -167,7 +191,7 @@ public class Assets implements Disposable, AssetErrorListener
 			mountainRight = atlas.findRegion("mountain_right");
 			waterOverlay =atlas.findRegion("water_overlay");
 		}
-	}
+	}*/
 
 }
 

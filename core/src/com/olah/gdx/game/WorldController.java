@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.InputAdapter;
 
 /**
@@ -43,17 +44,37 @@ public class WorldController extends InputAdapter
 		//Create new array for 5 sprites
 		testSprites = new Sprite[5];
 		//Create a list of texture regions
+		Array<TextureRegion> scoreObjects = new Array<TextureRegion>();
+		scoreObjects.add(Assets.instance.scoreObject.beerBottle);
+		scoreObjects.add(Assets.instance.scoreObject.can);
+		scoreObjects.add(Assets.instance.scoreObject.cardboardBox);
+		scoreObjects.add(Assets.instance.scoreObject.cup);
+		scoreObjects.add(Assets.instance.scoreObject.glassJar);
+		scoreObjects.add(Assets.instance.scoreObject.laundaryDetergent);
+		scoreObjects.add(Assets.instance.scoreObject.milkJug);
+		scoreObjects.add(Assets.instance.scoreObject.mug);
+		scoreObjects.add(Assets.instance.scoreObject.newspaper);
+		scoreObjects.add(Assets.instance.scoreObject.paperBag);
+		scoreObjects.add(Assets.instance.scoreObject.pizzaBox);
+		scoreObjects.add(Assets.instance.scoreObject.sodaBottle);
+		scoreObjects.add(Assets.instance.scoreObject.sodaCan);
+		scoreObjects.add(Assets.instance.scoreObject.waterBottle);
+		
 		Array<TextureRegion> regions = new Array<TextureRegion>();
-		regions.add(Assets.instance.bunny.head);
-		regions.add(Assets.instance.feather.feather);
-		regions.add(Assets.instance.goldCoin.goldCoin);
+		//regions.add(cat);
+		regions.add(Assets.instance.sardines.sardines);
+		regions.add(Assets.instance.laserPointer.laser);
+		regions.add(scoreObjects.random());
+		regions.add(scoreObjects.random());
+		regions.add(scoreObjects.random());
 
 		//Create new sprites using a random texture region
 		for( int i = 0; i< testSprites.length;i++)
 		{
-			Sprite spr = new Sprite(regions.random());
+			TextureRegion t = regions.random();
+			Sprite spr = new Sprite(t);
 			//Define sprite size to be 1m x 1m in game world
-			spr.setSize(1, 1);
+			spr.setSize(t.getRegionWidth()/15, t.getRegionHeight()/15);
 			//Set origin to sprite's center
 			spr.setOrigin(spr.getWidth()/2.0f, spr.getHeight()/2.0f);
 			//Calculate random position for sprite
@@ -67,27 +88,6 @@ public class WorldController extends InputAdapter
 		selectedSprite = 0;
 	}
 
-	/**
-	 * TODO Is this still needed?
-	 * @param width
-	 * @param height
-	 * @return
-	 */
-	private Pixmap createProceduralPixmap (int width, int height)
-	{
-		Pixmap pixmap = new Pixmap(width,height,Format.RGBA8888);
-		//Fill square with read color at 50% opacity
-		pixmap.setColor(1, 0, 0, 0.5f);
-		pixmap.fill();
-		//Draw a yellow-colored X shape on square
-		pixmap.setColor(1,1,0,1);
-		pixmap.drawLine(0,0,width,height);
-		pixmap.drawLine(width, 0, 0, height);
-		//Draw a cyan-colored border around square
-		pixmap.setColor(0,1,1,1);
-		pixmap.drawRectangle(0,0,width,height);
-		return pixmap;
-	}
 
 	public void update(float deltaTime)
 	{
