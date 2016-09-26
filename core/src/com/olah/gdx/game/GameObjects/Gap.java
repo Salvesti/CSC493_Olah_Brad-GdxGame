@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.olah.gdx.game.Assets;
 
+/**
+ * The class that handles the logic behind gap Game objects.
+ * @author Brad Olah
+ */
 public class Gap extends AbstractGameObject
 {
 	private TextureRegion gap;

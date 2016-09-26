@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.olah.gdx.game.Assets;
 
+/**
+ * The class that handles the logic behind Wood floor Game objects.
+ * @author Brad Olah
+ */
 public class WoodFloor extends AbstractGameObject{
 	private TextureRegion woodFloor;
 	
