@@ -5,33 +5,32 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.olah.gdx.game.GameObjects.AbstractGameObject;
-import com.olah.gdx.game.GameObjects.BlackSpace;
-import com.olah.gdx.game.GameObjects.Gap;
-import com.olah.gdx.game.GameObjects.Grass;
-import com.olah.gdx.game.GameObjects.Table;
-import com.olah.gdx.game.GameObjects.TableTile;
-import com.olah.gdx.game.GameObjects.Wallpaper;
-import com.olah.gdx.game.GameObjects.WindowTile;
-import com.olah.gdx.game.GameObjects.WoodFloor;
+import com.olah.gdx.game.GameObjects.WallBlack;
+import com.olah.gdx.game.GameObjects.WallGap;
+import com.olah.gdx.game.GameObjects.FloorGrass;
+import com.olah.gdx.game.GameObjects.FloorTable;
+import com.olah.gdx.game.GameObjects.BackWallWallpaper;
+import com.olah.gdx.game.GameObjects.BackWallWindow;
+import com.olah.gdx.game.GameObjects.FloorWood;
 
-public class Level 
+public class Level
 {
 	public static final String TAG = Level.class.getName();
-	
+
 	public enum BLOCK_TYPE
 	{
 		EMPTY(255,255,255), //White
-		WOODFLOOR(0,0,0), //Black
-		SURFACE(127,51,0),//Brown
-		WALLPAPER(128,128,128),//Gray
-		BLACKTILE(178,0,255),//Magenta
-		WALLGAP(87,0,127), //Purple
-		WINDOW(192,192,192),//Light Gray
-		GRASS(0,255,144), //Light Green
+		FLOOR_WOOD(0,0,0), //Black
+		FLOOR_TABLE(127,51,0),//Brown
+		FLOOR_GRASS(0,255,144), //Light Green
+		BACK_WALL_WALLPAPER(128,128,128),//Gray
+		BACK_WALL_WINDOW(192,192,192),//Light Gray
+		WALL_BLACK(178,0,255),//Magenta
+		WALL_GAP(87,0,127), //Purple
 		PLAYER_SPAWNPOINT(34,177,76), //Green
 		ITEM_SARDINE(237,28,36), //Red
 		ITEM_SCORE_OBJECT(0,162,232); //Light blue
-	
+
 		private int color;
 		private BLOCK_TYPE (int r, int g, int b)
 		{
@@ -42,41 +41,41 @@ public class Level
 		{
 			return this.color == color;
 		}
-	
+
 		public int getColor()
 		{
 			return color;
-		}	
+		}
 	}
-	
+
 	//objects
-	public Array<TableTile> tables;
-	public Array<Grass> grass;
-	public Array<BlackSpace> blackSpaces;
-	public Array<Gap>	gaps;
-	public Array<Wallpaper> wallpaper;
-	public Array<WindowTile> windows;
-	public Array<WoodFloor> woodFloor;
+	public Array<FloorTable> floorTables;
+	public Array<FloorGrass> floorGrass;
+	public Array<FloorWood> floorWood;
+	public Array<WallBlack> wallBlack;
+	public Array<WallGap>	wallGaps;
+	public Array<BackWallWallpaper> backWallWallpaper;
+	public Array<BackWallWindow> backWallWindows;
 
 	//decoration
 
-	
+
 	public Level (String filename)
 	{
 		init(filename);
 	}
-	
+
 	private void init(String filename)
 	{
 		//objects
-		tables = new Array<TableTile>();
-		grass = new Array<Grass>();
-		blackSpaces = new Array<BlackSpace>();
-		gaps = new Array<Gap>();
-		wallpaper = new Array<Wallpaper>();
-		windows = new Array<WindowTile>();
-		woodFloor = new Array<WoodFloor>();
-		
+		floorTables = new Array<FloorTable>();
+		floorGrass = new Array<FloorGrass>();
+		wallBlack = new Array<WallBlack>();
+		wallGaps = new Array<WallGap>();
+		backWallWallpaper = new Array<BackWallWallpaper>();
+		backWallWindows = new Array<BackWallWindow>();
+		floorWood = new Array<FloorWood>();
+
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		//scan pixels from top-left to bottom-right
@@ -100,47 +99,47 @@ public class Level
 					//Do Nothing
 				}
 				//Rock
-				else if(BLOCK_TYPE.SURFACE.sameColor(currentPixel))
+				else if(BLOCK_TYPE.FLOOR_TABLE.sameColor(currentPixel))
 				{
-					obj  = new TableTile();
+					obj  = new FloorTable();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					tables.add((TableTile)obj);
+					floorTables.add((FloorTable)obj);
 				}
-				else if(BLOCK_TYPE.GRASS.sameColor(currentPixel))
+				else if(BLOCK_TYPE.FLOOR_GRASS.sameColor(currentPixel))
 				{
-					obj  = new Grass();
+					obj  = new FloorGrass();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					grass.add((Grass)obj);
+					floorGrass.add((FloorGrass)obj);
 				}
-				else if(BLOCK_TYPE.BLACKTILE.sameColor(currentPixel))
+				else if(BLOCK_TYPE.WALL_BLACK.sameColor(currentPixel))
 				{
-					obj  = new BlackSpace();
+					obj  = new WallBlack();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					blackSpaces.add((BlackSpace)obj);
+					wallBlack.add((WallBlack)obj);
 				}
-				else if(BLOCK_TYPE.WALLPAPER.sameColor(currentPixel))
+				else if(BLOCK_TYPE.BACK_WALL_WALLPAPER.sameColor(currentPixel))
 				{
-					obj  = new Wallpaper();
+					obj  = new BackWallWallpaper();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					wallpaper.add((Wallpaper)obj);
+					backWallWallpaper.add((BackWallWallpaper)obj);
 				}
-				else if(BLOCK_TYPE.WALLGAP.sameColor(currentPixel))
+				else if(BLOCK_TYPE.WALL_GAP.sameColor(currentPixel))
 				{
-					obj  = new Gap();
+					obj  = new WallGap();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					gaps.add((Gap)obj);
+					wallGaps.add((WallGap)obj);
 				}
-				else if(BLOCK_TYPE.WINDOW.sameColor(currentPixel))
+				else if(BLOCK_TYPE.BACK_WALL_WINDOW.sameColor(currentPixel))
 				{
-					obj  = new WindowTile();
+					obj  = new BackWallWindow();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					windows.add((WindowTile)obj);
+					backWallWindows.add((BackWallWindow)obj);
 				}
-				else if(BLOCK_TYPE.WOODFLOOR.sameColor(currentPixel))
+				else if(BLOCK_TYPE.FLOOR_WOOD.sameColor(currentPixel))
 				{
-					obj  = new WoodFloor();
+					obj  = new FloorWood();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
-					woodFloor.add((WoodFloor)obj);
+					floorWood.add((FloorWood)obj);
 				}
 				//Player Spawn point
 				else if(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel))
@@ -181,46 +180,46 @@ public class Level
 		pixmap.dispose();
 		Gdx.app.debug(TAG, "Level '"+filename+"' loaded");
 	}
-	
+
 	public void render(SpriteBatch batch)
 	{
-		
+
 		//Draw grass
-		for(Grass grass : grass)
+		for(FloorGrass grass : floorGrass)
 		{
 			grass.render(batch);
 		}
 		//Draw BlackSpace
-		for(BlackSpace space : blackSpaces)
+		for(WallBlack space : wallBlack)
 		{
 			space.render(batch);
 		}
 		//Draw gaps
-		for(Gap gap : gaps)
+		for(WallGap gap : wallGaps)
 		{
 			gap.render(batch);
 		}
 		//Draw wallpaper
-		for(Wallpaper wall : wallpaper)
+		for(BackWallWallpaper wall : backWallWallpaper)
 		{
 			wall.render(batch);
 		}
 		//Draw windows
-		for(WindowTile window : windows)
+		for(BackWallWindow window : backWallWindows)
 		{
 			window.render(batch);
 		}
 		//Draw windows
-		for(WoodFloor floor : woodFloor)
+		for(FloorWood floor : floorWood)
 		{
 			floor.render(batch);
 		}
 		//Draw tables
-		for(TableTile table : tables)
+		for(FloorTable table : floorTables)
 		{
 			table.render(batch);
 		}
-		
+
 	}
 }
 

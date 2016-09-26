@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.olah.gdx.game.Assets;
 
 /**
- * The class that handles the logic behind black space Game objects.
+ * The class that handles the logic behind table Game objects.
  * @author Brad Olah
  */
-public class BlackSpace extends AbstractGameObject{
-	private TextureRegion blackSpace;
-	
-	public BlackSpace()
+public class FloorTable extends AbstractGameObject
+{
+	private TextureRegion table;
+		
+	public FloorTable()
 	{
 		init();
 	}
@@ -20,7 +21,7 @@ public class BlackSpace extends AbstractGameObject{
 	{
 		dimension.set(1,1);
 		
-		blackSpace = Assets.instance.levelDecoration.blackSpace;
+		table = Assets.instance.levelDecoration.table;
 	}
 	
 	@Override
@@ -31,7 +32,7 @@ public class BlackSpace extends AbstractGameObject{
 		float relX = 0;
 		float relY = 0;
 		
-		reg = blackSpace;
+		reg = table;
 		batch.draw(reg.getTexture(), position.x+relX, position.y+relY, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation,reg.getRegionX(),reg.getRegionY(),reg.getRegionWidth(),reg.getRegionHeight(),false,false);	
 	}
 }

@@ -8,11 +8,11 @@ import com.olah.gdx.game.Assets;
  * The class that handles the logic behind gap Game objects.
  * @author Brad Olah
  */
-public class Gap extends AbstractGameObject
+public class WallGap extends AbstractGameObject
 {
 	private TextureRegion gap;
 	
-	public Gap()
+	public WallGap()
 	{
 		init();
 	}

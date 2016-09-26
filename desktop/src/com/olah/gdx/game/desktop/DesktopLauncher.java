@@ -12,7 +12,7 @@ import com.olah.gdx.game.CatGameMain;
  */
 public class DesktopLauncher
 {
-	private static boolean rebuildAtlas = true;
+	private static boolean rebuildAtlas = false;
 	private static boolean drawDebugOutline = false;
 
 	public static void main (String[] arg)
@@ -26,8 +26,7 @@ public class DesktopLauncher
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
 			settings.grid = true;
-			settings.stripWhitespaceX= false;
-			settings.stripWhitespaceY= false;
+			settings.duplicatePadding = true;
 			TexturePacker.processIfModified(settings, "../core/assets/items", "../core/assets/images","items.pack");
 			TexturePacker.processIfModified(settings, "../core/assets/tiles", "../core/assets/images","tiles.pack");
 		}

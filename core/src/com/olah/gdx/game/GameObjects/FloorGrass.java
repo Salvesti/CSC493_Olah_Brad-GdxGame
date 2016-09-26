@@ -8,10 +8,10 @@ import com.olah.gdx.game.Assets;
  * The class that handles the logic behind grass Game objects.
  * @author Brad Olah
  */
-public class Grass extends AbstractGameObject{
+public class FloorGrass extends AbstractGameObject{
 	private TextureRegion grass;
 	
-	public Grass()
+	public FloorGrass()
 	{
 		init();
 	}

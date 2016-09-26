@@ -8,10 +8,10 @@ import com.olah.gdx.game.Assets;
  * The class that handles the logic behind wallpaper Game objects.
  * @author Brad Olah
  */
-public class Wallpaper extends AbstractGameObject{
+public class BackWallWallpaper extends AbstractGameObject{
 	private TextureRegion wallpaper;
 	
-	public Wallpaper()
+	public BackWallWallpaper()
 	{
 		init();
 	}
