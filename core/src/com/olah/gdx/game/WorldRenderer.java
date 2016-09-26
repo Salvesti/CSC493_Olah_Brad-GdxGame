@@ -13,6 +13,7 @@ import com.olah.gdx.game.util.Constants;
 public class WorldRenderer implements Disposable
 {
 	private OrthographicCamera camera;
+	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
 	private WorldController worldController;
 
@@ -24,28 +25,47 @@ public class WorldRenderer implements Disposable
 	private void init()
 	{
 		batch = new SpriteBatch();
+		//Creates world camera
 		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH,Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0,0,0);
 		camera.update();
+		
+		//Creates GUI camera
+		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH,Constants.VIEWPORT_GUI_HEIGHT);
+		cameraGUI.position.set(0,0,0);
+		cameraGUI.setToOrtho(true); //Flip y-axis
+		cameraGUI.update();
+
 	}
 
 	public void render()
 	{
-		renderTestObjects();
+		renderWorld(batch);
+		renderGui(batch);
 	}
 
-	public void renderTestObjects()
-	{
+	private void renderGui(SpriteBatch batch2) {
+		batch.setProjectionMatrix(cameraGUI.combined);
+		batch.begin();
+		renderGuiTime(batch);
+		batch.end();
+	}
+	private void renderWorld(SpriteBatch batch) {
 		worldController.cameraHelper.applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		for(Sprite sprite : worldController.testSprites)
-		{
-			sprite.draw(batch);
-		}
+		worldController.level.render(batch);
 		batch.end();
 	}
+	
+	private void renderGuiTime(SpriteBatch batch)
+	{
+		float x = -15;
+		float y = -15;
+		Assets.instance.fonts.defaultBig.draw(batch, "Time: "+worldController.time, x+75, y+37);
+	}
 
+	
 	public void resize(int width, int height)
 	{
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;

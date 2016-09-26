@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import com.olah.gdx.game.util.Constants;
@@ -31,7 +32,8 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetSardines sardines;
 	public AssetLaser laserPointer;
 	public AssetScoreObject scoreObject;
-	//public AssetLevelDecoration levelDecoration;
+	public AssetLevelDecoration levelDecoration;
+	public AssetFonts fonts;
 
 	public void init(AssetManager assetManager)
 	{
@@ -40,6 +42,7 @@ public class Assets implements Disposable, AssetErrorListener
 		assetManager.setErrorListener(this);
 		//Load texture atlas
 		assetManager.load(Constants.ITEM_ATLAS_OBJECTS,TextureAtlas.class);
+		assetManager.load(Constants.TILE_ATLAS_OBJECTS,TextureAtlas.class);
 		//Start loading assets and wait until finished
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: "+assetManager.getAssetNames().size);
@@ -49,18 +52,26 @@ public class Assets implements Disposable, AssetErrorListener
 		}
 
 		//Gets the value for the Texture Atlas location from the constants class.
-		TextureAtlas atlas = assetManager.get(Constants.ITEM_ATLAS_OBJECTS);
+		TextureAtlas itemAtlas = assetManager.get(Constants.ITEM_ATLAS_OBJECTS);
+		TextureAtlas tileAtlas = assetManager.get(Constants.TILE_ATLAS_OBJECTS);
+		
 		//Enable texture filtering for pixel smoothing
-		for(Texture t : atlas.getTextures())
+		for(Texture t : itemAtlas.getTextures())
+		{
+			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		}
+		for(Texture t : tileAtlas.getTextures())
 		{
 			t.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		}
 
 		//Create game resource objects
-		sardines = new AssetSardines(atlas);
-		laserPointer = new AssetLaser(atlas);
-		scoreObject = new AssetScoreObject(atlas);
-		//levelDecoration = new AssetLevelDecoration(atlas);
+		fonts = new AssetFonts();
+		sardines = new AssetSardines(itemAtlas);
+		laserPointer = new AssetLaser(itemAtlas);
+		scoreObject = new AssetScoreObject(itemAtlas);
+		levelDecoration = new AssetLevelDecoration(tileAtlas);
+		
 	}
 
 	@Override
@@ -85,6 +96,33 @@ public class Assets implements Disposable, AssetErrorListener
 	 * --------------------------------------------------------------------------------------------------------------------------
 	 * Inner classes for the asset images from the Texture atlas.
 	 */
+	/**
+	 * A class that holds the information about the font Assets
+	 * @author Brad Olah
+	 */
+	public class AssetFonts
+	{
+		public final BitmapFont defaultSmall;
+		public final BitmapFont defaultNormal;
+		public final BitmapFont defaultBig;
+		
+		public AssetFonts()
+		{
+			//Create three fonts using Libgdx's 15px bitmap font
+			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"),true);
+			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"),true);
+			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"),true);
+			//Set font sizes
+			defaultSmall.getData().setScale(0.75f);
+			defaultNormal.getData().setScale(1.0f);
+			defaultBig.getData().setScale(2.0f);
+			//Enable linear texture filtering for smooth fonts
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			defaultNormal.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			defaultBig.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		}
+	}
+
 
 	
 	/**
@@ -149,6 +187,7 @@ public class Assets implements Disposable, AssetErrorListener
 		public final AtlasRegion sodaBottle;
 		public final AtlasRegion sodaCan;
 		public final AtlasRegion waterBottle;
+		public final AtlasRegion sprayPaint;
 
 		public AssetScoreObject (TextureAtlas atlas)
 		{
@@ -166,6 +205,7 @@ public class Assets implements Disposable, AssetErrorListener
 			sodaBottle = atlas.findRegion("soda_bottle");
 			sodaCan = atlas.findRegion("soda_can");
 			waterBottle = atlas.findRegion("water_bottle");
+			sprayPaint = atlas.findRegion("spray_paint");
 		}
 	}
 
@@ -173,25 +213,26 @@ public class Assets implements Disposable, AssetErrorListener
 	 * A class that holds the information about the Decoration Assets
 	 * @author Brad Olah
 	 */
-	/*public class AssetLevelDecoration
+	public class AssetLevelDecoration
 	{
-		public final AtlasRegion cloud01;
-		public final AtlasRegion cloud02;
-		public final AtlasRegion cloud03;
-		public final AtlasRegion mountainLeft;
-		public final AtlasRegion mountainRight;
-		public final AtlasRegion waterOverlay;
-
+		public final AtlasRegion woodFloor;
+		public final AtlasRegion wallpaper;
+		public final AtlasRegion table;
+		public final AtlasRegion window;
+		public final AtlasRegion blackSpace;
+		public final AtlasRegion outsideWallGap;
+		public final AtlasRegion grass;
 		public AssetLevelDecoration (TextureAtlas atlas)
 		{
-			cloud01 = atlas.findRegion("cloud01");
-			cloud02 = atlas.findRegion("cloud02");
-			cloud03 = atlas.findRegion("cloud03");
-			mountainLeft = atlas.findRegion("mountain_left");
-			mountainRight = atlas.findRegion("mountain_right");
-			waterOverlay =atlas.findRegion("water_overlay");
+			woodFloor = atlas.findRegion("floor_block");
+			wallpaper = atlas.findRegion("wallpaper_block");
+			table = atlas.findRegion("table_block");
+			window = atlas.findRegion("window_block");
+			blackSpace = atlas.findRegion("outside_wall");
+			outsideWallGap =atlas.findRegion("outside_wall_gap");
+			grass =atlas.findRegion("grass");
 		}
-	}*/
+	}
 
 }
 
