@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Disposable;
 import com.olah.gdx.game.util.Constants;
@@ -32,6 +33,7 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetGoldCoin goldCoin;
 	public AssetFeather feather;
 	public AssetLevelDecoration levelDecoration;
+	public AssetFonts fonts;
 
 	public void init(AssetManager assetManager)
 	{
@@ -57,6 +59,7 @@ public class Assets implements Disposable, AssetErrorListener
 		}
 
 		//Create game resource objects
+		fonts = new AssetFonts();
 		bunny = new AssetBunny(atlas);
 		rock = new AssetRock(atlas);
 		goldCoin = new AssetGoldCoin(atlas);
@@ -67,6 +70,9 @@ public class Assets implements Disposable, AssetErrorListener
 	@Override
 	public void dispose() {
 		assetManager.dispose();
+		fonts.defaultSmall.dispose();
+		fonts.defaultNormal.dispose();
+		fonts.defaultBig.dispose();
 	}
 
 	//Was @Override in the book. Was this actually supposed to be overridden?
@@ -165,7 +171,33 @@ public class Assets implements Disposable, AssetErrorListener
 			cloud03 = atlas.findRegion("cloud03");
 			mountainLeft = atlas.findRegion("mountain_left");
 			mountainRight = atlas.findRegion("mountain_right");
-			waterOverlay =atlas.findRegion("water_overlay");
+			waterOverlay = atlas.findRegion("water_overlay");
+		}
+	}
+	/**
+	 * A class that holds the information about the font Assets
+	 * @author Brad Olah
+	 */
+	public class AssetFonts
+	{
+		public final BitmapFont defaultSmall;
+		public final BitmapFont defaultNormal;
+		public final BitmapFont defaultBig;
+		
+		public AssetFonts()
+		{
+			//Create three fonts using Libgdx's 15px bitmap font
+			defaultSmall = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"),true);
+			defaultNormal = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"),true);
+			defaultBig = new BitmapFont(Gdx.files.internal("images/arial-15.fnt"),true);
+			//Set font sizes
+			defaultSmall.getData().setScale(0.75f);
+			defaultNormal.getData().setScale(1.0f);
+			defaultBig.getData().setScale(2.0f);
+			//Enable linear texture filtering for smooth fonts
+			defaultSmall.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			defaultNormal.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+			defaultBig.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		}
 	}
 
