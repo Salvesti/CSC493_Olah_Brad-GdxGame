@@ -62,7 +62,7 @@ public class Level
 	public Array<WallGap>	wallGaps;
 	public Array<BackWallWallpaper> backWallWallpaper;
 	public Array<BackWallWindow> backWallWindows;
-	
+
 
 	//decoration
 
@@ -156,7 +156,6 @@ public class Level
 				else if(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel))
 				{
 					obj = new Cat();
-					offsetHeight = .8f;
 					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
 					cat = (Cat)obj;
 				}
@@ -245,7 +244,7 @@ public class Level
 		//Draw player
 		cat.render(batch);
 	}
-	
+
 	/**
 	 * Updates all game objects in the level.
 	 * @param deltaTime
@@ -263,6 +262,6 @@ public class Level
 		}
 
 	}
-	
+
 }
 

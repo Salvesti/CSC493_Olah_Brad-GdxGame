@@ -32,7 +32,7 @@ public class WorldRenderer implements Disposable
 		camera = new OrthographicCamera(Constants.VIEWPORT_WIDTH,Constants.VIEWPORT_HEIGHT);
 		camera.position.set(0,0,0);
 		camera.update();
-		
+
 		//Creates GUI camera
 		cameraGUI = new OrthographicCamera(Constants.VIEWPORT_GUI_WIDTH,Constants.VIEWPORT_GUI_HEIGHT);
 		cameraGUI.position.set(0,0,0);
@@ -60,8 +60,8 @@ public class WorldRenderer implements Disposable
 		renderGuiGameOverMessage(batch);
 		batch.end();
 	}
-	
-	
+
+
 	private void renderWorld(SpriteBatch batch) {
 		worldController.cameraHelper.applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
@@ -72,24 +72,25 @@ public class WorldRenderer implements Disposable
 	/**
 	 * Renders the game over message
 	 */
-	private void renderGuiGameOverMessage(SpriteBatch batch) 
+	private void renderGuiGameOverMessage(SpriteBatch batch)
 	{
 		float x = cameraGUI.viewportWidth/2;
-		float y = cameraGUI.viewportHeight/2;
+		float y = cameraGUI.viewportHeight/3;
 		if(worldController.isGameOver())
 		{
 			BitmapFont fontGameOver = Assets.instance.fonts.defaultBig;
 			fontGameOver.setColor(1,0.75f,0.25f,1);
 			fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, false);
+			fontGameOver.setColor(1,1,1,1);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Renders the current fps
 	 * @param batch
 	 */
-	private void renderFpsCounter(SpriteBatch batch) 
+	private void renderFpsCounter(SpriteBatch batch)
 	{
 		float x = cameraGUI.viewportWidth-55;
 		float y = cameraGUI.viewportHeight-15;
@@ -110,9 +111,9 @@ public class WorldRenderer implements Disposable
 		}
 		fpsFont.draw(batch, "FPS: "+fps, x, y);
 		fpsFont.setColor(1,1,1,1); //White
-		
+
 	}
-	
+
 	/**
 	 * Renders the time left in the game
 	 * @param batch
@@ -121,9 +122,9 @@ public class WorldRenderer implements Disposable
 	{
 		float x = -15;
 		float y = -15;
-		Assets.instance.fonts.defaultBig.draw(batch, "Time: "+worldController.time, x+75, y+37);
+		Assets.instance.fonts.defaultBig.draw(batch, "Time: "+ (int)worldController.time, x+75, y+37);
 	}
-	
+
 	/**
 	 * Renders the current score
 	 * @param batch
@@ -132,11 +133,11 @@ public class WorldRenderer implements Disposable
 	{
 		float x = -15;
 		float y = 20;
-		Assets.instance.fonts.defaultBig.draw(batch, "Score: "+worldController.score, x+75, y+37);
-		
+		Assets.instance.fonts.defaultBig.draw(batch, "Score: "+ worldController.score, x+75, y+37);
+
 	}
 
-	
+
 	public void resize(int width, int height)
 	{
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;

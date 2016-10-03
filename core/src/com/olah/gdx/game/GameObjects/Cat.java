@@ -3,6 +3,7 @@ package com.olah.gdx.game.GameObjects;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.olah.gdx.game.Assets;
 import com.olah.gdx.game.util.Constants;
 
@@ -12,10 +13,9 @@ public class Cat extends AbstractGameObject
 
 	private final float JUMP_TIME_MAX = 0.3f;
 	private final float JUMP_TIME_MIN = 0.1f;
-	private final float JUMP_TIME_OFFSET_FLYING = JUMP_TIME_MAX - 0.018f;
-	
+
 	public enum VIEW_DIRECTION{LEFT, RIGHT}
-	
+
 	public enum JUMP_STATE
 	{
 		GROUNDED,
@@ -23,23 +23,23 @@ public class Cat extends AbstractGameObject
 		JUMP_RISING,
 		JUMP_FALLING
 	}
-	
+
 	private Texture regHead;
-	
+
 	public VIEW_DIRECTION viewDirection;
 	public float timeJumping;
 	public JUMP_STATE jumpState;
 	public boolean hasSardinePowerup;
 	public float timeLeftSardinePowerup;
-	
+
 	public Cat()
 	{
 		init();
 	}
-	
+
 	public void init()
 	{
-		dimension.set(1,1);
+		dimension.set(2,2);
 		regHead = Assets.instance.cat.cat;
 		//Center image on game object
 		origin.set(dimension.x/2,dimension.y/2);
@@ -58,7 +58,7 @@ public class Cat extends AbstractGameObject
 		hasSardinePowerup = false;
 		timeLeftSardinePowerup = 0;
 	}
-	
+
 	/**
 	 * Makes the bunny jump. States handle if the bunny is already jumping.
 	 * @param jumpKeyPressed
@@ -86,7 +86,7 @@ public class Cat extends AbstractGameObject
 			break;
 		}
 	}
-	
+
 	/**
 	 * Toggles the feather Powerup
 	 * @param pickedUp
@@ -99,7 +99,7 @@ public class Cat extends AbstractGameObject
 			timeLeftSardinePowerup = Constants.ITEM_SARDINES_POWERUP_DURATION;
 		}
 	}
-	
+
 	/**
 	 * Checks to see if the feather powerup is active
 	 * @return
@@ -108,7 +108,7 @@ public class Cat extends AbstractGameObject
 	{
 		return hasSardinePowerup && timeLeftSardinePowerup > 0;
 	}
-	
+
 	@Override
 	public void update(float deltaTime)
 	{
@@ -116,7 +116,7 @@ public class Cat extends AbstractGameObject
 		//Changes the facing of the bunny sprite depending on direction of movement
 		if(velocity.x !=0)
 		{
-			viewDirection = velocity.x <0 ? VIEW_DIRECTION.LEFT : VIEW_DIRECTION.RIGHT;
+			viewDirection = velocity.x <0 ? VIEW_DIRECTION.RIGHT : VIEW_DIRECTION.LEFT;
 		}
 		if(timeLeftSardinePowerup > 0)
 		{
@@ -129,7 +129,7 @@ public class Cat extends AbstractGameObject
 			}
 		}
 	}
-	
+
 	@Override
 	public void updateMotionY(float deltaTime)
 	{
@@ -164,12 +164,40 @@ public class Cat extends AbstractGameObject
 		if(jumpState != JUMP_STATE.GROUNDED)
 			super.updateMotionY(deltaTime);
 	}
-	
+
+	//TODO fix iceskating
+	@Override
+	public void updateMotionX(float deltaTime)
+	{
+		float speedMod = 1;
+		if(hasSardinePowerup == true)
+		{
+			speedMod = 2;
+		}
+		if(velocity.x != 0)
+		{
+			//Apply friction
+			if(velocity.x > 0)
+			{
+				velocity.x = Math.max(velocity.x*speedMod - friction.x * deltaTime,0);
+			}
+			else
+			{
+				velocity.x = Math.min(velocity.x*speedMod + friction.x * deltaTime, 0);
+			}
+		}
+		//Apply acceleration
+		velocity.x += acceleration.x * deltaTime;
+		//Make sure the object's velocity does not exceed the
+		//positive or negative terminal velocity
+		velocity.x = MathUtils.clamp(velocity.x, -terminalVelocity.x*speedMod, terminalVelocity.x*speedMod);
+	}
+
 	@Override
 	public void render (SpriteBatch batch)
 	{
-		Texture reg = null; 
-		
+		Texture reg = null;
+
 		//Set special color when game object has a feather powerup
 		if(hasSardinePowerup)
 		{
@@ -177,7 +205,7 @@ public class Cat extends AbstractGameObject
 		}
 		//Draw image
 		reg = regHead;
-		batch.draw(regHead, position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, 10, 0,reg.getWidth(), reg.getHeight(), viewDirection == VIEW_DIRECTION.LEFT, false);
+		batch.draw(regHead, position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, 2, 2,reg.getWidth(), reg.getHeight(), viewDirection == VIEW_DIRECTION.LEFT, false);
 		//Resets the color to white
 		batch.setColor(1,1,1,1);
 	}

@@ -21,13 +21,13 @@ public class WorldController extends InputAdapter
 
 	public CameraHelper cameraHelper;
 	public Level level;
-	public int time;
+	public float time;
 	public int score;
 	private Float timeLeftGameOverDelay;
-	
+
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
-	
+
 	public WorldController()
 	{
 		init();
@@ -42,11 +42,12 @@ public class WorldController extends InputAdapter
 		initLevel();
 	}
 
-	private void initLevel() 
+	private void initLevel()
 	{
 		score = 0;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.cat);
+		timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
 	}
 
 	public void update(float deltaTime)
@@ -55,29 +56,38 @@ public class WorldController extends InputAdapter
 		if(isGameOver())
 		{
 			timeLeftGameOverDelay -= deltaTime;
-			if(timeLeftGameOverDelay < 0) init();
+			if(timeLeftGameOverDelay < 0)
+			{
+				init();
+			}
 		}else
 		{
 			handleInputGame(deltaTime);
+			time -= deltaTime;
 		}
+
 		level.update(deltaTime);
 		testCollisions();
 		cameraHelper.update(deltaTime);
 		/*
-		if (isGameOver())
+		if (!isGameOver() && (time <= 0))
 		{
 			timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
-		}else
-		{
-			initLevel();
+			if (isGameOver())
+			{
+				timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+			}else
+			{
+				initLevel();
+			}
 		}
 		*/
 	}
-	
+
 	//Returns if the player is out of lives
 	public boolean isGameOver()
 	{
-		return time <= 0;
+		return time <= .99f;
 	}
 
 	/**
@@ -86,23 +96,19 @@ public class WorldController extends InputAdapter
 	 */
 	private void handleInputGame(float deltaTime)
 	{
-		int speedMod = 1;
+		float speedMod = 1;
 		if(cameraHelper.hasTarget(level.cat))
 		{
-			if(level.cat.hasSardinePowerup)
-			{
-				speedMod = 2;
-			}
 			//Player movement
 			if(Gdx.input.isKeyPressed(Keys.LEFT))
 			{
-				level.cat.velocity.x = -level.cat.terminalVelocity.x*speedMod;
+				level.cat.velocity.x = -level.cat.terminalVelocity.x;
 			}else if(Gdx.input.isKeyPressed(Keys.RIGHT))
 			{
-				level.cat.velocity.x = level.cat.terminalVelocity.x*speedMod;
+				level.cat.velocity.x = level.cat.terminalVelocity.x;
 			}
 		}
-		
+
 		//Bunny Jump
 		if(Gdx.input.isKeyPressed(Keys.SPACE))
 		{
@@ -112,7 +118,7 @@ public class WorldController extends InputAdapter
 			level.cat.setJumping(false);
 		}
 	}
-	
+
 	/**
 	 * Controls for moving the test objects.
 	 * @param deltaTime
@@ -137,7 +143,7 @@ public class WorldController extends InputAdapter
 			if (Gdx.input.isKeyPressed(Keys.UP)) moveCamera(0,camMoveSpeed);
 			if (Gdx.input.isKeyPressed(Keys.DOWN)) moveCamera(0,-camMoveSpeed);
 			if (Gdx.input.isKeyPressed(Keys.BACKSPACE)) cameraHelper.setPosition(0, 0);
-	
+
 			/*Camera Controls (Zoom)
 			 *  Left Shift = Increase zoom speed
 			 *  Comma = Zoom in
@@ -169,9 +175,14 @@ public class WorldController extends InputAdapter
 			init();
 			Gdx.app.debug(TAG, "Game world resetted");
 		}
+		else if(keycode == Keys.ENTER)
+		{
+			cameraHelper.setTarget(cameraHelper.hasTarget()?null:level.cat);
+			Gdx.app.debug(TAG, "Camera follow enabled: "+ cameraHelper.hasTarget());
+		}
 		return false;
 	}
-	
+
 	/**
 	 * Handles collisions between the Bunny Head and Gold Coins
 	 * @param goldCoin
@@ -191,37 +202,25 @@ public class WorldController extends InputAdapter
 		sardine.collected = true;
 		score += sardine.getScore();
 		level.cat.setSardinePowerup(true);
-		Gdx.app.log(TAG, "Feather collected");
+		time += sardine.setSardineTime();
+		Gdx.app.log(TAG, "Sardine collected");
 	}
-	private void onCollisionBunnyHeadWithGrass(FloorGrass grass) 
+	private void onCollisionBunnyHeadWithGrass(FloorGrass grass)
 	{
 		Cat cat = level.cat;
-		float heightDifference = Math.abs(cat.position.y - (grass.position.y + grass.bounds.height));
-		if(heightDifference > 0.25f)
-		{
-			boolean hitRightEdge = cat.position.x > (grass.position.x + grass.bounds.width / 2.0f);
-			if(hitRightEdge)
-			{
-				cat.position.x = grass.position.x +grass.bounds.width;
-			}else
-			{
-				cat.position.x = grass.position.x - cat.bounds.width;
-			}
-			return;
-		}
 		switch (cat.jumpState){
 		case GROUNDED:
 			break;
 		case FALLING:
 		case JUMP_FALLING:
-			cat.position.y = grass.position.y + cat.bounds.height + cat.origin.y;
+			cat.position.y = grass.position.y + cat.bounds.height/2;
 			cat.jumpState =  JUMP_STATE.GROUNDED;
 			break;
 		case JUMP_RISING:
-			cat.position.y = grass.position.y + cat.bounds.height + cat.origin.y;
+			cat.position.y = grass.position.y + cat.bounds.height/2;
 			break;
 		}
-		
+
 	}
 	/**
 	 * Checks if the bunny head collides with any gameObject, and calls the appropriate method.
@@ -229,7 +228,7 @@ public class WorldController extends InputAdapter
 	private void testCollisions()
 	{
 		r1.set(level.cat.position.x, level.cat.position.y, level.cat.bounds.width, level.cat.bounds.height);
-		
+
 		//Test collision: Bunny Head <--> Ground
 		for(FloorGrass grass : level.floorGrass)
 		{
@@ -238,7 +237,7 @@ public class WorldController extends InputAdapter
 			onCollisionBunnyHeadWithGrass(grass);
 			//IMPORTANT: must do all collisions for valid edge testing on rocks.
 		}
-		
+
 		//Test collision: Bunny Head <--> Sardine
 		for(ScoreObject scoreObject : level.scoreObjects)
 		{
@@ -248,7 +247,7 @@ public class WorldController extends InputAdapter
 			onCollisionBunnyHeadWithScoreObject(scoreObject);
 			break;
 		}
-		
+
 		//Test collision: Bunny Head <--> Feather
 		for(Sardines sardine : level.sardines)
 		{
@@ -260,5 +259,5 @@ public class WorldController extends InputAdapter
 		}
 	}
 
-	
+
 }
