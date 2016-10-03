@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.olah.gdx.game.util.Constants;
 
@@ -54,19 +55,33 @@ public class WorldRenderer implements Disposable
 		batch.end();
 	}
 	
+	/**
+	 * Renders all the elements of the Gui.
+	 * @param batch
+	 */
 	public void renderGui(SpriteBatch batch)
 	{
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
 		//draw collected gold coins icon + text anchored to top left edge.
 		renderGuiScore(batch);
+		//draw collected feather icon anchored to top lefft edge.
+		renderGuiFeatherPowerup(batch);
 		//draw extra lives icon + text anchored to top right edge.
 		renderGuiExtraLive(batch);
 		//draw FPS text anchored to bottom right edge.
 		renderGuiFpsCounter(batch);
+		//draw game over text
+		renderGuiGameOverMessage(batch);
+		
 		batch.end();
 	}
 	
+	/**
+	 * Handles what happens when the window is resized.
+	 * @param width
+	 * @param height
+	 */
 	public void resize(int width, int height)
 	{
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;
@@ -77,6 +92,10 @@ public class WorldRenderer implements Disposable
 		cameraGUI.update();
 	}
 
+	/**
+	 * Renders the players current score.
+	 * @param batch
+	 */
 	private void renderGuiScore(SpriteBatch batch)
 	{
 		float x = -15;
@@ -85,21 +104,30 @@ public class WorldRenderer implements Disposable
 		Assets.instance.fonts.defaultBig.draw(batch, ""+worldController.score, x+75, y+37);
 	}
 	
+	/**
+	 * Renders the players current life count.
+	 * @param batch
+	 */
 	private void renderGuiExtraLive(SpriteBatch batch)
 	{
 		float x = cameraGUI.viewportWidth - 50 - Constants.LIVES_START *50;
 		float y = -15;
 		for (int i = 0; i < Constants.LIVES_START;i++)
 		{
-			if(worldController.lives >= 1)
+			if(worldController.lives <= i)
 			{
 				batch.setColor(0.5f, 0.5f, 0.5f, 0.5f);
-				batch.draw(Assets.instance.bunny.head, x+i*50, y, 50, 50, 120, 100, 0.35f, -0.35f, 0);
-				batch.setColor(1,1,1,1);
 			}
+			batch.draw(Assets.instance.bunny.head, x+i*50, y, 50, 50, 120, 100, 0.35f, -0.35f, 0);
+			batch.setColor(1,1,1,1);
+			
 		}
 	}
 	
+	/**
+	 * Renders the current FPS of the game.
+	 * @param batch
+	 */
 	private void renderGuiFpsCounter(SpriteBatch batch)
 	{
 		float x = cameraGUI.viewportWidth-55;
@@ -121,6 +149,52 @@ public class WorldRenderer implements Disposable
 		}
 		fpsFont.draw(batch, "FPS: "+fps, x, y);
 		fpsFont.setColor(1,1,1,1); //White	
+	}
+	
+	/**
+	 * Renders a game over message if the game is over.
+	 * @param batch
+	 */
+	private void renderGuiGameOverMessage(SpriteBatch batch)
+	{
+		float x = cameraGUI.viewportWidth/2;
+		float y = cameraGUI.viewportHeight/2;
+		if(worldController.isGameOver())
+		{
+			BitmapFont fontGameOver = Assets.instance.fonts.defaultBig;
+			fontGameOver.setColor(1,0.75f,0.25f,1);
+			fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, false);
+		}
+	}
+	
+	/**
+	 * Renders an image of the Feather powerup,
+	 * and the time left when the powerup
+	 * is collected.
+	 * @param batch
+	 */
+	private void renderGuiFeatherPowerup(SpriteBatch batch)
+	{
+		float x = -15;
+		float y = 30;
+		float timeLeftFeatherPowerup = worldController.level.bunnyHead.timeLeftFeatherPowerup;
+		if(timeLeftFeatherPowerup > 0)
+		{
+			//Starts icon fade in/out if the left power-up time
+			//is less than 4 seconds. The fade interval is set
+			//to 5 changes per second.
+			if(timeLeftFeatherPowerup <4)
+			{
+				if(((int)(timeLeftFeatherPowerup * 5) % 2)!=0)
+				{
+					batch.setColor(1,1,1,0.5f);
+				}
+			}
+		batch.draw(Assets.instance.feather.feather, x, y, 50, 50, 100, 100, 0.35f, -0.35f, 0);
+		batch.setColor(1,1,1,1);
+		Assets.instance.fonts.defaultSmall.draw(batch,""+(int)timeLeftFeatherPowerup,x+60,y+57);
+		}
+		
 	}
 	
 	@Override
