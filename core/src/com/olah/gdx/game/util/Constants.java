@@ -28,4 +28,9 @@ public class Constants
 	
 	//Starting time limit
 	public static final int START_TIME = 300;
+
+	//The time in seconds the Sardines lasts for
+	public static final float ITEM_SARDINES_POWERUP_DURATION = 9;
+
+	public static final float TIME_DELAY_GAME_OVER = 3;
 }

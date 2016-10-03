@@ -11,7 +11,10 @@ import com.olah.gdx.game.GameObjects.FloorGrass;
 import com.olah.gdx.game.GameObjects.FloorTable;
 import com.olah.gdx.game.GameObjects.BackWallWallpaper;
 import com.olah.gdx.game.GameObjects.BackWallWindow;
+import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.FloorWood;
+import com.olah.gdx.game.GameObjects.Sardines;
+import com.olah.gdx.game.GameObjects.ScoreObject;
 
 public class Level
 {
@@ -49,6 +52,9 @@ public class Level
 	}
 
 	//objects
+	public Cat cat;
+	public Array<Sardines> sardines;
+	public Array<ScoreObject> scoreObjects;
 	public Array<FloorTable> floorTables;
 	public Array<FloorGrass> floorGrass;
 	public Array<FloorWood> floorWood;
@@ -56,6 +62,7 @@ public class Level
 	public Array<WallGap>	wallGaps;
 	public Array<BackWallWallpaper> backWallWallpaper;
 	public Array<BackWallWindow> backWallWindows;
+	
 
 	//decoration
 
@@ -67,7 +74,11 @@ public class Level
 
 	private void init(String filename)
 	{
+		//Player
+		cat = null;
 		//objects
+		sardines = new Array<Sardines>();
+		scoreObjects = new Array<ScoreObject>();
 		floorTables = new Array<FloorTable>();
 		floorGrass = new Array<FloorGrass>();
 		wallBlack = new Array<WallBlack>();
@@ -144,17 +155,24 @@ public class Level
 				//Player Spawn point
 				else if(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel))
 				{
-					//TODO Implement
+					obj = new Cat();
+					offsetHeight = .8f;
+					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					cat = (Cat)obj;
 				}
-				//Feather
+				//Sardine
 				else if(BLOCK_TYPE.ITEM_SARDINE.sameColor(currentPixel))
 				{
-					//TODO Implement
+					obj = new Sardines();
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					sardines.add((Sardines)obj);
 				}
-				//Gold coin
+				//Score Object
 				else if(BLOCK_TYPE.ITEM_SCORE_OBJECT.sameColor(currentPixel))
 				{
-					//TODO Implement
+					obj = new ScoreObject();
+					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					scoreObjects.add((ScoreObject)obj);
 				}
 				//Unknown object/pixel color
 				else
@@ -167,20 +185,15 @@ public class Level
 				}
 			}
 		}
-		/*
-		//Decoration
-		clouds = new Clouds(pixmap.getWidth());
-		clouds.position.set(0,2);
-		mountains = new Mountains(pixmap.getWidth());
-		mountains.position.set(-1,-1);
-		waterOverlay = new WaterOverlay(pixmap.getWidth());
-		waterOverlay.position.set(0,-3.75f);
-		*/
 		//Free memory
 		pixmap.dispose();
 		Gdx.app.debug(TAG, "Level '"+filename+"' loaded");
 	}
 
+	/**
+	 * Renders all of the game objects
+	 * @param batch
+	 */
 	public void render(SpriteBatch batch)
 	{
 
@@ -219,7 +232,37 @@ public class Level
 		{
 			table.render(batch);
 		}
+		//Draw Sardines
+		for(Sardines sardine : sardines)
+		{
+			sardine.render(batch);
+		}
+		//Draw Score objects
+		for(ScoreObject scoreObject : scoreObjects)
+		{
+			scoreObject.render(batch);
+		}
+		//Draw player
+		cat.render(batch);
+	}
+	
+	/**
+	 * Updates all game objects in the level.
+	 * @param deltaTime
+	 */
+	public void update(float deltaTime)
+	{
+		cat.update(deltaTime);
+		for(Sardines sardine : sardines)
+		{
+			sardine.update(deltaTime);
+		}
+		for(ScoreObject scoreObject : scoreObjects)
+		{
+			scoreObject.update(deltaTime);
+		}
 
 	}
+	
 }
 

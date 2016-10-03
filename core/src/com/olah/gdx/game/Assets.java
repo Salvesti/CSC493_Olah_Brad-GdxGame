@@ -6,9 +6,11 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.olah.gdx.game.util.Constants;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 
@@ -40,6 +42,7 @@ public class Assets implements Disposable, AssetErrorListener
 		this.assetManager = assetManager;
 		//Set asset manager error handler
 		assetManager.setErrorListener(this);
+
 		//Load texture atlas
 		assetManager.load(Constants.ITEM_ATLAS_OBJECTS,TextureAtlas.class);
 		assetManager.load(Constants.TILE_ATLAS_OBJECTS,TextureAtlas.class);
@@ -67,6 +70,7 @@ public class Assets implements Disposable, AssetErrorListener
 
 		//Create game resource objects
 		fonts = new AssetFonts();
+		cat = new AssetCat();
 		sardines = new AssetSardines(itemAtlas);
 		laserPointer = new AssetLaser(itemAtlas);
 		scoreObject = new AssetScoreObject(itemAtlas);
@@ -131,11 +135,11 @@ public class Assets implements Disposable, AssetErrorListener
 	 */
 	public class AssetCat
 	{
-		public final AtlasRegion sardines;
+		public final Texture cat;
 
-		public AssetCat(TextureAtlas atlas)
+		public AssetCat()
 		{
-			sardines = atlas.findRegion("sardines");
+			cat = new Texture(Gdx.files.internal("images/cat.png"));
 		}
 	}
 	
@@ -206,6 +210,28 @@ public class Assets implements Disposable, AssetErrorListener
 			sodaCan = atlas.findRegion("soda_can");
 			waterBottle = atlas.findRegion("water_bottle");
 			sprayPaint = atlas.findRegion("spray_paint");
+		}
+
+		public TextureRegion random() 
+		{
+			Array<TextureRegion> scoreObjects = new Array<TextureRegion>();
+			scoreObjects.add(beerBottle);
+			scoreObjects.add(can);
+			scoreObjects.add(cardboardBox);
+			scoreObjects.add(cup);
+			scoreObjects.add(glassJar);
+			scoreObjects.add(laundaryDetergent);
+			scoreObjects.add(milkJug);
+			scoreObjects.add(mug);
+			scoreObjects.add(newspaper);
+			scoreObjects.add(paperBag);
+			scoreObjects.add(pizzaBox);
+			scoreObjects.add(sodaBottle);
+			scoreObjects.add(sodaCan);
+			scoreObjects.add(waterBottle);
+			scoreObjects.add(sprayPaint);
+			
+			return scoreObjects.random();
 		}
 	}
 

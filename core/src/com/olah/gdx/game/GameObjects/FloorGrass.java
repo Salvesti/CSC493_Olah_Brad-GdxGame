@@ -19,7 +19,7 @@ public class FloorGrass extends AbstractGameObject{
 	private void init()
 	{
 		dimension.set(1,1);
-		
+		bounds.set(0,0,dimension.x,dimension.y);
 		grass = Assets.instance.levelDecoration.grass;
 	}
 	
