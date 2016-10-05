@@ -3,8 +3,8 @@ package com.olah.gdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.olah.gdx.game.util.Constants;
@@ -19,6 +19,8 @@ public class WorldRenderer implements Disposable
 	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
 	private WorldController worldController;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private Box2DDebugRenderer b2dDebugRenderer;
 
 	public WorldRenderer (WorldController worldController)
 	{
@@ -38,6 +40,7 @@ public class WorldRenderer implements Disposable
 		cameraGUI.position.set(0,0,0);
 		cameraGUI.setToOrtho(true); //Flip y-axis
 		cameraGUI.update();
+		b2dDebugRenderer = new Box2DDebugRenderer();
 
 	}
 
@@ -48,7 +51,7 @@ public class WorldRenderer implements Disposable
 	}
 
 	/**
-	 * Renders all the elemtns of the gui
+	 * Renders all the elements of the gui
 	 * @param batch2
 	 */
 	private void renderGui(SpriteBatch batch2) {
@@ -68,6 +71,10 @@ public class WorldRenderer implements Disposable
 		batch.begin();
 		worldController.level.render(batch);
 		batch.end();
+		if(DEBUG_DRAW_BOX2D_WORLD)
+		{
+			b2dDebugRenderer.render(worldController.b2World, camera.combined);
+		}
 	}
 	/**
 	 * Renders the game over message

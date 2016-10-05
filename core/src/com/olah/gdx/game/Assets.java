@@ -57,7 +57,7 @@ public class Assets implements Disposable, AssetErrorListener
 		//Gets the value for the Texture Atlas location from the constants class.
 		TextureAtlas itemAtlas = assetManager.get(Constants.ITEM_ATLAS_OBJECTS);
 		TextureAtlas tileAtlas = assetManager.get(Constants.TILE_ATLAS_OBJECTS);
-		
+
 		//Enable texture filtering for pixel smoothing
 		for(Texture t : itemAtlas.getTextures())
 		{
@@ -75,7 +75,7 @@ public class Assets implements Disposable, AssetErrorListener
 		laserPointer = new AssetLaser(itemAtlas);
 		scoreObject = new AssetScoreObject(itemAtlas);
 		levelDecoration = new AssetLevelDecoration(tileAtlas);
-		
+
 	}
 
 	@Override
@@ -109,7 +109,7 @@ public class Assets implements Disposable, AssetErrorListener
 		public final BitmapFont defaultSmall;
 		public final BitmapFont defaultNormal;
 		public final BitmapFont defaultBig;
-		
+
 		public AssetFonts()
 		{
 			//Create three fonts using Libgdx's 15px bitmap font
@@ -128,7 +128,7 @@ public class Assets implements Disposable, AssetErrorListener
 	}
 
 
-	
+
 	/**
 	 * A class that holds the information about the cat Asset
 	 * @author Brad Olah
@@ -142,7 +142,7 @@ public class Assets implements Disposable, AssetErrorListener
 			cat = new Texture(Gdx.files.internal("images/cat.png"));
 		}
 	}
-	
+
 	/**
 	 * A class that holds the information about the Sardines Asset
 	 * @author Brad Olah
@@ -212,7 +212,7 @@ public class Assets implements Disposable, AssetErrorListener
 			sprayPaint = atlas.findRegion("spray_paint");
 		}
 
-		public TextureRegion random() 
+		public TextureRegion random()
 		{
 			Array<TextureRegion> scoreObjects = new Array<TextureRegion>();
 			scoreObjects.add(beerBottle);
@@ -230,7 +230,7 @@ public class Assets implements Disposable, AssetErrorListener
 			scoreObjects.add(sodaCan);
 			scoreObjects.add(waterBottle);
 			scoreObjects.add(sprayPaint);
-			
+
 			return scoreObjects.random();
 		}
 	}

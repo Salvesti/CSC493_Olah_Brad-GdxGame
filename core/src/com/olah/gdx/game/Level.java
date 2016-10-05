@@ -12,6 +12,7 @@ import com.olah.gdx.game.GameObjects.FloorTable;
 import com.olah.gdx.game.GameObjects.BackWallWallpaper;
 import com.olah.gdx.game.GameObjects.BackWallWindow;
 import com.olah.gdx.game.GameObjects.Cat;
+import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.FloorWood;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
@@ -62,6 +63,7 @@ public class Level
 	public Array<WallGap>	wallGaps;
 	public Array<BackWallWallpaper> backWallWallpaper;
 	public Array<BackWallWindow> backWallWindows;
+	public Array<CollisionZone>	collisionZones;
 
 
 	//decoration
@@ -86,6 +88,7 @@ public class Level
 		backWallWallpaper = new Array<BackWallWallpaper>();
 		backWallWindows = new Array<BackWallWindow>();
 		floorWood = new Array<FloorWood>();
+		collisionZones = new Array<CollisionZone>();
 
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
@@ -95,7 +98,6 @@ public class Level
 			for(int pixelX = 0; pixelX < pixmap.getWidth(); pixelX++)
 			{
 				AbstractGameObject obj = null;
-				float offsetHeight = 0;
 				//Height grows from bottom to top
 				float baseHeight = pixmap.getHeight()-pixelY;
 				//Get color of current pixel as 32-bit RGBA value
@@ -112,65 +114,81 @@ public class Level
 				//Rock
 				else if(BLOCK_TYPE.FLOOR_TABLE.sameColor(currentPixel))
 				{
+					obj = new CollisionZone();
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
+
 					obj  = new FloorTable();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorTables.add((FloorTable)obj);
 				}
 				else if(BLOCK_TYPE.FLOOR_GRASS.sameColor(currentPixel))
 				{
+					obj = new CollisionZone();
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
+
 					obj  = new FloorGrass();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorGrass.add((FloorGrass)obj);
 				}
 				else if(BLOCK_TYPE.WALL_BLACK.sameColor(currentPixel))
 				{
+					obj = new CollisionZone();
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
+
 					obj  = new WallBlack();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					wallBlack.add((WallBlack)obj);
 				}
 				else if(BLOCK_TYPE.BACK_WALL_WALLPAPER.sameColor(currentPixel))
 				{
 					obj  = new BackWallWallpaper();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					backWallWallpaper.add((BackWallWallpaper)obj);
 				}
 				else if(BLOCK_TYPE.WALL_GAP.sameColor(currentPixel))
 				{
 					obj  = new WallGap();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					wallGaps.add((WallGap)obj);
 				}
 				else if(BLOCK_TYPE.BACK_WALL_WINDOW.sameColor(currentPixel))
 				{
 					obj  = new BackWallWindow();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					backWallWindows.add((BackWallWindow)obj);
 				}
 				else if(BLOCK_TYPE.FLOOR_WOOD.sameColor(currentPixel))
 				{
+					obj = new CollisionZone();
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
+
 					obj  = new FloorWood();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorWood.add((FloorWood)obj);
 				}
 				//Player Spawn point
 				else if(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel))
 				{
 					obj = new Cat();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y+offsetHeight);
+					obj.position.set(pixelX,baseHeight*obj.dimension.y/2);
 					cat = (Cat)obj;
 				}
 				//Sardine
 				else if(BLOCK_TYPE.ITEM_SARDINE.sameColor(currentPixel))
 				{
 					obj = new Sardines();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX,baseHeight * obj.dimension.y);
 					sardines.add((Sardines)obj);
 				}
 				//Score Object
 				else if(BLOCK_TYPE.ITEM_SCORE_OBJECT.sameColor(currentPixel))
 				{
 					obj = new ScoreObject();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
+					obj.position.set(pixelX,baseHeight * obj.dimension.y);
 					scoreObjects.add((ScoreObject)obj);
 				}
 				//Unknown object/pixel color

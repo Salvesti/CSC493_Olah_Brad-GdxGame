@@ -2,7 +2,6 @@ package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.olah.gdx.game.Assets;
 import com.olah.gdx.game.util.Constants;
@@ -46,7 +45,7 @@ public class Cat extends AbstractGameObject
 		//Bounding box for collision detection
 		bounds.set(0,0,dimension.x, dimension.y);
 		//Set physics values
-		terminalVelocity.set(3.0f,8.0f);
+		terminalVelocity.set(8.0f,16.0f);
 		friction.set(12.0f,0.0f);
 		acceleration.set(0.0f, -25.0f);
 		//View direction

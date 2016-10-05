@@ -1,7 +1,6 @@
 package com.olah.gdx.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.olah.gdx.game.GameObjects.AbstractGameObject;
@@ -34,7 +33,7 @@ public class CameraHelper
 		}
 		position.x = target.position.x + target.origin.y;
 		position.y = target.position.y + target.origin.y;
-		
+
 		//Prevent camera from moving too far down.
 		position.y = Math.max(-1f, position.y);
 	}
