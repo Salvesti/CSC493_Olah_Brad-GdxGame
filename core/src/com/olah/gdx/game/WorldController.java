@@ -22,7 +22,7 @@ import com.badlogic.gdx.InputAdapter;
  * A class that handles the locations and movements of game objects, and the camera.
  * @author Brad Olah
  */
-public class WorldController extends InputAdapter
+public class WorldController extends InputAdapter 
 {
 	private static final String TAG = WorldController.class.getName();
 
@@ -66,6 +66,7 @@ public class WorldController extends InputAdapter
 			b2World.dispose();
 		}
 		b2World = new World(new Vector2(0,-9.81f),true);
+		b2World.setContactListener(new myContactListener());
 		//CollisionZones
 		Vector2 origin = new Vector2();
 		for(CollisionZone zone : level.collisionZones)
@@ -89,6 +90,8 @@ public class WorldController extends InputAdapter
 		BodyDef catBody = new BodyDef();
 		catBody.type = BodyType.DynamicBody;
 		catBody.position.set(cat.position);
+		catBody.fixedRotation = true;
+		catBody.bullet = true;
 		Body body = b2World.createBody(catBody);
 		cat.body = body;
 		PolygonShape polygonShape = new PolygonShape();
@@ -97,8 +100,16 @@ public class WorldController extends InputAdapter
 		polygonShape.setAsBox(cat.bounds.width/2.0f,0.8f,origin,0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
+		fixtureDef.density = 10;
+		fixtureDef.friction = 0.5f;
+		body.createFixture(fixtureDef);
+		
+		polygonShape.setAsBox(0.6f, 0.1f, new Vector2(1,0), 0);
+		fixtureDef.isSensor = true;
+		fixtureDef.shape = polygonShape;
 		body.createFixture(fixtureDef);
 		polygonShape.dispose();
+		
 	}
 
 	public void update(float deltaTime)
@@ -118,6 +129,7 @@ public class WorldController extends InputAdapter
 		}
 
 		level.update(deltaTime);
+		b2World.step(deltaTime, 10,20);
 		testCollisions();
 		cameraHelper.update(deltaTime);
 	}
@@ -140,17 +152,18 @@ public class WorldController extends InputAdapter
 			if(Gdx.input.isKeyPressed(Keys.LEFT))
 			{
 				//level.cat.velocity.x = -level.cat.terminalVelocity.x;
-				level.cat.body.applyLinearImpulse(0.8f,0,level.cat.position.x,level.cat.position.y,true);
+				level.cat.body.applyLinearImpulse(-10,0,level.cat.position.x,level.cat.position.y,true);
 			}else if(Gdx.input.isKeyPressed(Keys.RIGHT))
 			{
 				//level.cat.velocity.x = level.cat.terminalVelocity.x;
-				level.cat.body.applyLinearImpulse(-0.8f,0,level.cat.position.x,level.cat.position.y,true);
+				level.cat.body.applyLinearImpulse(10,0,level.cat.position.x,level.cat.position.y,true);
 			}
 		}
 
 		//Cat Jump
 		if(Gdx.input.isKeyPressed(Keys.SPACE))
 		{
+			level.cat.body.applyLinearImpulse(0,40,level.cat.position.x,level.cat.position.y,true);
 			level.cat.setJumping(true);
 		}else
 		{
@@ -244,7 +257,7 @@ public class WorldController extends InputAdapter
 		time += sardine.setSardineTime();
 		Gdx.app.log(TAG, "Sardine collected");
 	}
-	private void onCollisionPlayerWithCollisionZone(CollisionZone zone)
+	/*private void onCollisionPlayerWithCollisionZone(CollisionZone zone)
 	{
 		Cat cat = level.cat;
 		float heightDifference = Math.abs(cat.position.y - (zone.position.y + 1));
@@ -273,7 +286,7 @@ public class WorldController extends InputAdapter
 			break;
 		}
 
-	}
+	}*/
 
 
 	/**
@@ -288,7 +301,7 @@ public class WorldController extends InputAdapter
 		{
 			r2.set(zone.position.x, zone.position.y, 1, 1);
 			if(!r1.overlaps(r2)) continue;
-			onCollisionPlayerWithCollisionZone(zone);
+			//onCollisionPlayerWithCollisionZone(zone);
 			//IMPORTANT: must do all collisions for valid edge testing on rocks.
 		}
 

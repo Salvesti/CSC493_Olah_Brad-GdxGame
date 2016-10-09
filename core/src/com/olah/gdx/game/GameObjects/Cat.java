@@ -12,6 +12,7 @@ public class Cat extends AbstractGameObject
 
 	private final float JUMP_TIME_MAX = 0.3f;
 	private final float JUMP_TIME_MIN = 0.1f;
+	public int numFootContacts;
 
 	public enum VIEW_DIRECTION{LEFT, RIGHT}
 
@@ -56,6 +57,7 @@ public class Cat extends AbstractGameObject
 		//Powerups
 		hasSardinePowerup = false;
 		timeLeftSardinePowerup = 0;
+		numFootContacts = 0;
 	}
 
 	/**
@@ -101,7 +103,7 @@ public class Cat extends AbstractGameObject
 
 	/**
 	 * Checks to see if the feather powerup is active
-	 * @return
+	 * @return 
 	 */
 	public boolean hasFeatherPowerup()
 	{
@@ -145,7 +147,7 @@ public class Cat extends AbstractGameObject
 			if(timeJumping <= JUMP_TIME_MAX)
 			{
 				//Still jumping
-				velocity.y = terminalVelocity.y;
+				this.body.applyLinearImpulse(0,10,this.position.x,this.position.y,true);
 			}
 			break;
 		case FALLING:
@@ -157,7 +159,7 @@ public class Cat extends AbstractGameObject
 			if(timeJumping > 0 && timeJumping <= JUMP_TIME_MIN)
 			{
 				//Still jumping
-				velocity.y = terminalVelocity.y;
+				this.body.applyLinearImpulse(0,10,this.position.x,this.position.y,true);
 			}
 		}
 		if(jumpState != JUMP_STATE.GROUNDED)
@@ -208,4 +210,5 @@ public class Cat extends AbstractGameObject
 		//Resets the color to white
 		batch.setColor(1,1,1,1);
 	}
+
 }
