@@ -2,6 +2,11 @@ package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * A class that handles the logic behind collision zones.
+ * @author bo3040
+ *
+ */
 public class CollisionZone extends AbstractGameObject
 {
 	public CollisionZone()

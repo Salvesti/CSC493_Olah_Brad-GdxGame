@@ -1,25 +1,22 @@
 package com.olah.gdx.game;
 
 import com.badlogic.gdx.Application;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
+import com.olah.gdx.game.Screens.MenuScreen;
 
 /**
- * A class for handling what is displayed to the player.
+ * A class for handling what happens when the game starts.
  * @author Brad Olah
  */
 public class CatGameMain extends Game
 {
 	private static final String TAG = CatGameMain.class.getName();
-	private boolean paused;
-
-	private WorldController worldController;
-	private WorldRenderer worldRenderer;
-
-
+	/**
+	 * Starts the game on the menu screen
+	 */
 	@Override
 	public void create()
 	{
@@ -29,8 +26,5 @@ public class CatGameMain extends Game
 		Assets.instance.init(new AssetManager());
 		//Start game at menu screen
 		setScreen(new MenuScreen(this));
-
-		//Game world is active on start
-		paused = false;
 	}
 }

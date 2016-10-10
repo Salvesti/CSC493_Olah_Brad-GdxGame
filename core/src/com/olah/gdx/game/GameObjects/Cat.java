@@ -4,10 +4,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.olah.gdx.game.Assets;
-import com.olah.gdx.game.GamePreferences;
 import com.olah.gdx.game.util.Constants;
+import com.olah.gdx.game.util.GamePreferences;
 import com.olah.gdx.game.util.CharacterSkin;
 
+/**
+ * A class that handles the logic behind the cat object.
+ * @author Brad Olah
+ */
 public class Cat extends AbstractGameObject
 {
 	public static final String TAG = Cat.class.getName();
@@ -18,6 +22,10 @@ public class Cat extends AbstractGameObject
 
 	public enum VIEW_DIRECTION{LEFT, RIGHT}
 
+	/**
+	 * An enum for the different states the cat can be in.
+	 * @author Brad Olah
+	 */
 	public enum JUMP_STATE
 	{
 		GROUNDED,
@@ -39,6 +47,9 @@ public class Cat extends AbstractGameObject
 		init();
 	}
 
+	/**
+	 * Initializes the cat.
+	 */
 	public void init()
 	{
 		dimension.set(2,2);
@@ -63,7 +74,7 @@ public class Cat extends AbstractGameObject
 	}
 
 	/**
-	 * Makes the bunny jump. States handle if the bunny is already jumping.
+	 * Makes the Cat jump. States handle if the Cat is already jumping.
 	 * @param jumpKeyPressed
 	 */
 	public void setJumping(boolean jumpKeyPressed)
@@ -91,7 +102,7 @@ public class Cat extends AbstractGameObject
 	}
 
 	/**
-	 * Toggles the feather Powerup
+	 * Toggles the sardine Powerup
 	 * @param pickedUp
 	 */
 	public void setSardinePowerup(boolean pickedUp)
@@ -104,14 +115,17 @@ public class Cat extends AbstractGameObject
 	}
 
 	/**
-	 * Checks to see if the feather powerup is active
-	 * @return 
+	 * Checks to see if the sardine powerup is active
+	 * @return
 	 */
-	public boolean hasFeatherPowerup()
+	public boolean hasSardinePowerup()
 	{
 		return hasSardinePowerup && timeLeftSardinePowerup > 0;
 	}
 
+	/**
+	 * Updates the cats location based on deltaTime.
+	 */
 	@Override
 	public void update(float deltaTime)
 	{
@@ -133,6 +147,9 @@ public class Cat extends AbstractGameObject
 		}
 	}
 
+	/**
+	 * Updates the cats Y motion based on deltaTime.
+	 */
 	@Override
 	public void updateMotionY(float deltaTime)
 	{
@@ -168,6 +185,9 @@ public class Cat extends AbstractGameObject
 			super.updateMotionY(deltaTime);
 	}
 
+	/**
+	 * Updates the cats X motion based on deltaTime.
+	 */
 	//TODO fix iceskating
 	@Override
 	public void updateMotionX(float deltaTime)
@@ -196,11 +216,14 @@ public class Cat extends AbstractGameObject
 		velocity.x = MathUtils.clamp(velocity.x, -terminalVelocity.x*speedMod, terminalVelocity.x*speedMod);
 	}
 
+	/**
+	 * Renders the cat graphic.
+	 */
 	@Override
 	public void render (SpriteBatch batch)
 	{
 		Texture reg = null;
-		
+
 		//Apply Skin Color
 		 batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 

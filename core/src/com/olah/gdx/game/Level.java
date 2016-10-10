@@ -17,10 +17,18 @@ import com.olah.gdx.game.GameObjects.FloorWood;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
 
+/**
+ * A class that handles the rendering of levels based on a picture input.
+ * @author Brad Olah
+ */
 public class Level
 {
 	public static final String TAG = Level.class.getName();
 
+	/**
+	 * An Enum holding the color values associated with block types.
+	 * @author Brad Olah
+	 */
 	public enum BLOCK_TYPE
 	{
 		EMPTY(255,255,255), //White
@@ -74,6 +82,10 @@ public class Level
 		init(filename);
 	}
 
+	/**
+	 * Initializes the level based on given file name.
+	 * @param filename
+	 */
 	private void init(String filename)
 	{
 		//Player

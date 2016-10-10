@@ -1,25 +1,32 @@
-package com.olah.gdx.game;
+package com.olah.gdx.game.Screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.olah.gdx.game.WorldController;
+import com.olah.gdx.game.WorldRenderer;
+import com.olah.gdx.game.util.GamePreferences;
 
-public class GameScreen extends AbstractGameScreen 
+/**
+ * Handles the logic for the game screen.
+ * @author Brad Olah
+ */
+public class GameScreen extends AbstractGameScreen
 {
 	private static final String TAG = GameScreen.class.getName();
-	
+
 	private WorldController worldController;
 	private WorldRenderer worldRenderer;
-	
+
 	private boolean paused;
-	
-	public GameScreen(Game game) 
+
+	public GameScreen(Game game)
 	{
 		super(game);
 	}
 
 	@Override
-	public void show() 
+	public void show()
 	{
 		GamePreferences.instance.load();
 		worldController = new WorldController(game);
@@ -29,7 +36,7 @@ public class GameScreen extends AbstractGameScreen
 	}
 
 	@Override
-	public void render(float deltaTime) 
+	public void render(float deltaTime)
 	{
 		//Do not update the world when paused
 		if(!paused)
@@ -47,32 +54,32 @@ public class GameScreen extends AbstractGameScreen
 	}
 
 	@Override
-	public void resize(int width, int height) 
+	public void resize(int width, int height)
 	{
 		worldRenderer.resize(width,height);
 	}
 
 	@Override
-	public void pause() 
+	public void pause()
 	{
 		paused = true;
 	}
 
 	@Override
-	public void resume() 
+	public void resume()
 	{
 		paused = false;
 	}
 
 	@Override
-	public void hide() 
+	public void hide()
 	{
 		worldRenderer.dispose();
 		Gdx.input.setCatchBackKey(false);
 	}
 
 	@Override
-	public void dispose() 
+	public void dispose()
 	{
 		// TODO Auto-generated method stub
 	}

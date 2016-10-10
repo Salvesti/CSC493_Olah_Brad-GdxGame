@@ -2,7 +2,11 @@ package com.olah.gdx.game.util;
 
 import com.badlogic.gdx.graphics.Color;
 
-public enum CharacterSkin 
+/**
+ * An enum that handles skin color options.
+ * @author Brad Olah
+ */
+public enum CharacterSkin
 {
 	WHITE("White", 1.0f, 1.0f, 1.0f),
 	GRAY("Gray", 0.7f, 0.7f, 0.7f),
@@ -11,7 +15,7 @@ public enum CharacterSkin
 	private String name;
 	private final Color color = new Color();
 
-	private CharacterSkin(String name, float r, float g, float b) 
+	private CharacterSkin(String name, float r, float g, float b)
 	{
 		this.name = name;
 		color.set(r, g, b, 1.0f);
@@ -23,7 +27,7 @@ public enum CharacterSkin
 		return name;
 	}
 
-	public Color getColor() 
+	public Color getColor()
 	{
 		return color;
 	}

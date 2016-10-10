@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.olah.gdx.game.Assets;
 
+/**
+ * A class that handles the logic behind the sardine powerup
+ * @author bo3040
+ *
+ */
 public class Sardines extends AbstractGameObject
 {
 	private TextureRegion regSardine;
@@ -15,6 +20,9 @@ public class Sardines extends AbstractGameObject
 		init();
 	}
 
+	/**
+	 * Initializes the sardine.
+	 */
 	private void init()
 	{
 		dimension.set(1f,1f);
@@ -27,6 +35,7 @@ public class Sardines extends AbstractGameObject
 		collected = false;
 	}
 
+	@Override
 	public void render (SpriteBatch batch)
 	{
 		if(collected) return;
@@ -36,11 +45,19 @@ public class Sardines extends AbstractGameObject
 		batch.draw(reg.getTexture(),position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),false, false);
 	}
 
+	/**
+	 * Gives the score value of the sardine.
+	 * @return int
+	 */
 	public int getScore()
 	{
 		return 250;
 	}
 
+	/**
+	 * Gives the time bonus for collecting a sardine.
+	 * @return float
+	 */
 	public float setSardineTime()
 	{
 		return 10;

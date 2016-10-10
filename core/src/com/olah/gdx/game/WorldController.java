@@ -15,6 +15,7 @@ import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
+import com.olah.gdx.game.Screens.MenuScreen;
 import com.olah.gdx.game.util.Constants;
 import com.badlogic.gdx.InputAdapter;
 
@@ -22,12 +23,12 @@ import com.badlogic.gdx.InputAdapter;
  * A class that handles the locations and movements of game objects, and the camera.
  * @author Brad Olah
  */
-public class WorldController extends InputAdapter 
+public class WorldController extends InputAdapter
 {
 	private static final String TAG = WorldController.class.getName();
 
 	private Game game;
-	
+
 	public CameraHelper cameraHelper;
 	public Level level;
 	public float time;
@@ -44,6 +45,9 @@ public class WorldController extends InputAdapter
 		init();
 	}
 
+	/**
+	 * Initializes the game world.
+	 */
 	private void init()
 	{
 		Gdx.input.setInputProcessor(this);
@@ -54,6 +58,9 @@ public class WorldController extends InputAdapter
 		initPhysics();
 	}
 
+	/**
+	 * Initializes the level.
+	 */
 	private void initLevel()
 	{
 		score = 0;
@@ -62,6 +69,9 @@ public class WorldController extends InputAdapter
 		timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
 	}
 
+	/**
+	 * Initializes the physics objects.
+	 */
 	private void initPhysics()
 	{
 		if(b2World != null)
@@ -106,15 +116,19 @@ public class WorldController extends InputAdapter
 		fixtureDef.density = 10;
 		fixtureDef.friction = 0.5f;
 		body.createFixture(fixtureDef);
-		
+
 		polygonShape.setAsBox(0.6f, 0.1f, new Vector2(1,0), 0);
 		fixtureDef.isSensor = true;
 		fixtureDef.shape = polygonShape;
 		body.createFixture(fixtureDef);
 		polygonShape.dispose();
-		
+
 	}
 
+	/**
+	 * Updates the world, camera, and physics engine based on deltaTime.
+	 * @param deltaTime
+	 */
 	public void update(float deltaTime)
 	{
 		handleDebugInput(deltaTime);
@@ -137,12 +151,18 @@ public class WorldController extends InputAdapter
 		cameraHelper.update(deltaTime);
 	}
 
-	private void backToMenu() 
+	/**
+	 * Returns back to the menu screen.
+	 */
+	private void backToMenu()
 	{
 		game.setScreen(new MenuScreen(game));
 	}
 
-	//Returns if the player is out of lives
+	/**
+	 * Returns if the player is out of time.
+	 * @return boolean
+	 */
 	public boolean isGameOver()
 	{
 		return time <= .99f;
@@ -219,6 +239,11 @@ public class WorldController extends InputAdapter
 		}
 	}
 
+	/**
+	 * Moves the camera.
+	 * @param x
+	 * @param y
+	 */
 	private void moveCamera(float x, float y)
 	{
 		x += cameraHelper.getPosition().x;
@@ -226,6 +251,9 @@ public class WorldController extends InputAdapter
 		cameraHelper.setPosition(x, y);
 	}
 
+	/**
+	 * Handles various key presses.
+	 */
 	@Override
 	public boolean keyUp(int keycode)
 	{

@@ -97,5 +97,9 @@ public abstract class AbstractGameObject
 		velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
 	}
 
+	/**
+	 * Renders the graphic.
+	 * @param batch
+	 */
 	public abstract void render(SpriteBatch batch);
 }

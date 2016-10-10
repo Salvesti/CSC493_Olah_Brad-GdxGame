@@ -8,9 +8,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.olah.gdx.game.util.Constants;
+import com.olah.gdx.game.util.GamePreferences;
 
 /**
- *
+ * A class that handles the rendering of the graphics.
  * @author Brad Olah
  */
 public class WorldRenderer implements Disposable
@@ -27,6 +28,10 @@ public class WorldRenderer implements Disposable
 		this.worldController = worldController;
 		init();
 	}
+
+	/**
+	 * Initializes the graphics.
+	 */
 	private void init()
 	{
 		batch = new SpriteBatch();
@@ -44,6 +49,9 @@ public class WorldRenderer implements Disposable
 
 	}
 
+	/**
+	 * Renders the graphics.
+	 */
 	public void render()
 	{
 		renderWorld(batch);
@@ -52,9 +60,9 @@ public class WorldRenderer implements Disposable
 
 	/**
 	 * Renders all the elements of the gui
-	 * @param batch2
+	 * @param batch
 	 */
-	private void renderGui(SpriteBatch batch2) {
+	private void renderGui(SpriteBatch batch) {
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
 		renderGuiTime(batch);
@@ -67,7 +75,10 @@ public class WorldRenderer implements Disposable
 		batch.end();
 	}
 
-
+	/**
+	 * Renders the world
+	 * @param batch
+	 */
 	private void renderWorld(SpriteBatch batch) {
 		worldController.cameraHelper.applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
@@ -147,13 +158,20 @@ public class WorldRenderer implements Disposable
 
 	}
 
-
+	/**
+	 * Resizes the window
+	 * @param width
+	 * @param height
+	 */
 	public void resize(int width, int height)
 	{
 		camera.viewportWidth = (Constants.VIEWPORT_HEIGHT/height)*width;
 		camera.update();
 	}
 
+	/**
+	 * Disposes of the SpriteBatch
+	 */
 	@Override
 	public void dispose()
 	{

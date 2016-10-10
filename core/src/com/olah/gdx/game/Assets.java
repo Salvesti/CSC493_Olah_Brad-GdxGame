@@ -172,7 +172,7 @@ public class Assets implements Disposable, AssetErrorListener
 	}
 
 	/**
-	 * A class that holds the information about the Gold Coin Asset
+	 * A class that holds the information about the Score Object Asset
 	 * @author Brad Olah
 	 */
 	public class AssetScoreObject
@@ -212,6 +212,10 @@ public class Assets implements Disposable, AssetErrorListener
 			sprayPaint = atlas.findRegion("spray_paint");
 		}
 
+		/**
+		 * Picks a random Texture region
+		 * @return TextureRegion
+		 */
 		public TextureRegion random()
 		{
 			Array<TextureRegion> scoreObjects = new Array<TextureRegion>();
