@@ -4,7 +4,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.olah.gdx.game.Assets;
+import com.olah.gdx.game.GamePreferences;
 import com.olah.gdx.game.util.Constants;
+import com.olah.gdx.game.util.CharacterSkin;
 
 public class Cat extends AbstractGameObject
 {
@@ -198,6 +200,9 @@ public class Cat extends AbstractGameObject
 	public void render (SpriteBatch batch)
 	{
 		Texture reg = null;
+		
+		//Apply Skin Color
+		 batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 
 		//Set special color when game object has a feather powerup
 		if(hasSardinePowerup)

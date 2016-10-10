@@ -1,5 +1,6 @@
 package com.olah.gdx.game;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Rectangle;
@@ -11,7 +12,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.olah.gdx.game.GameObjects.Cat;
-import com.olah.gdx.game.GameObjects.Cat.JUMP_STATE;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
@@ -26,6 +26,8 @@ public class WorldController extends InputAdapter
 {
 	private static final String TAG = WorldController.class.getName();
 
+	private Game game;
+	
 	public CameraHelper cameraHelper;
 	public Level level;
 	public float time;
@@ -36,8 +38,9 @@ public class WorldController extends InputAdapter
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
 
-	public WorldController()
+	public WorldController(Game game)
 	{
+		this.game = game;
 		init();
 	}
 
@@ -120,7 +123,7 @@ public class WorldController extends InputAdapter
 			timeLeftGameOverDelay -= deltaTime;
 			if(timeLeftGameOverDelay < 0)
 			{
-				init();
+				backToMenu();
 			}
 		}else
 		{
@@ -132,6 +135,11 @@ public class WorldController extends InputAdapter
 		b2World.step(deltaTime, 10,20);
 		testCollisions();
 		cameraHelper.update(deltaTime);
+	}
+
+	private void backToMenu() 
+	{
+		game.setScreen(new MenuScreen(game));
 	}
 
 	//Returns if the player is out of lives
@@ -231,6 +239,10 @@ public class WorldController extends InputAdapter
 		{
 			cameraHelper.setTarget(cameraHelper.hasTarget()?null:level.cat);
 			Gdx.app.debug(TAG, "Camera follow enabled: "+ cameraHelper.hasTarget());
+		}
+		else if(keycode == Keys.ESCAPE || keycode == Keys.BACK)
+		{
+			backToMenu();
 		}
 		return false;
 	}

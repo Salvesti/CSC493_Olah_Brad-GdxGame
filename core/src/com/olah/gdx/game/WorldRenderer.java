@@ -59,7 +59,10 @@ public class WorldRenderer implements Disposable
 		batch.begin();
 		renderGuiTime(batch);
 		renderGuiScore(batch);
+		if(GamePreferences.instance.showFpsCounter)
+		{
 		renderFpsCounter(batch);
+		}
 		renderGuiGameOverMessage(batch);
 		batch.end();
 	}
