@@ -1,23 +1,17 @@
 package com.olah.gdx.game;
 
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
 import com.olah.gdx.game.GameObjects.BunnyHead;
+import com.olah.gdx.game.GameObjects.BunnyHead.JUMP_STATE;
 import com.olah.gdx.game.GameObjects.Feather;
 import com.olah.gdx.game.GameObjects.GoldCoin;
 import com.olah.gdx.game.GameObjects.Rock;
-import com.olah.gdx.game.GameObjects.BunnyHead.JUMP_STATE;
 import com.olah.gdx.game.util.Constants;
-import com.badlogic.gdx.InputAdapter;
 
 /**
  * A class that handles the locations and movements of game objects, and the camera.
@@ -26,6 +20,8 @@ import com.badlogic.gdx.InputAdapter;
 public class WorldController extends InputAdapter
 {
 	private static final String TAG = WorldController.class.getName();
+	
+	private Game game;
 	
 	public CameraHelper cameraHelper;
 	public Level level;
@@ -37,8 +33,9 @@ public class WorldController extends InputAdapter
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
 
-	public WorldController()
+	public WorldController(Game game)
 	{
+		this.game = game;
 		init();
 	}
 	
@@ -64,7 +61,7 @@ public class WorldController extends InputAdapter
 		if(isGameOver())
 		{
 			timeLeftGameOverDelay -= deltaTime;
-			if(timeLeftGameOverDelay <0) init();
+			if(timeLeftGameOverDelay <0) backToMenu();
 		}else
 		{
 		handleInputGame(deltaTime);
@@ -83,6 +80,14 @@ public class WorldController extends InputAdapter
 				initLevel();
 			}
 		}
+	}
+	
+	/**
+	 * Switches back to menu screen
+	 */
+	private void backToMenu()
+	{
+		game.setScreen(new MenuScreen(game));
 	}
 	
 	//Returns if the player is out of lives
@@ -194,6 +199,12 @@ public class WorldController extends InputAdapter
 			cameraHelper.setTarget(cameraHelper.hasTarget()?null:level.bunnyHead);
 			Gdx.app.debug(TAG, "Camera follow enabled: "+ cameraHelper.hasTarget());
 		}
+		//Back to menu
+		else if(keycode == Keys.ESCAPE || keycode == Keys.BACK)
+		{
+			backToMenu();
+		}
+			
 		return false;
 	}
 	

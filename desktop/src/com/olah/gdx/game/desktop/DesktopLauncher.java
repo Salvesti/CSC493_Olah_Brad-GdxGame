@@ -26,6 +26,7 @@ public class DesktopLauncher
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
 			TexturePacker.processIfModified(settings, "assets-raw/images", "../core/assets/images","canyonbunny.pack");
+			TexturePacker.processIfModified(settings, "assets-raw/images-ui", "../core/assets/images","canyonbunny-ui.pack");
 		}
 
 		//Sets the configurations for the desktop window.

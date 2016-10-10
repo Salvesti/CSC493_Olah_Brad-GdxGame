@@ -3,6 +3,8 @@ package com.olah.gdx.game.GameObjects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.olah.gdx.game.Assets;
+import com.olah.gdx.game.GamePreferences;
+import com.olah.gdx.game.util.CharacterSkin;
 import com.olah.gdx.game.util.Constants;
 
 public class BunnyHead extends AbstractGameObject
@@ -173,6 +175,9 @@ public class BunnyHead extends AbstractGameObject
 	public void render (SpriteBatch batch)
 	{
 		TextureRegion reg = null; 
+		
+		//Apply Skin Color
+		batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 		
 		//Set special color when game object has a feather powerup
 		if(hasFeatherPowerup)
