@@ -35,6 +35,7 @@ public class WorldController extends InputAdapter
 	public int score;
 	private Float timeLeftGameOverDelay;
 	public World b2World;
+	public JumpContactListener jumpChecker;
 
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
@@ -55,6 +56,7 @@ public class WorldController extends InputAdapter
 		time = Constants.START_TIME;
 		timeLeftGameOverDelay = 0f;
 		initLevel();
+		jumpChecker = new JumpContactListener(level.cat);
 		initPhysics();
 	}
 
@@ -79,7 +81,7 @@ public class WorldController extends InputAdapter
 			b2World.dispose();
 		}
 		b2World = new World(new Vector2(0,-9.81f),true);
-		b2World.setContactListener(new myContactListener());
+
 		//CollisionZones
 		Vector2 origin = new Vector2();
 		for(CollisionZone zone : level.collisionZones)
@@ -95,7 +97,7 @@ public class WorldController extends InputAdapter
 			polygonShape.setAsBox(zone.bounds.height/2.0f,zone.bounds.width/2.0f,origin,0);
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = polygonShape;
-			body.createFixture(fixtureDef);
+			body.createFixture(fixtureDef).setUserData("collisionZone");
 			polygonShape.dispose();
 		}
 		//Cat
@@ -109,20 +111,21 @@ public class WorldController extends InputAdapter
 		cat.body = body;
 		PolygonShape polygonShape = new PolygonShape();
 		origin.x = cat.bounds.width/2.0f;
-		origin.y = (cat.bounds.height/2.0f)-.2f;
-		polygonShape.setAsBox(cat.bounds.width/2.0f,0.8f,origin,0);
+		origin.y = (cat.bounds.height/2.0f)-.4f;
+		polygonShape.setAsBox(cat.bounds.width/2.2f,0.6f,origin,0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
-		fixtureDef.density = 10;
+		fixtureDef.density = 30;
 		fixtureDef.friction = 0.5f;
-		body.createFixture(fixtureDef);
-
+		body.createFixture(fixtureDef).setUserData("cat");
+		FixtureDef footFixture = new FixtureDef();
 		polygonShape.setAsBox(0.6f, 0.1f, new Vector2(1,0), 0);
-		fixtureDef.isSensor = true;
-		fixtureDef.shape = polygonShape;
-		body.createFixture(fixtureDef);
+		footFixture.isSensor = true;
+		footFixture.shape = polygonShape;
+		body.createFixture(footFixture).setUserData("foot");
 		polygonShape.dispose();
 
+		b2World.setContactListener(jumpChecker);
 	}
 
 	/**
@@ -177,25 +180,25 @@ public class WorldController extends InputAdapter
 		if(cameraHelper.hasTarget(level.cat))
 		{
 			//Player movement
-			if(Gdx.input.isKeyPressed(Keys.LEFT))
+			if(Gdx.input.isKeyPressed(Keys.LEFT) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
 			{
-				//level.cat.velocity.x = -level.cat.terminalVelocity.x;
 				level.cat.body.applyLinearImpulse(-10,0,level.cat.position.x,level.cat.position.y,true);
-			}else if(Gdx.input.isKeyPressed(Keys.RIGHT))
+				level.cat.scale = new Vector2(1,1);
+			}else if(Gdx.input.isKeyPressed(Keys.RIGHT) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
 			{
-				//level.cat.velocity.x = level.cat.terminalVelocity.x;
 				level.cat.body.applyLinearImpulse(10,0,level.cat.position.x,level.cat.position.y,true);
+				level.cat.scale = new Vector2(-1,1);
 			}
 		}
 
 		//Cat Jump
-		if(Gdx.input.isKeyPressed(Keys.SPACE))
+		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 		{
-			level.cat.body.applyLinearImpulse(0,40,level.cat.position.x,level.cat.position.y,true);
-			level.cat.setJumping(true);
-		}else
-		{
-			level.cat.setJumping(false);
+			//If the cat is not in contact with a surface it can jump
+			if(level.cat.numFootContacts > 0)
+			{
+				level.cat.body.applyLinearImpulse(0,600,level.cat.position.x,level.cat.position.y,true);
+			}
 		}
 	}
 
@@ -297,37 +300,6 @@ public class WorldController extends InputAdapter
 		time += sardine.setSardineTime();
 		Gdx.app.log(TAG, "Sardine collected");
 	}
-	/*private void onCollisionPlayerWithCollisionZone(CollisionZone zone)
-	{
-		Cat cat = level.cat;
-		float heightDifference = Math.abs(cat.position.y - (zone.position.y + 1));
-		if(heightDifference > 0.1f)
-		{
-			boolean hitRightEdge = cat.position.x > (zone.position.x +1 /2.0f);
-			if(hitRightEdge)
-			{
-				cat.position.x = zone.position.x + 1;
-			}
-			else
-			{
-				cat.position.x = zone.position.x - 1;
-			}
-		}
-		switch (cat.jumpState){
-		case GROUNDED:
-			break;
-		case FALLING:
-		case JUMP_FALLING:
-			cat.position.y = zone.position.y + cat.bounds.height/2;
-			cat.jumpState =  JUMP_STATE.GROUNDED;
-			break;
-		case JUMP_RISING:
-			cat.position.y = zone.position.y + cat.bounds.height/2;
-			break;
-		}
-
-	}*/
-
 
 	/**
 	 * Checks if the bunny head collides with any gameObject, and calls the appropriate method.
@@ -335,15 +307,6 @@ public class WorldController extends InputAdapter
 	private void testCollisions()
 	{
 		r1.set(level.cat.position.x, level.cat.position.y, level.cat.bounds.width, level.cat.bounds.height);
-
-		//Test collision: Cat <--> CollisionZones
-		for(CollisionZone zone : level.collisionZones)
-		{
-			r2.set(zone.position.x, zone.position.y, 1, 1);
-			if(!r1.overlaps(r2)) continue;
-			//onCollisionPlayerWithCollisionZone(zone);
-			//IMPORTANT: must do all collisions for valid edge testing on rocks.
-		}
 
 		//Test collision: Bunny Head <--> Sardine
 		for(ScoreObject scoreObject : level.scoreObjects)
