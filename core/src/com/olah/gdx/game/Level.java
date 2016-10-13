@@ -126,33 +126,33 @@ public class Level
 				//Rock
 				else if(BLOCK_TYPE.FLOOR_TABLE.sameColor(currentPixel))
 				{
-					obj = new CollisionZone();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
-					collisionZones.add((CollisionZone)obj);
-
 					obj  = new FloorTable();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorTables.add((FloorTable)obj);
+
+					obj = new CollisionZone(floorTables.peek());
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
 				}
 				else if(BLOCK_TYPE.FLOOR_GRASS.sameColor(currentPixel))
 				{
-					obj = new CollisionZone();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
-					collisionZones.add((CollisionZone)obj);
-
 					obj  = new FloorGrass();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorGrass.add((FloorGrass)obj);
+
+					obj = new CollisionZone(floorGrass.peek());
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
 				}
 				else if(BLOCK_TYPE.WALL_BLACK.sameColor(currentPixel))
 				{
-					obj = new CollisionZone();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
-					collisionZones.add((CollisionZone)obj);
-
 					obj  = new WallBlack();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					wallBlack.add((WallBlack)obj);
+
+					obj = new CollisionZone(wallBlack.peek());
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
 				}
 				else if(BLOCK_TYPE.BACK_WALL_WALLPAPER.sameColor(currentPixel))
 				{
@@ -174,13 +174,15 @@ public class Level
 				}
 				else if(BLOCK_TYPE.FLOOR_WOOD.sameColor(currentPixel))
 				{
-					obj = new CollisionZone();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
-					collisionZones.add((CollisionZone)obj);
+
 
 					obj  = new FloorWood();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorWood.add((FloorWood)obj);
+
+					obj = new CollisionZone(floorWood.peek());
+					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					collisionZones.add((CollisionZone)obj);
 				}
 				//Player Spawn point
 				else if(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel))

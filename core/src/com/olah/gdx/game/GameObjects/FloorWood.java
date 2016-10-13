@@ -19,7 +19,6 @@ public class FloorWood extends AbstractGameObject{
 	private void init()
 	{
 		dimension.set(1,1);
-
 		woodFloor = Assets.instance.levelDecoration.woodFloor;
 	}
 

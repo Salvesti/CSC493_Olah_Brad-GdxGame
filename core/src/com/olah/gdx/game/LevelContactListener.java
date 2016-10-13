@@ -4,20 +4,19 @@ import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.olah.gdx.game.GameObjects.Cat;
 
 /**
- * A class that handles the logic for if the cat can jump or not.
+ * A class that handles the collisions detecting for the given level.
  * @author Brad Olah
  */
-public class JumpContactListener implements ContactListener
+public class LevelContactListener implements ContactListener
 {
-	public static final String TAG = JumpContactListener.class.getName();
-	private Cat cat;
+	public static final String TAG = LevelContactListener.class.getName();
+	private Level level;
 
-	public JumpContactListener(Cat inputCat)
+	public LevelContactListener(Level level)
 	{
-		cat = inputCat;
+		this.level = level;
 	}
 
 	/**
@@ -29,12 +28,12 @@ public class JumpContactListener implements ContactListener
 		String fixtureUserData = (String)contact.getFixtureA().getUserData();
 		if(fixtureUserData.equals("foot"))
 		{
-			cat.numFootContacts++;
+			level.cat.numFootContacts++;
 		}
 		fixtureUserData = (String)contact.getFixtureB().getUserData();
 		if(fixtureUserData.equals("foot"))
 		{
-			cat.numFootContacts++;
+			level.cat.numFootContacts++;
 		}
 	}
 
@@ -47,12 +46,12 @@ public class JumpContactListener implements ContactListener
 		String fixtureUserData = (String) contact.getFixtureA().getUserData();
 		if(fixtureUserData.equals("foot"))
 		{
-			cat.numFootContacts--;
+			level.cat.numFootContacts--;
 		}
 		fixtureUserData = (String)contact.getFixtureB().getUserData();
 		if(fixtureUserData.equals("foot"))
 		{
-			cat.numFootContacts--;
+			level.cat.numFootContacts--;
 		}
 	}
 

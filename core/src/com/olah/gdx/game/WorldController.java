@@ -35,7 +35,7 @@ public class WorldController extends InputAdapter
 	public int score;
 	private Float timeLeftGameOverDelay;
 	public World b2World;
-	public JumpContactListener jumpChecker;
+	public LevelContactListener levelContactChecker;
 
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
@@ -56,7 +56,7 @@ public class WorldController extends InputAdapter
 		time = Constants.START_TIME;
 		timeLeftGameOverDelay = 0f;
 		initLevel();
-		jumpChecker = new JumpContactListener(level.cat);
+		levelContactChecker = new LevelContactListener(level);
 		initPhysics();
 	}
 
@@ -125,7 +125,7 @@ public class WorldController extends InputAdapter
 		body.createFixture(footFixture).setUserData("foot");
 		polygonShape.dispose();
 
-		b2World.setContactListener(jumpChecker);
+		b2World.setContactListener(levelContactChecker);
 	}
 
 	/**

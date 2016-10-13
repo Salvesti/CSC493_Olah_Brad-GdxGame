@@ -9,15 +9,17 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
  */
 public class CollisionZone extends AbstractGameObject
 {
-	public CollisionZone()
+	AbstractGameObject obj;
+	public CollisionZone(AbstractGameObject obj)
 	{
+		this.obj = obj;
 		init();
 	}
 
 	private void init()
 	{
-		dimension.set(1,1);
-		bounds.set(0, 0, 1, 1);
+		dimension.set(obj.dimension.x,obj.dimension.y);
+		bounds.set(0, 0, dimension.x,obj.dimension.y);
 	}
 	@Override
 	public void render(SpriteBatch batch)
