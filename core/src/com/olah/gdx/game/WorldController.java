@@ -28,6 +28,8 @@ public class WorldController extends InputAdapter
 	public int lives;
 	public int score;
 	private float timeLeftGameOverDelay;
+	public float livesVisual;
+	public float scoreVisual;
 
 	//Rectangles for collision detection
 	private Rectangle r1 = new Rectangle();
@@ -44,6 +46,7 @@ public class WorldController extends InputAdapter
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		lives = Constants.LIVES_START;
+		livesVisual = lives;
 		timeLeftGameOverDelay=0;
 		initLevel();
 	}
@@ -51,6 +54,7 @@ public class WorldController extends InputAdapter
 	private void initLevel()
 	{
 		score = 0;
+		scoreVisual = score;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.bunnyHead);
 	}
@@ -79,6 +83,15 @@ public class WorldController extends InputAdapter
 			{
 				initLevel();
 			}
+		}
+		level.mountains.updateScrollPosition(cameraHelper.getPosition());
+		if(livesVisual > lives)
+		{
+			livesVisual = Math.max(lives, livesVisual - 1 * deltaTime);
+		}
+		if(scoreVisual < score)
+		{
+			scoreVisual = Math.min(score, scoreVisual +250 * deltaTime); 
 		}
 	}
 	

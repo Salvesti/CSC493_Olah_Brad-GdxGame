@@ -23,7 +23,7 @@ public class DesktopLauncher
 			Settings settings = new Settings();
 			settings.maxWidth = 1024;
 			settings.maxHeight= 1024;
-			settings.duplicatePadding = false;
+			settings.duplicatePadding = true;
 			settings.debug = drawDebugOutline;
 			TexturePacker.processIfModified(settings, "assets-raw/images", "../core/assets/images","canyonbunny.pack");
 			TexturePacker.processIfModified(settings, "assets-raw/images-ui", "../core/assets/images","canyonbunny-ui.pack");

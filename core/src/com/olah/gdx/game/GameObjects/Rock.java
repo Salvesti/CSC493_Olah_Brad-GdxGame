@@ -2,6 +2,8 @@ package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.olah.gdx.game.Assets;
 
 /**
@@ -10,10 +12,17 @@ import com.olah.gdx.game.Assets;
  */
 public class Rock extends AbstractGameObject
 {
+	private final float FLOAT_CYCLE_TIME = 2.0f;
+	private final float FLOAT_AMPLITUDE = 0.25f;
+	
 	private TextureRegion regEdge;
 	private TextureRegion regMiddle;
 	
 	private int length;
+	
+	private float floatCycleTimeLeft;
+	private boolean floatingDownwards;
+	private Vector2 floatTargetPosition;
 	
 	public Rock()
 	{
@@ -29,6 +38,10 @@ public class Rock extends AbstractGameObject
 		
 		//Start the length of the rock.
 		setLength(1);
+		
+		floatingDownwards = false;
+		floatCycleTimeLeft = MathUtils.random(0,FLOAT_CYCLE_TIME  /2);
+		floatTargetPosition = null;
 	}
 	
 	public void setLength(int length)
@@ -67,5 +80,24 @@ public class Rock extends AbstractGameObject
 		//Draw right edge
 		reg = regEdge;
 		batch.draw(reg.getTexture(), position.x+relX, position.y+relY, origin.x, origin.y, dimension.x/8, dimension.y, scale.x, scale.y, rotation,reg.getRegionX(),reg.getRegionY(),reg.getRegionWidth(),reg.getRegionHeight(),true,false);
+	}
+	
+	@Override
+	public void update (float deltaTime)
+	{
+		super.update(deltaTime);
+		
+		floatCycleTimeLeft -= deltaTime;
+		if(floatTargetPosition == null)
+		{
+			floatTargetPosition = new Vector2(position);
+		}
+		if(floatCycleTimeLeft <= 0)
+		{
+			floatCycleTimeLeft = FLOAT_CYCLE_TIME;
+			floatingDownwards = !floatingDownwards;
+			floatTargetPosition.y += FLOAT_AMPLITUDE * (floatingDownwards ? -1:1);
+		}
+		position.lerp(floatTargetPosition, deltaTime);
 	}
 }

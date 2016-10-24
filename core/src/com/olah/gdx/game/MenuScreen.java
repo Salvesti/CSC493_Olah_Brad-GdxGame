@@ -128,7 +128,7 @@ public class MenuScreen extends AbstractGameScreen
 
 		// + Info logos
 		imgInfo = new Image(skinCanyonBunny,"info");
-		layer.add(imgInfo);
+		layer.add(imgInfo).bottom();
 		if(debugEnabled)
 		{
 			layer.debug();
