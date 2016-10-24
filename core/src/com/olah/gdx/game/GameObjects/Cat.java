@@ -109,6 +109,7 @@ public class Cat extends AbstractGameObject
 		if(numFootContacts != 0 && body.getLinearVelocity().x !=0)
 		{
 			dustParticles.setPosition(position.x + dimension.x / 2, position.y);
+			dustParticles.s
 			dustParticles.start();
 		}
 		else
