@@ -105,21 +105,32 @@ public class Cat extends AbstractGameObject
 				setSardinePowerup(false);
 			}
 		}
-		dustParticles.update(deltaTime);
-		if(numFootContacts != 0 && body.getLinearVelocity().x !=0)
+
+		//TODO fix flipping of the emitter when the Cat changes direction.
+		if(numFootContacts != 0)
 		{
-			dustParticles.setPosition(position.x + dimension.x / 2, position.y);
-			dustParticles.s
-			dustParticles.start();
+			if(body.getLinearVelocity().x > 2f || body.getLinearVelocity().x < -2f)
+			{
+				dustParticles.setPosition(position.x + dimension.x / 2, position.y);
+				dustParticles.scaleEffect(-1f);
+				dustParticles.flipY();
+				dustParticles.start();
+			}else
+			{
+				dustParticles.allowCompletion();
+			}
 		}
 		else
 		{
 			dustParticles.allowCompletion();
 		}
+		dustParticles.update(deltaTime);
 	}
+
 
 	/**
 	 * Updates the cats X motion based on deltaTime.
+	 * TODO Determine if this is needed, or if movement should be moved to here.
 	 */
 	@Override
 	public void updateMotionX(float deltaTime)
@@ -158,7 +169,7 @@ public class Cat extends AbstractGameObject
 
 		//Draw Particles
 		dustParticles.draw(batch);
-		
+
 		//Apply Skin Color
 		 batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 

@@ -9,6 +9,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.ChainShape;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.olah.gdx.game.GameObjects.Cat;
@@ -92,14 +94,20 @@ public class WorldController extends InputAdapter
 			bodyDef.position.set(zone.position);
 			Body body = b2World.createBody(bodyDef);
 			zone.body = body;
+			EdgeShape edgeShape = new EdgeShape();
+			edgeShape.set(0, zone.bounds.height, zone.bounds.width, zone.bounds.height);
+			/**
 			PolygonShape polygonShape = new PolygonShape();
 			origin.x = zone.bounds.width/2.0f;
 			origin.y = zone.bounds.height/2.0f;
 			polygonShape.setAsBox(zone.bounds.height/2.0f,zone.bounds.width/2.0f,origin,0);
+			**/
 			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.shape = polygonShape;
+			fixtureDef.shape = edgeShape;
 			body.createFixture(fixtureDef).setUserData("collisionZone");
-			polygonShape.dispose();
+			edgeShape.set(0, 0, zone.bounds.width, 0);
+			body.createFixture(fixtureDef).setUserData("collisionZone");
+			edgeShape.dispose();
 		}
 		//Cat
 		Cat cat = level.cat;
