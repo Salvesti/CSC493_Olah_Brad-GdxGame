@@ -36,6 +36,7 @@ public class WorldController extends InputAdapter
 	private Float timeLeftGameOverDelay;
 	public World b2World;
 	public LevelContactListener levelContactChecker;
+	public float scoreVisual;
 
 	private Rectangle r1 = new Rectangle();
 	private Rectangle r2 = new Rectangle();
@@ -152,6 +153,10 @@ public class WorldController extends InputAdapter
 		b2World.step(deltaTime, 10,20);
 		testCollisions();
 		cameraHelper.update(deltaTime);
+		if(scoreVisual < score)
+		{
+			scoreVisual = Math.min(score,  scoreVisual + 250 * deltaTime);
+		}
 	}
 
 	/**
@@ -180,11 +185,11 @@ public class WorldController extends InputAdapter
 		if(cameraHelper.hasTarget(level.cat))
 		{
 			//Player movement
-			if(Gdx.input.isKeyPressed(Keys.LEFT) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
+			if((Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
 			{
 				level.cat.body.applyLinearImpulse(-10,0,level.cat.position.x,level.cat.position.y,true);
 				level.cat.scale = new Vector2(1,1);
-			}else if(Gdx.input.isKeyPressed(Keys.RIGHT) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
+			}else if((Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
 			{
 				level.cat.body.applyLinearImpulse(10,0,level.cat.position.x,level.cat.position.y,true);
 				level.cat.scale = new Vector2(-1,1);

@@ -154,7 +154,12 @@ public class WorldRenderer implements Disposable
 	{
 		float x = -15;
 		float y = 20;
-		Assets.instance.fonts.defaultBig.draw(batch, "Score: "+ worldController.score, x+75, y+37);
+		if(worldController.scoreVisual < worldController.score)
+		{
+			long shakeAlpha = System.currentTimeMillis() % 360;
+			float shakeDist = 1.5f;
+		}
+		Assets.instance.fonts.defaultBig.draw(batch, "Score: "+ (int)worldController.scoreVisual, x+75, y+37);
 
 	}
 

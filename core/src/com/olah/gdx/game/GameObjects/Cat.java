@@ -1,6 +1,8 @@
 package com.olah.gdx.game.GameObjects;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.olah.gdx.game.Assets;
@@ -27,6 +29,7 @@ public class Cat extends AbstractGameObject
 	public VIEW_DIRECTION viewDirection;
 	public boolean hasSardinePowerup;
 	public float timeLeftSardinePowerup;
+	public ParticleEffect dustParticles = new ParticleEffect();
 
 	public Cat()
 	{
@@ -54,6 +57,8 @@ public class Cat extends AbstractGameObject
 		hasSardinePowerup = false;
 		timeLeftSardinePowerup = 0;
 		numFootContacts = 0;
+		//Particles
+		dustParticles.load(Gdx.files.internal("particles/dust.pfx"),Gdx.files.internal("particles"));
 	}
 
 	/**
@@ -100,6 +105,16 @@ public class Cat extends AbstractGameObject
 				setSardinePowerup(false);
 			}
 		}
+		dustParticles.update(deltaTime);
+		if(numFootContacts != 0 && body.getLinearVelocity().x !=0)
+		{
+			dustParticles.setPosition(position.x + dimension.x / 2, position.y);
+			dustParticles.start();
+		}
+		else
+		{
+			dustParticles.allowCompletion();
+		}
 	}
 
 	/**
@@ -140,6 +155,9 @@ public class Cat extends AbstractGameObject
 	{
 		Texture reg = null;
 
+		//Draw Particles
+		dustParticles.draw(batch);
+		
 		//Apply Skin Color
 		 batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 
