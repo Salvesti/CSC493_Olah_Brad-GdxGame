@@ -27,7 +27,7 @@ public class Constants
 	public static final String LEVEL_01 = "levels/level-01.png";
 
 	//Starting time limit
-	public static final int START_TIME = 11;
+	public static final int START_TIME = 21;
 
 	//The time in seconds the Sardines lasts for
 	public static final float ITEM_SARDINES_POWERUP_DURATION = 9;
@@ -43,4 +43,17 @@ public class Constants
 	public static final String PREFERENCES = "canyonbunny.prefs";
 
 	public static final int JUMP_FORCE = 40;
+
+	//Collision categories.
+	public static final short CATEGORY_PLAYER = 0x0001;
+	public static final short CATEGORY_SCOREOBJECT_LIVE = 0x0002;
+	public static final short CATEGORY_SCOREOBJECT_DEAD = 0x0004;
+	public static final short CATEGORY_SCENERY = 0x0008;
+	//Collision masks.
+	public static final short MASK_PLAYER = CATEGORY_SCOREOBJECT_LIVE|CATEGORY_SCENERY;
+	public static final short MASK_SCOREOBJECT_LIVE = CATEGORY_PLAYER|CATEGORY_SCOREOBJECT_LIVE|CATEGORY_SCENERY;
+	public static final short MASK_SCOREOBJECT_DEAD = 0; //Collides with nothing.
+	public static final short MASK_SCENERY = -1; //Collides with everything.
+
+
 }

@@ -2,7 +2,9 @@ package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.olah.gdx.game.Assets;
+import com.olah.gdx.game.util.Constants;
 
 /**
  * A class that handles the logic behind the sardine powerup
@@ -38,19 +40,22 @@ public class Sardines extends AbstractGameObject
 	@Override
 	public void render (SpriteBatch batch)
 	{
-		if(collected) return;
-
 		TextureRegion reg = null;
 		reg = regSardine;
 		batch.draw(reg.getTexture(),position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(), reg.getRegionWidth(), reg.getRegionHeight(),false, false);
 	}
 
 	/**
-	 * Gives the score value of the sardine.
+	 * Gives the score value of the sardine and changes the
+	 * filter mask that the object uses.
 	 * @return int
 	 */
 	public int getScore()
 	{
+		//Changes the filter mask that the object uses.
+		Filter filter = new Filter();
+		filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
+		body.getFixtureList().peek().setFilterData(filter);
 		return 250;
 	}
 

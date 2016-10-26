@@ -25,13 +25,14 @@ public class LevelContactListener implements ContactListener
 	@Override
 	public void beginContact(Contact contact)
 	{
-		String fixtureUserData = (String)contact.getFixtureA().getUserData();
-		if(fixtureUserData.equals("foot"))
+		String fixtureAUserData = (String)contact.getFixtureA().getUserData();
+		String fixtureBUserData = (String)contact.getFixtureB().getUserData();
+		if(fixtureAUserData.equals("foot"))
 		{
 			level.cat.numFootContacts++;
 		}
-		fixtureUserData = (String)contact.getFixtureB().getUserData();
-		if(fixtureUserData.equals("foot"))
+
+		if(fixtureBUserData.equals("foot"))
 		{
 			level.cat.numFootContacts++;
 		}
@@ -43,13 +44,13 @@ public class LevelContactListener implements ContactListener
 	@Override
 	public void endContact(Contact contact)
 	{
-		String fixtureUserData = (String) contact.getFixtureA().getUserData();
-		if(fixtureUserData.equals("foot"))
+		String fixtureAUserData = (String)contact.getFixtureA().getUserData();
+		String fixtureBUserData = (String)contact.getFixtureB().getUserData();
+		if(fixtureAUserData.equals("foot"))
 		{
 			level.cat.numFootContacts--;
 		}
-		fixtureUserData = (String)contact.getFixtureB().getUserData();
-		if(fixtureUserData.equals("foot"))
+		if(fixtureBUserData.equals("foot"))
 		{
 			level.cat.numFootContacts--;
 		}

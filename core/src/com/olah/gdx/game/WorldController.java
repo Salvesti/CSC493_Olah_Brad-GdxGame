@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.olah.gdx.game.GameObjects.AbstractGameObject;
 import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.Sardines;
@@ -85,8 +86,8 @@ public class WorldController extends InputAdapter
 		}
 		b2World = new World(new Vector2(0,-9.81f),true);
 
-		//CollisionZones
 		Vector2 origin = new Vector2();
+		//CollisionZones
 		for(CollisionZone zone : level.collisionZones)
 		{
 			BodyDef bodyDef = new BodyDef();
@@ -104,12 +105,57 @@ public class WorldController extends InputAdapter
 			**/
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = edgeShape;
+			//Sets what the fixture can collide with.
+			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCENERY;
+			fixtureDef.filter.maskBits = Constants.MASK_SCENERY;
 			body.createFixture(fixtureDef).setUserData("collisionZone");
 			edgeShape.set(0, 0, zone.bounds.width, 0);
 			body.createFixture(fixtureDef).setUserData("collisionZone");
 			edgeShape.dispose();
 		}
-		//Cat
+		//Score Objects
+		for(ScoreObject obj : level.scoreObjects)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.DynamicBody;
+			bodyDef.position.set(obj.position);
+			Body body = b2World.createBody(bodyDef);
+			obj.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = obj.bounds.width/2.0f;
+			origin.y = obj.bounds.height/2.0f;
+			polygonShape.setAsBox(obj.bounds.height/2.0f,obj.bounds.width/2.0f,origin,0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polygonShape;
+			fixtureDef.density = 2;
+			//Sets what the fixture can collide with.
+			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
+			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
+			body.createFixture(fixtureDef).setUserData("scoreObject");
+			polygonShape.dispose();
+		}
+		//Score Objects
+		for(Sardines sardine : level.sardines)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.DynamicBody;
+			bodyDef.position.set(sardine.position);
+			Body body = b2World.createBody(bodyDef);
+			sardine.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = sardine.bounds.width/2.0f;
+			origin.y = sardine.bounds.height/2.0f;
+			polygonShape.setAsBox(sardine.bounds.height/2.0f,sardine.bounds.width/2.0f,origin,0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polygonShape;
+			fixtureDef.density = 2;
+			//Sets what the fixture can collide with.
+			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
+			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
+			body.createFixture(fixtureDef).setUserData("sardine");
+			polygonShape.dispose();
+		}
+		//Player Cat
 		Cat cat = level.cat;
 		BodyDef catBody = new BodyDef();
 		catBody.type = BodyType.DynamicBody;
@@ -126,6 +172,9 @@ public class WorldController extends InputAdapter
 		fixtureDef.shape = polygonShape;
 		fixtureDef.density = 30;
 		fixtureDef.friction = 0.5f;
+		//Sets what the fixture can collide with.
+		fixtureDef.filter.categoryBits = Constants.CATEGORY_PLAYER;
+		fixtureDef.filter.maskBits = Constants.MASK_PLAYER;
 		body.createFixture(fixtureDef).setUserData("cat");
 		FixtureDef footFixture = new FixtureDef();
 		polygonShape.setAsBox(0.6f, 0.1f, new Vector2(1,0), 0);
@@ -143,6 +192,7 @@ public class WorldController extends InputAdapter
 	 */
 	public void update(float deltaTime)
 	{
+		//TODO add object cleanup.
 		handleDebugInput(deltaTime);
 		if(isGameOver())
 		{
