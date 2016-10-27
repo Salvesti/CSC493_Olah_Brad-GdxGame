@@ -41,9 +41,6 @@ public class WorldController extends InputAdapter
 	public LevelContactListener levelContactChecker;
 	public float scoreVisual;
 
-	private Rectangle r1 = new Rectangle();
-	private Rectangle r2 = new Rectangle();
-
 	public WorldController(Game game)
 	{
 		this.game = game;
@@ -60,7 +57,7 @@ public class WorldController extends InputAdapter
 		time = Constants.START_TIME;
 		timeLeftGameOverDelay = 0f;
 		initLevel();
-		levelContactChecker = new LevelContactListener(level);
+		levelContactChecker = new LevelContactListener(this);
 		initPhysics();
 	}
 
@@ -70,6 +67,7 @@ public class WorldController extends InputAdapter
 	private void initLevel()
 	{
 		score = 0;
+		scoreVisual = 0;
 		level = new Level(Constants.LEVEL_01);
 		cameraHelper.setTarget(level.cat);
 		timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
@@ -94,6 +92,7 @@ public class WorldController extends InputAdapter
 			bodyDef.type = BodyType.StaticBody;
 			bodyDef.position.set(zone.position);
 			Body body = b2World.createBody(bodyDef);
+			body.setUserData(zone);
 			zone.body = body;
 			EdgeShape edgeShape = new EdgeShape();
 			edgeShape.set(0, zone.bounds.height, zone.bounds.width, zone.bounds.height);
@@ -120,6 +119,7 @@ public class WorldController extends InputAdapter
 			bodyDef.type = BodyType.DynamicBody;
 			bodyDef.position.set(obj.position);
 			Body body = b2World.createBody(bodyDef);
+			body.setUserData(obj);
 			obj.body = body;
 			PolygonShape polygonShape = new PolygonShape();
 			origin.x = obj.bounds.width/2.0f;
@@ -131,7 +131,7 @@ public class WorldController extends InputAdapter
 			//Sets what the fixture can collide with.
 			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
 			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
-			body.createFixture(fixtureDef).setUserData("scoreObject");
+			body.createFixture(fixtureDef).setUserData("collidableObject");
 			polygonShape.dispose();
 		}
 		//Score Objects
@@ -141,6 +141,7 @@ public class WorldController extends InputAdapter
 			bodyDef.type = BodyType.DynamicBody;
 			bodyDef.position.set(sardine.position);
 			Body body = b2World.createBody(bodyDef);
+			body.setUserData(sardine);
 			sardine.body = body;
 			PolygonShape polygonShape = new PolygonShape();
 			origin.x = sardine.bounds.width/2.0f;
@@ -152,7 +153,7 @@ public class WorldController extends InputAdapter
 			//Sets what the fixture can collide with.
 			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
 			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
-			body.createFixture(fixtureDef).setUserData("sardine");
+			body.createFixture(fixtureDef).setUserData("collidableObject");
 			polygonShape.dispose();
 		}
 		//Player Cat
@@ -163,6 +164,7 @@ public class WorldController extends InputAdapter
 		catBody.fixedRotation = true;
 		catBody.bullet = true;
 		Body body = b2World.createBody(catBody);
+		body.setUserData(cat);
 		cat.body = body;
 		PolygonShape polygonShape = new PolygonShape();
 		origin.x = cat.bounds.width/2.0f;
@@ -206,10 +208,8 @@ public class WorldController extends InputAdapter
 			handleInputGame(deltaTime);
 			time -= deltaTime;
 		}
-
 		level.update(deltaTime);
 		b2World.step(deltaTime, 10,20);
-		testCollisions();
 		cameraHelper.update(deltaTime);
 		if(scoreVisual < score)
 		{
@@ -340,57 +340,4 @@ public class WorldController extends InputAdapter
 		}
 		return false;
 	}
-
-	/**
-	 * Handles collisions between the Bunny Head and Gold Coins
-	 * @param goldCoin
-	 */
-	private void onCollisionPlayerWithScoreObject(ScoreObject scoreObject)
-	{
-		scoreObject.collected = true;
-		score += scoreObject.getScore();
-		Gdx.app.log(TAG, "Score Object collected");
-	}
-	/**
-	 * Handles collisions between the Bunny Head and Feathers
-	 * @param feather
-	 */
-	private void onCollisionPlayerWithSardine(Sardines sardine)
-	{
-		sardine.collected = true;
-		score += sardine.getScore();
-		level.cat.setSardinePowerup(true);
-		time += sardine.setSardineTime();
-		Gdx.app.log(TAG, "Sardine collected");
-	}
-
-	/**
-	 * Checks if the bunny head collides with any gameObject, and calls the appropriate method.
-	 */
-	private void testCollisions()
-	{
-		r1.set(level.cat.position.x, level.cat.position.y, level.cat.bounds.width, level.cat.bounds.height);
-
-		//Test collision: Bunny Head <--> Sardine
-		for(ScoreObject scoreObject : level.scoreObjects)
-		{
-			if(scoreObject.collected) continue;
-			r2.set(scoreObject.position.x, scoreObject.position.y, scoreObject.bounds.width, scoreObject.bounds.height);
-			if(!r1.overlaps(r2)) continue;
-			onCollisionPlayerWithScoreObject(scoreObject);
-			break;
-		}
-
-		//Test collision: Bunny Head <--> Feather
-		for(Sardines sardine : level.sardines)
-		{
-			if(sardine.collected) continue;
-			r2.set(sardine.position.x, sardine.position.y, sardine.bounds.width, sardine.bounds.height);
-			if(!r1.overlaps(r2)) continue;
-			onCollisionPlayerWithSardine(sardine);
-			break;
-		}
-	}
-
-
 }

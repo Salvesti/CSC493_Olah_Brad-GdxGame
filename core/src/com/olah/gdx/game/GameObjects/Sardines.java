@@ -15,8 +15,6 @@ public class Sardines extends AbstractGameObject
 {
 	private TextureRegion regSardine;
 
-	public Boolean collected;
-
 	public Sardines()
 	{
 		init();
@@ -25,7 +23,7 @@ public class Sardines extends AbstractGameObject
 	/**
 	 * Initializes the sardine.
 	 */
-	private void init()
+	public void init()
 	{
 		dimension.set(1f,1f);
 
@@ -33,8 +31,7 @@ public class Sardines extends AbstractGameObject
 
 		//Set bounding box for collision detection
 		bounds.set(0,0,dimension.x,dimension.y);
-
-		collected = false;
+		type = "collidableObject";
 	}
 
 	@Override
@@ -46,16 +43,11 @@ public class Sardines extends AbstractGameObject
 	}
 
 	/**
-	 * Gives the score value of the sardine and changes the
-	 * filter mask that the object uses.
+	 * Gives the score value of the sardine.
 	 * @return int
 	 */
 	public int getScore()
 	{
-		//Changes the filter mask that the object uses.
-		Filter filter = new Filter();
-		filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
-		body.getFixtureList().peek().setFilterData(filter);
 		return 250;
 	}
 

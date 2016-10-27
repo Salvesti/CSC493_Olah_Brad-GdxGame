@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.olah.gdx.game.GameObjects.AbstractGameObject;
 import com.olah.gdx.game.GameObjects.WallBlack;
-import com.olah.gdx.game.GameObjects.WallGap;
+import com.olah.gdx.game.GameObjects.BackWallGap;
 import com.olah.gdx.game.GameObjects.FloorGrass;
 import com.olah.gdx.game.GameObjects.FloorTable;
 import com.olah.gdx.game.GameObjects.BackWallWallpaper;
@@ -68,7 +68,7 @@ public class Level
 	public Array<FloorGrass> floorGrass;
 	public Array<FloorWood> floorWood;
 	public Array<WallBlack> wallBlack;
-	public Array<WallGap>	wallGaps;
+	public Array<BackWallGap>	wallGaps;
 	public Array<BackWallWallpaper> backWallWallpaper;
 	public Array<BackWallWindow> backWallWindows;
 	public Array<CollisionZone>	collisionZones;
@@ -96,7 +96,7 @@ public class Level
 		floorTables = new Array<FloorTable>();
 		floorGrass = new Array<FloorGrass>();
 		wallBlack = new Array<WallBlack>();
-		wallGaps = new Array<WallGap>();
+		wallGaps = new Array<BackWallGap>();
 		backWallWallpaper = new Array<BackWallWallpaper>();
 		backWallWindows = new Array<BackWallWindow>();
 		floorWood = new Array<FloorWood>();
@@ -162,9 +162,9 @@ public class Level
 				}
 				else if(BLOCK_TYPE.WALL_GAP.sameColor(currentPixel))
 				{
-					obj  = new WallGap();
+					obj  = new BackWallGap();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y);
-					wallGaps.add((WallGap)obj);
+					wallGaps.add((BackWallGap)obj);
 				}
 				else if(BLOCK_TYPE.BACK_WALL_WINDOW.sameColor(currentPixel))
 				{
@@ -239,7 +239,7 @@ public class Level
 			space.render(batch);
 		}
 		//Draw gaps
-		for(WallGap gap : wallGaps)
+		for(BackWallGap gap : wallGaps)
 		{
 			gap.render(batch);
 		}

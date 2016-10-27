@@ -8,7 +8,7 @@ import com.olah.gdx.game.Assets;
  * The class that handles the logic behind table Game objects.
  * @author Brad Olah
  */
-public class FloorTable extends AbstractGameObject
+public class FloorTable extends Surface
 {
 	private TextureRegion table;
 
@@ -17,8 +17,9 @@ public class FloorTable extends AbstractGameObject
 		init();
 	}
 
-	private void init()
+	protected void init()
 	{
+		super.init();
 		dimension.set(1,1);
 		table = Assets.instance.levelDecoration.table;
 	}

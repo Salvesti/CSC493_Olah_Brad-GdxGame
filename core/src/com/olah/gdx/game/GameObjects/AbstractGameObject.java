@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.Body;
  */
 public abstract class AbstractGameObject
 {
+	protected String type = "untyped";
+
 	public Vector2 velocity;
 	public Vector2 terminalVelocity;
 	public Vector2 friction;
@@ -102,4 +104,18 @@ public abstract class AbstractGameObject
 	 * @param batch
 	 */
 	public abstract void render(SpriteBatch batch);
+
+	/**
+	 * Returns the type of the gameObject
+	 * @return
+	 */
+	public String getType()
+	{
+		return type;
+	}
+
+	protected void init()
+	{
+		type = "untyped";
+	}
 }

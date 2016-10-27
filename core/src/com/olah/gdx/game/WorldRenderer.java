@@ -69,7 +69,7 @@ public class WorldRenderer implements Disposable
 		renderGuiScore(batch);
 		if(GamePreferences.instance.showFpsCounter)
 		{
-		renderFpsCounter(batch);
+			renderFpsCounter(batch);
 		}
 		renderGuiGameOverMessage(batch);
 		batch.end();

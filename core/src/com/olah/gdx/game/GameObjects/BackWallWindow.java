@@ -8,7 +8,8 @@ import com.olah.gdx.game.Assets;
  * The class that handles the logic behind window Game objects.
  * @author Brad Olah
  */
-public class BackWallWindow  extends AbstractGameObject{
+public class BackWallWindow  extends AbstractGameObject
+{
 	private TextureRegion window;
 
 	public BackWallWindow()
@@ -16,8 +17,9 @@ public class BackWallWindow  extends AbstractGameObject{
 		init();
 	}
 
-	private void init()
+	public void init()
 	{
+		super.init();
 		dimension.set(1,1);
 
 		window = Assets.instance.levelDecoration.window;

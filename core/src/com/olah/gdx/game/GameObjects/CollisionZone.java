@@ -14,12 +14,14 @@ public class CollisionZone extends AbstractGameObject
 	{
 		this.obj = obj;
 		init();
+
 	}
 
-	private void init()
+	public void init()
 	{
 		dimension.set(obj.dimension.x,obj.dimension.y);
 		bounds.set(0, 0, dimension.x,obj.dimension.y);
+		type = "collisionZone";
 	}
 	@Override
 	public void render(SpriteBatch batch)

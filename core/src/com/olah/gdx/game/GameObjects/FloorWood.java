@@ -8,7 +8,8 @@ import com.olah.gdx.game.Assets;
  * The class that handles the logic behind Wood floor Game objects.
  * @author Brad Olah
  */
-public class FloorWood extends AbstractGameObject{
+public class FloorWood extends Surface
+{
 	private TextureRegion woodFloor;
 
 	public FloorWood()
@@ -16,8 +17,9 @@ public class FloorWood extends AbstractGameObject{
 		init();
 	}
 
-	private void init()
+	protected void init()
 	{
+		super.init();
 		dimension.set(1,1);
 		woodFloor = Assets.instance.levelDecoration.woodFloor;
 	}

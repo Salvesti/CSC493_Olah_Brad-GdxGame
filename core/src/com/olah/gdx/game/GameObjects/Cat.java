@@ -18,8 +18,6 @@ public class Cat extends AbstractGameObject
 {
 	public static final String TAG = Cat.class.getName();
 
-	private final float JUMP_TIME_MAX = 0.3f;
-	private final float JUMP_TIME_MIN = 0.1f;
 	public int numFootContacts;
 
 	public enum VIEW_DIRECTION{LEFT, RIGHT}
@@ -59,6 +57,7 @@ public class Cat extends AbstractGameObject
 		numFootContacts = 0;
 		//Particles
 		dustParticles.load(Gdx.files.internal("particles/dust.pfx"),Gdx.files.internal("particles"));
+		type = "player";
 	}
 
 	/**
