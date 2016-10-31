@@ -33,6 +33,7 @@ import com.olah.gdx.game.util.GamePreferences;
  */
 public class MenuScreen extends AbstractGameScreen
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = MenuScreen.class.getName();
 
 	private Stage stage;
@@ -303,6 +304,7 @@ public class MenuScreen extends AbstractGameScreen
 		selCharSkin.setItems(CharacterSkin.values());
 		selCharSkin.addListener(new ChangeListener()
 				{
+					@SuppressWarnings("unchecked")
 					@Override
 					public void changed(ChangeEvent event, Actor actor)
 					{
@@ -376,7 +378,7 @@ public class MenuScreen extends AbstractGameScreen
 	/**
 	 * What to do when the save button in the Options menu is clicked.
 	 */
-	private void onSaveClicked() 
+	private void onSaveClicked()
 	{
 		saveSettings();
 		onCancelClicked();
@@ -386,7 +388,7 @@ public class MenuScreen extends AbstractGameScreen
 	/**
 	 * What to do when the cancel button in the Options menu is clicked.
 	 */
-	private void onCancelClicked() 
+	private void onCancelClicked()
 	{
 		btnMenuPlay.setVisible(true);
 		btnMenuOptions.setVisible(true);

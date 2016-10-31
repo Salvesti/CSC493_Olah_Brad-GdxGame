@@ -96,11 +96,13 @@ public class Assets implements Disposable, AssetErrorListener
 	}
 
 	//Was @Override in the book. Was this actually supposed to be overridden?
+	@SuppressWarnings("rawtypes")
 	public void error(String filename, Class type, Throwable throwable)
 	{
 		Gdx.app.error(TAG, "Couldn't load asset '" + filename + "'", (Exception)throwable);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void error(AssetDescriptor asset, Throwable throwable)
 	{
@@ -275,7 +277,7 @@ public class Assets implements Disposable, AssetErrorListener
 			grass =atlas.findRegion("grass");
 		}
 	}
-	
+
 	public class AssetSounds
 	{
 		public final Sound jump;
@@ -288,11 +290,11 @@ public class Assets implements Disposable, AssetErrorListener
 			objectCollected = am.get("sounds/object_collected.wav", Sound.class);
 		}
 	}
-	
+
 	public class AssetMusic
 	{
 		public final Music song01;
-		
+
 		public AssetMusic(AssetManager am)
 		{
 			song01 = am.get("music/keith303_-_brand_new_highscore.mp3", Music.class);

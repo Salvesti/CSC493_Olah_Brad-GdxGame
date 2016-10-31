@@ -4,7 +4,6 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
 import com.olah.gdx.game.Screens.MenuScreen;
 import com.olah.gdx.game.util.GamePreferences;
 
@@ -14,6 +13,7 @@ import com.olah.gdx.game.util.GamePreferences;
  */
 public class CatGameMain extends Game
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = CatGameMain.class.getName();
 	/**
 	 * Starts the game on the menu screen

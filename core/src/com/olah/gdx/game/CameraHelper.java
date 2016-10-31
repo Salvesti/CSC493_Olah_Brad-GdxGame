@@ -11,6 +11,7 @@ import com.olah.gdx.game.GameObjects.AbstractGameObject;
  */
 public class CameraHelper
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = CameraHelper.class.getName();
 	private final float MAX_ZOOM_IN = 0.25f;
 	private final float MAX_ZOOM_OUT = 10.0f;
@@ -33,7 +34,7 @@ public class CameraHelper
 			return;
 		}
 		position.lerp(target.position, FOLLOW_SPEED * deltaTime);
-		
+
 		//Prevent camera from moving too far down.
 		position.y = Math.max(-1f, position.y);
 	}

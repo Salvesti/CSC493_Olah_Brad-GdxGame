@@ -25,9 +25,9 @@ public class DesktopLauncher
 			settings.maxHeight= 1024;
 			settings.duplicatePadding = false;
 			settings.debug = drawDebugOutline;
-			//TexturePacker.processIfModified(settings, "../core/assets/items", "../core/assets/images","items.pack");
-			//TexturePacker.processIfModified(settings, "../core/assets/tiles", "../core/assets/images","tiles.pack");
-			//TexturePacker.processIfModified(settings, "assets-raw/images-ui", "../core/assets/images","canyonbunny-ui.pack");
+			TexturePacker.processIfModified(settings, "../core/assets/items", "../core/assets/images","items.pack");
+			TexturePacker.processIfModified(settings, "../core/assets/tiles", "../core/assets/images","tiles.pack");
+			TexturePacker.processIfModified(settings, "assets-raw/images-ui", "../core/assets/images","canyonbunny-ui.pack");
 		}
 
 		//Sets the configurations for the desktop window.

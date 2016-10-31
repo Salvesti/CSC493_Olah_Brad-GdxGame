@@ -13,6 +13,7 @@ import com.olah.gdx.game.util.GamePreferences;
  */
 public class GameScreen extends AbstractGameScreen
 {
+	@SuppressWarnings("unused")
 	private static final String TAG = GameScreen.class.getName();
 
 	private WorldController worldController;

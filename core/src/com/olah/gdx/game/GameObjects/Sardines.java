@@ -2,9 +2,7 @@ package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.olah.gdx.game.Assets;
-import com.olah.gdx.game.util.Constants;
 
 /**
  * A class that handles the logic behind the sardine powerup
