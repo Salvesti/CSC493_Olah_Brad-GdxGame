@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -36,6 +38,8 @@ public class Assets implements Disposable, AssetErrorListener
 	public AssetScoreObject scoreObject;
 	public AssetLevelDecoration levelDecoration;
 	public AssetFonts fonts;
+	public AssetSounds sounds;
+	public AssetMusic music;
 
 	public void init(AssetManager assetManager)
 	{
@@ -46,6 +50,12 @@ public class Assets implements Disposable, AssetErrorListener
 		//Load texture atlas
 		assetManager.load(Constants.ITEM_ATLAS_OBJECTS,TextureAtlas.class);
 		assetManager.load(Constants.TILE_ATLAS_OBJECTS,TextureAtlas.class);
+		//Load sounds
+		assetManager.load("sounds/jump.wav",Sound.class);
+		assetManager.load("sounds/object_collected.wav", Sound.class);
+		assetManager.load("sounds/object_hit.wav", Sound.class);
+		//Load music
+		assetManager.load("music/keith303_-_brand_new_highscore.mp3", Music.class);
 		//Start loading assets and wait until finished
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: "+assetManager.getAssetNames().size);
@@ -75,6 +85,8 @@ public class Assets implements Disposable, AssetErrorListener
 		laserPointer = new AssetLaser(itemAtlas);
 		scoreObject = new AssetScoreObject(itemAtlas);
 		levelDecoration = new AssetLevelDecoration(tileAtlas);
+		sounds = new AssetSounds(assetManager);
+		music = new AssetMusic(assetManager);
 
 	}
 
@@ -261,6 +273,29 @@ public class Assets implements Disposable, AssetErrorListener
 			blackSpace = atlas.findRegion("outside_wall");
 			outsideWallGap =atlas.findRegion("outside_wall_gap");
 			grass =atlas.findRegion("grass");
+		}
+	}
+	
+	public class AssetSounds
+	{
+		public final Sound jump;
+		public final Sound objectHit;
+		public final Sound objectCollected;
+		public AssetSounds (AssetManager am)
+		{
+			jump = am.get("sounds/jump.wav", Sound.class);
+			objectHit = am.get("sounds/object_hit.wav", Sound.class);
+			objectCollected = am.get("sounds/object_collected.wav", Sound.class);
+		}
+	}
+	
+	public class AssetMusic
+	{
+		public final Music song01;
+		
+		public AssetMusic(AssetManager am)
+		{
+			song01 = am.get("music/keith303_-_brand_new_highscore.mp3", Music.class);
 		}
 	}
 

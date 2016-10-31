@@ -100,6 +100,7 @@ public class LevelContactListener implements ContactListener
 	{
 		if(object.getClass().equals(Sardines.class))
 		{
+			AudioManager.instance.play(Assets.instance.sounds.objectCollected);
 			Sardines obj = (Sardines) object;
 			worldController.score += obj.getScore();
 			level.cat.setSardinePowerup(true);
@@ -108,6 +109,7 @@ public class LevelContactListener implements ContactListener
 		}
 		if(object.getClass().equals(ScoreObject.class))
 		{
+			AudioManager.instance.play(Assets.instance.sounds.objectHit);
 			ScoreObject obj = (ScoreObject) object;
 			worldController.score += obj.getScore();
 			Gdx.app.log(TAG, "Score Object collected");

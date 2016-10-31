@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.olah.gdx.game.Assets;
+import com.olah.gdx.game.AudioManager;
 import com.olah.gdx.game.util.CharacterSkin;
 import com.olah.gdx.game.util.Constants;
 import com.olah.gdx.game.util.GamePreferences;
@@ -375,18 +376,22 @@ public class MenuScreen extends AbstractGameScreen
 	/**
 	 * What to do when the save button in the Options menu is clicked.
 	 */
-	private void onSaveClicked() {
+	private void onSaveClicked() 
+	{
 		saveSettings();
 		onCancelClicked();
+		AudioManager.instance.onSettingsUpdated();
 	}
 
 	/**
 	 * What to do when the cancel button in the Options menu is clicked.
 	 */
-	private void onCancelClicked() {
+	private void onCancelClicked() 
+	{
 		btnMenuPlay.setVisible(true);
 		btnMenuOptions.setVisible(true);
 		winOptions.setVisible(false);
+		AudioManager.instance.onSettingsUpdated();
 	}
 
 	/**
