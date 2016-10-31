@@ -77,16 +77,16 @@ public class Level
 	//decoration
 
 
-	public Level (String filename)
+	public Level (String foreground, String background)
 	{
-		init(filename);
+		init(foreground,background);
 	}
 
 	/**
-	 * Initializes the level based on given file name.
-	 * @param filename
+	 * Initializes the level based on the given foreground and background.
+	 * @param foreground
 	 */
-	private void init(String filename)
+	private void init(String foreground,String background)
 	{
 		//Player
 		cat = null;
@@ -102,8 +102,19 @@ public class Level
 		floorWood = new Array<FloorWood>();
 		collisionZones = new Array<CollisionZone>();
 
+		//Builds the two layers.
+		buildFromLayer(foreground);
+		buildFromLayer(background);
+	}
+
+	/**
+	 * Draws objects based on the image passed into the method.
+	 * @param layer
+	 */
+	private void buildFromLayer(String layer)
+	{
 		//load image file that represents the level data
-		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
+		Pixmap pixmap = new Pixmap(Gdx.files.internal(layer));
 		//scan pixels from top-left to bottom-right
 		for(int pixelY = 0; pixelY < pixmap.getHeight();pixelY++)
 		{
@@ -174,8 +185,6 @@ public class Level
 				}
 				else if(BLOCK_TYPE.FLOOR_WOOD.sameColor(currentPixel))
 				{
-
-
 					obj  = new FloorWood();
 					obj.position.set(pixelX,baseHeight*obj.dimension.y);
 					floorWood.add((FloorWood)obj);
@@ -218,7 +227,7 @@ public class Level
 		}
 		//Free memory
 		pixmap.dispose();
-		Gdx.app.debug(TAG, "Level '"+filename+"' loaded");
+		Gdx.app.debug(TAG, "Level '"+layer+"' loaded");
 	}
 
 	/**

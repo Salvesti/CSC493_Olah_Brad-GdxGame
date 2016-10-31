@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
  * A class that handles the logic behind collision zones.
- * @author bo3040
+ * @author Brad Olah
  *
  */
 public class CollisionZone extends AbstractGameObject
@@ -23,6 +23,10 @@ public class CollisionZone extends AbstractGameObject
 		bounds.set(0, 0, dimension.x,obj.dimension.y);
 		type = "collisionZone";
 	}
+
+	/**
+	 * Does not have graphics so does not draw anything.
+	 */
 	@Override
 	public void render(SpriteBatch batch)
 	{

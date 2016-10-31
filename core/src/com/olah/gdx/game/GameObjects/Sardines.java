@@ -6,7 +6,7 @@ import com.olah.gdx.game.Assets;
 
 /**
  * A class that handles the logic behind the sardine powerup
- * @author bo3040
+ * @author Brad Olah
  *
  */
 public class Sardines extends AbstractGameObject

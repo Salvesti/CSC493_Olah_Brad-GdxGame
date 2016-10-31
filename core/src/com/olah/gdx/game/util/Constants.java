@@ -23,9 +23,9 @@ public class Constants
 	public static final String ITEM_ATLAS_OBJECTS = "images/items.pack.atlas";
 	//Location of description file for time objects
 	public static final String TILE_ATLAS_OBJECTS = "images/tiles.pack.atlas";
-	//Location of image file for level 01
-	public static final String LEVEL_01 = "levels/level-01.png";
-
+	//Location of image files for level 01
+	public static final String LEVEL_01F = "levels/level-01.png";
+	public static final String LEVEL_01B = "levels/level-01b.png";
 	//Starting time limit
 	public static final int START_TIME = 21;
 
@@ -42,8 +42,6 @@ public class Constants
 	public static final String SKIN_CANYONBUNNY_UI = "images/canyonbunny-ui.json";
 	public static final String PREFERENCES = "canyonbunny.prefs";
 
-	public static final int JUMP_FORCE = 40;
-
 	//Collision categories.
 	public static final short CATEGORY_PLAYER = 0x0001;
 	public static final short CATEGORY_SCOREOBJECT_LIVE = 0x0002;
@@ -54,6 +52,8 @@ public class Constants
 	public static final short MASK_SCOREOBJECT_LIVE = CATEGORY_PLAYER|CATEGORY_SCOREOBJECT_LIVE|CATEGORY_SCENERY;
 	public static final short MASK_SCOREOBJECT_DEAD = 0; //Collides with nothing.
 	public static final short MASK_SCENERY = -1; //Collides with everything.
+
+
 
 
 }
