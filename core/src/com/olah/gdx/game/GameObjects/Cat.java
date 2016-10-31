@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.olah.gdx.game.Assets;
 import com.olah.gdx.game.util.Constants;
 import com.olah.gdx.game.util.GamePreferences;
@@ -126,7 +127,28 @@ public class Cat extends AbstractGameObject
 		dustParticles.update(deltaTime);
 	}
 
-
+	/**
+	 * Moves the cat based on the given direction.
+	 * @param direction
+	 */
+	public void moveCat(String direction)
+	{
+		float speedMod = 1;
+		if(hasSardinePowerup == true)
+		{
+			speedMod = 2;
+		}
+		if(direction == "Left")
+		{
+			body.applyLinearImpulse(-10,0*speedMod,position.x,position.y,true);
+			scale = new Vector2(1,1);
+		}
+		if(direction == "Right")
+		{
+			body.applyLinearImpulse(10*speedMod,0,position.x,position.y,true);
+			scale = new Vector2(-1,1);
+		}
+	}
 	/**
 	 * Updates the cats X motion based on deltaTime.
 	 * TODO Determine if this is needed, or if movement should be moved to here.

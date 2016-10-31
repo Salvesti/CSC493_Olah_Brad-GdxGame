@@ -242,12 +242,10 @@ public class WorldController extends InputAdapter
 			//Player movement
 			if((Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
 			{
-				level.cat.body.applyLinearImpulse(-10,0,level.cat.position.x,level.cat.position.y,true);
-				level.cat.scale = new Vector2(1,1);
+				level.cat.moveCat("Left");
 			}else if((Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
 			{
-				level.cat.body.applyLinearImpulse(10,0,level.cat.position.x,level.cat.position.y,true);
-				level.cat.scale = new Vector2(-1,1);
+				level.cat.moveCat("Right");
 			}
 		}
 
