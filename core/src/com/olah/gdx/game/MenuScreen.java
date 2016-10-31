@@ -326,15 +326,19 @@ public class MenuScreen extends AbstractGameScreen
 		return tbl;
 	}
 
-	private void onSaveClicked() {
+	private void onSaveClicked() 
+	{
 		saveSettings();
 		onCancelClicked();
+		AudioManager.instance.onSettingsUpdated();
 	}
 
-	private void onCancelClicked() {
+	private void onCancelClicked() 
+	{
 		btnMenuPlay.setVisible(true);
 		btnMenuOptions.setVisible(true);
 		winOptions.setVisible(false);
+		AudioManager.instance.onSettingsUpdated();
 	}
 
 	private void onPlayClicked()

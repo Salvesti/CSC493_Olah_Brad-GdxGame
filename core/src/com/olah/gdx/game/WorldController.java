@@ -75,6 +75,7 @@ public class WorldController extends InputAdapter
 		cameraHelper.update(deltaTime);
 		if(!isGameOver()&&isPlayerInWater())
 		{
+			AudioManager.instance.play(Assets.instance.sounds.liveLost);
 			lives --;
 			if (isGameOver())
 			{
@@ -261,6 +262,7 @@ public class WorldController extends InputAdapter
 	private void onCollisionBunnyHeadWithGoldCoin(GoldCoin goldCoin)
 	{
 		goldCoin.collected = true;
+		AudioManager.instance.play(Assets.instance.sounds.pickupCoin);
 		score += goldCoin.getScore();
 		Gdx.app.log(TAG, "Gold coin collected");
 	}
@@ -271,6 +273,7 @@ public class WorldController extends InputAdapter
 	private void onCollisionBunnyHeadWithFeather(Feather feather)
 	{
 		feather.collected = true;
+		AudioManager.instance.play(Assets.instance.sounds.pickupFeather);
 		score += feather.getScore();
 		level.bunnyHead.setFeatherPowerup(true);
 		Gdx.app.log(TAG, "Feather collected");
