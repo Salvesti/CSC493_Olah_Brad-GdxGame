@@ -8,11 +8,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
+import com.olah.gdx.game.GameObjects.LaserPointer;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
 import com.olah.gdx.game.Screens.MenuScreen;
@@ -153,6 +155,27 @@ public class WorldController extends InputAdapter
 			body.createFixture(fixtureDef).setUserData("collidableObject");
 			polygonShape.dispose();
 		}
+		//Laser Pointers
+		for(LaserPointer laser : level.laserPointers)
+		{
+			BodyDef bodyDef = new BodyDef();
+			bodyDef.type = BodyType.KinematicBody;
+			bodyDef.position.set(laser.position);
+			Body body = b2World.createBody(bodyDef);
+			body.setUserData(laser);
+			laser.body = body;
+			CircleShape circleShape = new CircleShape();
+			circleShape.setPosition(origin);
+			circleShape.setRadius(.2f);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = circleShape;
+			fixtureDef.density = 2;
+			//Sets what the fixture can collide with.
+			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
+			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
+			body.createFixture(fixtureDef).setUserData("collidableObject");
+			circleShape.dispose();
+		}
 		//Player Cat
 		Cat cat = level.cat;
 		BodyDef catBody = new BodyDef();
@@ -165,11 +188,11 @@ public class WorldController extends InputAdapter
 		cat.body = body;
 		PolygonShape polygonShape = new PolygonShape();
 		origin.x = cat.bounds.width/2.0f;
-		origin.y = (cat.bounds.height/2.0f)-.4f;
-		polygonShape.setAsBox(cat.bounds.width/2.2f,0.6f,origin,0);
+		origin.y = (cat.bounds.height/2.0f)-.2f;
+		polygonShape.setAsBox(cat.bounds.width/2f,.8f,origin,0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
-		fixtureDef.density = 30;
+		fixtureDef.density = 20;
 		fixtureDef.friction = 0.5f;
 		//Sets what the fixture can collide with.
 		fixtureDef.filter.categoryBits = Constants.CATEGORY_PLAYER;
@@ -255,7 +278,7 @@ public class WorldController extends InputAdapter
 			//If the cat is not in contact with a surface it can jump
 			if(level.cat.numFootContacts > 0)
 			{
-				level.cat.body.applyLinearImpulse(0,600,level.cat.position.x,level.cat.position.y,true);
+				level.cat.jump();
 			}
 		}
 	}

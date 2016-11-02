@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.olah.gdx.game.Assets;
+import com.olah.gdx.game.AudioManager;
 import com.olah.gdx.game.util.Constants;
 import com.olah.gdx.game.util.GamePreferences;
 import com.olah.gdx.game.util.CharacterSkin;
@@ -27,7 +28,9 @@ public class Cat extends AbstractGameObject
 
 	public VIEW_DIRECTION viewDirection;
 	public boolean hasSardinePowerup;
+	public boolean hitLaserPointer;
 	public float timeLeftSardinePowerup;
+	public float timeLeftLaserPointer;
 	public ParticleEffect dustParticles = new ParticleEffect();
 
 	public Cat()
@@ -55,6 +58,8 @@ public class Cat extends AbstractGameObject
 		//Powerups
 		hasSardinePowerup = false;
 		timeLeftSardinePowerup = 0;
+		hitLaserPointer = false;
+		timeLeftLaserPointer = 0;
 		numFootContacts = 0;
 		//Particles
 		dustParticles.load(Gdx.files.internal("particles/dust.pfx"),Gdx.files.internal("particles"));
@@ -75,12 +80,34 @@ public class Cat extends AbstractGameObject
 	}
 
 	/**
+	 * Toggles the laser pointer
+	 * @param pickedUp
+	 */
+	public void setLaserPointer(boolean pickedUp)
+	{
+		hitLaserPointer = pickedUp;
+		if(pickedUp)
+		{
+			timeLeftLaserPointer = Constants.ITEM_LASER_POINTER_DURATION;
+		}
+	}
+
+	/**
 	 * Checks to see if the sardine powerup is active
 	 * @return
 	 */
 	public boolean hasSardinePowerup()
 	{
 		return hasSardinePowerup && timeLeftSardinePowerup > 0;
+	}
+
+	/**
+	 * Checks to see if the laser pointer was hit
+	 * @return
+	 */
+	public boolean hitLaserPointer()
+	{
+		return hitLaserPointer && timeLeftLaserPointer > 0;
 	}
 
 	/**
@@ -95,6 +122,18 @@ public class Cat extends AbstractGameObject
 		{
 			viewDirection = velocity.x <0 ? VIEW_DIRECTION.RIGHT : VIEW_DIRECTION.LEFT;
 		}
+		//Counts down laser pointer time if there is any.
+		if(timeLeftLaserPointer > 0)
+		{
+			timeLeftLaserPointer -= deltaTime;
+			if(timeLeftLaserPointer < 0)
+			{
+				//disable laser pointer
+				timeLeftLaserPointer = 0;
+				setLaserPointer(false);
+			}
+		}
+		//Counts down sardine time if there is any.
 		if(timeLeftSardinePowerup > 0)
 		{
 			timeLeftSardinePowerup -= deltaTime;
@@ -178,6 +217,12 @@ public class Cat extends AbstractGameObject
 		//Make sure the object's velocity does not exceed the
 		//positive or negative terminal velocity
 		velocity.x = MathUtils.clamp(velocity.x, -terminalVelocity.x*speedMod, terminalVelocity.x*speedMod);
+	}
+
+	public void jump()
+	{
+		AudioManager.instance.play(Assets.instance.sounds.jump);
+		body.applyLinearImpulse(0,600,position.x,position.y,true);
 	}
 
 	/**

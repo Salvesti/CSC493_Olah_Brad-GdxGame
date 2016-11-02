@@ -31,6 +31,8 @@ public class Constants
 
 	//The time in seconds the Sardines lasts for
 	public static final float ITEM_SARDINES_POWERUP_DURATION = 9;
+	//The time in seconds the laser pointer lasts for
+	public static final float ITEM_LASER_POINTER_DURATION = 5;
 
 	public static final float TIME_DELAY_GAME_OVER = 3;
 

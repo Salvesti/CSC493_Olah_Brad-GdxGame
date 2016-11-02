@@ -14,6 +14,7 @@ import com.olah.gdx.game.GameObjects.BackWallWindow;
 import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.FloorWood;
+import com.olah.gdx.game.GameObjects.LaserPointer;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
 
@@ -41,7 +42,8 @@ public class Level
 		WALL_GAP(87,0,127), //Purple
 		PLAYER_SPAWNPOINT(34,177,76), //Green
 		ITEM_SARDINE(237,28,36), //Red
-		ITEM_SCORE_OBJECT(0,162,232); //Light blue
+		ITEM_SCORE_OBJECT(0,162,232), //Light blue
+		ITEM_LASER_POINTER(255,128,0);//Orange
 
 		private int color;
 		private BLOCK_TYPE (int r, int g, int b)
@@ -64,6 +66,7 @@ public class Level
 	public Cat cat;
 	public Array<Sardines> sardines;
 	public Array<ScoreObject> scoreObjects;
+	public Array<LaserPointer> laserPointers;
 	public Array<FloorTable> floorTables;
 	public Array<FloorGrass> floorGrass;
 	public Array<FloorWood> floorWood;
@@ -93,6 +96,7 @@ public class Level
 		//objects
 		sardines = new Array<Sardines>();
 		scoreObjects = new Array<ScoreObject>();
+		laserPointers = new Array<LaserPointer>();
 		floorTables = new Array<FloorTable>();
 		floorGrass = new Array<FloorGrass>();
 		wallBlack = new Array<WallBlack>();
@@ -213,6 +217,11 @@ public class Level
 					obj = new ScoreObject();
 					obj.position.set(pixelX,baseHeight * obj.dimension.y);
 					scoreObjects.add((ScoreObject)obj);
+				}else if(BLOCK_TYPE.ITEM_LASER_POINTER.sameColor(currentPixel))
+				{
+					obj = new LaserPointer();
+					obj.position.set(pixelX,baseHeight * obj.dimension.y);
+					laserPointers.add((LaserPointer)obj);
 				}
 				//Unknown object/pixel color
 				else
@@ -281,6 +290,11 @@ public class Level
 		for(ScoreObject scoreObject : scoreObjects)
 		{
 			scoreObject.render(batch);
+		}
+		//Draw Laser Pointer objects
+		for(LaserPointer laser : laserPointers)
+		{
+			laser.render(batch);
 		}
 		//Draw player
 		cat.render(batch);
