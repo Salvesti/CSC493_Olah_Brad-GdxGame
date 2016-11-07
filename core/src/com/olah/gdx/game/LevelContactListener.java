@@ -7,6 +7,7 @@ import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.olah.gdx.game.GameObjects.AbstractGameObject;
+import com.olah.gdx.game.GameObjects.LaserPointer;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
 import com.olah.gdx.game.util.Constants;
@@ -90,6 +91,30 @@ public class LevelContactListener implements ContactListener
 			//Updates the score based on what the collidableObject is
 			updateScore(objectB);
 		}
+		//If objectA is the collidableObject finds its type and performs appropriate logic.
+		if(objectAType.equals("laserPointer") && objectBType.equals("player"))
+		{
+			LaserPointer laser = (LaserPointer)objectA;
+			//Changes the filter mask that the object uses.
+			Filter filter = new Filter();
+			filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
+			contact.getFixtureB().setFilterData(filter);
+			laser.setDisabled(true);
+			level.cat.setLaserPointer(true);
+			Gdx.app.log(TAG, "Hit Laser Pointer");
+		}
+		//If objectB is the collidableObject finds its type and performs appropriate logic.
+		if(objectBType.equals("laserPointer") && objectAType.equals("player"))
+		{
+			LaserPointer laser = (LaserPointer)objectB;
+			//Changes the filter mask that the object uses.
+			Filter filter = new Filter();
+			filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
+			contact.getFixtureB().setFilterData(filter);
+			laser.setDisabled(true);
+			level.cat.setLaserPointer(true);
+			Gdx.app.log(TAG, "Hit Laser Pointer");
+		}
 	}
 
 	/**
@@ -114,6 +139,7 @@ public class LevelContactListener implements ContactListener
 			worldController.score += obj.getScore();
 			Gdx.app.log(TAG, "Score Object collected");
 		}
+
 	}
 
 	@Override

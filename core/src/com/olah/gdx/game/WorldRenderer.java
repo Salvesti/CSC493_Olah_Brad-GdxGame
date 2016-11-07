@@ -72,6 +72,7 @@ public class WorldRenderer implements Disposable
 			renderFpsCounter(batch);
 		}
 		renderGuiGameOverMessage(batch);
+		renderGuiDelayedMessage(batch);
 		batch.end();
 	}
 
@@ -90,6 +91,7 @@ public class WorldRenderer implements Disposable
 			b2dDebugRenderer.render(worldController.b2World, camera.combined);
 		}
 	}
+
 	/**
 	 * Renders the game over message
 	 */
@@ -104,7 +106,23 @@ public class WorldRenderer implements Disposable
 			fontGameOver.draw(batch, "GAME OVER", x, y, 0, Align.center, false);
 			fontGameOver.setColor(1,1,1,1);
 		}
+	}
 
+	/**
+	 * Renders the delayed message
+	 */
+	private void renderGuiDelayedMessage(SpriteBatch batch)
+	{
+		float x = cameraGUI.viewportWidth/2;
+		float y = cameraGUI.viewportHeight/3;
+		if(worldController.level.cat.hitLaserPointer)
+		{
+			BitmapFont fontDelayed = Assets.instance.fonts.defaultBig;
+			fontDelayed.setColor(1,0,0,1);
+			fontDelayed.draw(batch, "DELAYED", x, y, 0, Align.center, false);
+			fontDelayed.setColor(1,1,1,1);
+			Assets.instance.fonts.defaultBig.draw(batch, "Time: "+ (int)worldController.level.cat.timeLeftLaserPointer, x, y+40, 0, Align.center,false);
+		}
 	}
 
 	/**
@@ -155,7 +173,6 @@ public class WorldRenderer implements Disposable
 		float x = -15;
 		float y = 20;
 		Assets.instance.fonts.defaultBig.draw(batch, "Score: "+ (int)worldController.scoreVisual, x+75, y+37);
-
 	}
 
 	/**

@@ -12,6 +12,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.olah.gdx.game.GameObjects.AbstractGameObject;
 import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.LaserPointer;
@@ -39,6 +41,8 @@ public class WorldController extends InputAdapter
 	public World b2World;
 	public LevelContactListener levelContactChecker;
 	public float scoreVisual;
+
+	private Array objectsToRemove;
 
 	public WorldController(Game game)
 	{
@@ -103,6 +107,7 @@ public class WorldController extends InputAdapter
 			**/
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = edgeShape;
+			fixtureDef.friction = .1f;
 			//Sets what the fixture can collide with.
 			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCENERY;
 			fixtureDef.filter.maskBits = Constants.MASK_SCENERY;
@@ -170,6 +175,7 @@ public class WorldController extends InputAdapter
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = circleShape;
 			fixtureDef.density = 2;
+			fixtureDef.restitution= 0.2f;
 			//Sets what the fixture can collide with.
 			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
 			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
@@ -260,23 +266,22 @@ public class WorldController extends InputAdapter
 	 */
 	private void handleInputGame(float deltaTime)
 	{
-		if(cameraHelper.hasTarget(level.cat))
+		if(level.cat.hitLaserPointer == false)
 		{
-			//Player movement
-			if((Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
+			if(cameraHelper.hasTarget(level.cat))
 			{
-				level.cat.moveCat("Left");
-			}else if((Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
-			{
-				level.cat.moveCat("Right");
+				//Player movement
+				if((Gdx.input.isKeyPressed(Keys.LEFT) || Gdx.input.isKeyPressed(Keys.A)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
+				{
+					level.cat.moveCat("Left");
+				}else if((Gdx.input.isKeyPressed(Keys.RIGHT) || Gdx.input.isKeyPressed(Keys.D)) && (level.cat.velocity.x != level.cat.terminalVelocity.x))
+				{
+					level.cat.moveCat("Right");
+				}
 			}
-		}
 
-		//Cat Jump
-		if(Gdx.input.isKeyJustPressed(Keys.SPACE))
-		{
-			//If the cat is not in contact with a surface it can jump
-			if(level.cat.numFootContacts > 0)
+			//Cat Jump
+			if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 			{
 				level.cat.jump();
 			}

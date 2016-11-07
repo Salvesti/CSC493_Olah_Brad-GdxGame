@@ -133,6 +133,7 @@ public class Cat extends AbstractGameObject
 				setLaserPointer(false);
 			}
 		}
+
 		//Counts down sardine time if there is any.
 		if(timeLeftSardinePowerup > 0)
 		{
@@ -179,7 +180,7 @@ public class Cat extends AbstractGameObject
 		}
 		if(direction == "Left")
 		{
-			body.applyLinearImpulse(-10,0*speedMod,position.x,position.y,true);
+			body.applyLinearImpulse(-10*speedMod,0,position.x,position.y,true);
 			scale = new Vector2(1,1);
 		}
 		if(direction == "Right")
@@ -221,8 +222,12 @@ public class Cat extends AbstractGameObject
 
 	public void jump()
 	{
-		AudioManager.instance.play(Assets.instance.sounds.jump);
-		body.applyLinearImpulse(0,600,position.x,position.y,true);
+		//If the cat is not in contact with a surface it can jump
+		if(numFootContacts > 0)
+		{
+			AudioManager.instance.play(Assets.instance.sounds.jump);
+			body.applyLinearImpulse(0,600,position.x,position.y,true);
+		}
 	}
 
 	/**

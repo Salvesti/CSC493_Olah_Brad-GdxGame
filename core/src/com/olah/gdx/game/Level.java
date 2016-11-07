@@ -315,6 +315,10 @@ public class Level
 		{
 			scoreObject.update(deltaTime);
 		}
+		for(LaserPointer laser: laserPointers)
+		{
+			laser.update(deltaTime);
+		}
 
 	}
 

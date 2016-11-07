@@ -33,6 +33,8 @@ public class Constants
 	public static final float ITEM_SARDINES_POWERUP_DURATION = 9;
 	//The time in seconds the laser pointer lasts for
 	public static final float ITEM_LASER_POINTER_DURATION = 5;
+	//The time is seconds lasers are disabled for after collision.
+	public static final float ITEM_LASER_POINTER_TIME_LEFT_DISABLED = 8;
 
 	public static final float TIME_DELAY_GAME_OVER = 3;
 
@@ -54,6 +56,8 @@ public class Constants
 	public static final short MASK_SCOREOBJECT_LIVE = CATEGORY_PLAYER|CATEGORY_SCOREOBJECT_LIVE|CATEGORY_SCENERY;
 	public static final short MASK_SCOREOBJECT_DEAD = 0; //Collides with nothing.
 	public static final short MASK_SCENERY = -1; //Collides with everything.
+
+
 
 
 
