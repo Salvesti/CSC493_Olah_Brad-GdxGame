@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 
 /**
  * An Abstract class do be extended upon by other game objects.
@@ -11,6 +12,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public abstract class AbstractGameObject 
 {
+	public Body body;
+	
 	public Vector2 velocity;
 	public Vector2 terminalVelocity;
 	public Vector2 friction;
@@ -39,11 +42,20 @@ public abstract class AbstractGameObject
 	
 	public void update(float deltaTime)
 	{
-		updateMotionX(deltaTime);
-		updateMotionY(deltaTime);
-		//Move to new position
-		position.x += velocity.x * deltaTime;
-		position.y += velocity.y * deltaTime;
+		if(body == null)
+		{
+			updateMotionX(deltaTime);
+			updateMotionY(deltaTime);	
+			//Move to new position
+			position.x += velocity.x * deltaTime;
+			position.y += velocity.y * deltaTime;
+		}
+		else
+		{
+			position.set(body.getPosition());
+			rotation = body.getAngle() * MathUtils.radiansToDegrees;
+		}
+	
 		
 	}
 	

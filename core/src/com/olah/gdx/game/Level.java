@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.olah.gdx.game.GameObjects.AbstractGameObject;
 import com.olah.gdx.game.GameObjects.BunnyHead;
+import com.olah.gdx.game.GameObjects.Carrot;
 import com.olah.gdx.game.GameObjects.Clouds;
 import com.olah.gdx.game.GameObjects.Feather;
+import com.olah.gdx.game.GameObjects.Goal;
 import com.olah.gdx.game.GameObjects.GoldCoin;
 import com.olah.gdx.game.GameObjects.Mountains;
 import com.olah.gdx.game.GameObjects.Rock;
@@ -23,7 +25,8 @@ public class Level
 		ROCK(0,0,0), //Black
 		PLAYER_SPAWNPOINT(34,177,76), //Green
 		ITEM_FEATHER(237,28,36), //Red
-		ITEM_GOLD_COIN(0,162,232); //Light blue
+		ITEM_GOLD_COIN(0,162,232), //Light blue
+		GOAL(0,255,0);//Lime Green
 	
 		private int color;
 		private BLOCK_TYPE (int r, int g, int b)
@@ -47,6 +50,8 @@ public class Level
 	public BunnyHead bunnyHead;
 	public Array<GoldCoin> goldCoins;
 	public Array<Feather> feathers;
+	public Array<Carrot> carrots;
+	public Goal goal;
 
 	//decoration
 	public Clouds clouds;
@@ -66,6 +71,7 @@ public class Level
 		rocks = new Array<Rock>();
 		goldCoins = new Array<GoldCoin>();
 		feathers = new Array<Feather>();
+		carrots = new Array<Carrot>();
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(filename));
 		//scan pixels from top-left to bottom-right
@@ -129,6 +135,14 @@ public class Level
 					obj.position.set(pixelX,baseHeight * obj.dimension.y + offsetHeight);
 					goldCoins.add((GoldCoin)obj);
 				}
+				//Goal
+				else if(BLOCK_TYPE.GOAL.sameColor(currentPixel))
+				{
+					obj = new Goal();
+					offsetHeight = -4.0f;
+					obj.position.set(pixelX, baseHeight + offsetHeight);
+					goal = (Goal)obj;
+				}
 				//Unknown object/pixel color
 				else
 				{
@@ -177,6 +191,13 @@ public class Level
 		{
 			feather.render(batch);
 		}
+		//Draw Carrots
+		for(Carrot carrot : carrots)
+		{
+			carrot.render(batch);
+		}
+		//Draw the goal
+		goal.render(batch);
 		//Draw player character
 		bunnyHead.render(batch);
 		
@@ -205,6 +226,10 @@ public class Level
 		for(Feather feather : feathers)
 		{
 			feather.update(deltaTime);
+		}
+		for(Carrot carrot : carrots)
+		{
+			carrot.update(deltaTime);
 		}
 		clouds.update(deltaTime);
 	}
