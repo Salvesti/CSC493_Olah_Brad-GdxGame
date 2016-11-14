@@ -36,13 +36,12 @@ public class WorldController extends InputAdapter
 	public CameraHelper cameraHelper;
 	public Level level;
 	public float time;
+	public float timeRunning;
 	public int score;
 	private Float timeLeftGameOverDelay;
 	public World b2World;
 	public LevelContactListener levelContactChecker;
 	public float scoreVisual;
-
-	private Array objectsToRemove;
 
 	public WorldController(Game game)
 	{
@@ -58,6 +57,7 @@ public class WorldController extends InputAdapter
 		Gdx.input.setInputProcessor(this);
 		cameraHelper = new CameraHelper();
 		time = Constants.START_TIME;
+		timeRunning = 0;
 		timeLeftGameOverDelay = 0f;
 		initLevel();
 		levelContactChecker = new LevelContactListener(this);
@@ -195,7 +195,7 @@ public class WorldController extends InputAdapter
 		PolygonShape polygonShape = new PolygonShape();
 		origin.x = cat.bounds.width/2.0f;
 		origin.y = (cat.bounds.height/2.0f)-.2f;
-		polygonShape.setAsBox(cat.bounds.width/2f,.8f,origin,0);
+		polygonShape.setAsBox(cat.bounds.width/2.1f,.8f,origin,0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
 		fixtureDef.density = 20;
@@ -222,6 +222,7 @@ public class WorldController extends InputAdapter
 	{
 		//TODO add object cleanup.
 		handleDebugInput(deltaTime);
+		timeRunning += deltaTime;
 		if(isGameOver())
 		{
 			timeLeftGameOverDelay -= deltaTime;

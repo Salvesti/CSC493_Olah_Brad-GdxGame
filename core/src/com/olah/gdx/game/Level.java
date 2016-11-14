@@ -107,8 +107,10 @@ public class Level
 		collisionZones = new Array<CollisionZone>();
 
 		//Builds the two layers.
-		buildFromLayer(foreground);
 		buildFromLayer(background);
+		buildFromLayer(foreground);
+
+
 	}
 
 	/**
@@ -251,11 +253,6 @@ public class Level
 		{
 			grass.render(batch);
 		}
-		//Draw BlackSpace
-		for(WallBlack space : wallBlack)
-		{
-			space.render(batch);
-		}
 		//Draw gaps
 		for(BackWallGap gap : wallGaps)
 		{
@@ -281,6 +278,11 @@ public class Level
 		{
 			table.render(batch);
 		}
+		//Draw BlackSpace
+		for(WallBlack space : wallBlack)
+		{
+			space.render(batch);
+		}
 		//Draw Sardines
 		for(Sardines sardine : sardines)
 		{
@@ -296,6 +298,7 @@ public class Level
 		{
 			laser.render(batch);
 		}
+
 		//Draw player
 		cat.render(batch);
 	}

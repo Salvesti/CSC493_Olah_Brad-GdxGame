@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
@@ -22,7 +24,6 @@ public class WorldRenderer implements Disposable
 	private WorldController worldController;
 	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
 	private Box2DDebugRenderer b2dDebugRenderer;
-
 	public WorldRenderer (WorldController worldController)
 	{
 		this.worldController = worldController;
@@ -73,6 +74,7 @@ public class WorldRenderer implements Disposable
 		}
 		renderGuiGameOverMessage(batch);
 		renderGuiDelayedMessage(batch);
+		//renderInfo(batch);
 		batch.end();
 	}
 
@@ -174,6 +176,26 @@ public class WorldRenderer implements Disposable
 		float y = 20;
 		Assets.instance.fonts.defaultBig.draw(batch, "Score: "+ (int)worldController.scoreVisual, x+75, y+37);
 	}
+
+
+//	private void renderInfo(SpriteBatch batch)
+//	{
+//		float x = cameraGUI.viewportWidth/2;
+//		float y = cameraGUI.viewportHeight/5;
+//		TextureRegion reg = null;
+//		if(worldController.timeRunning < 10)
+//		{
+//			reg = Assets.instance.laserPointer.laser;
+//			batch.draw(reg, x, y);
+//			y += 40;
+//			reg = Assets.instance.sardines.sardines;
+//			batch.draw(reg, x, y,reg.getRegionHeight(),reg.getRegionWidth());
+//			batch.draw(reg, x, y, reg.getRegionHeight()/2, reg.getRegionWidth()/2);
+//			y += 40;
+//			reg = Assets.instance.scoreObject.random();
+//			batch.draw(reg, x, y,reg.getRegionHeight(),reg.getRegionWidth());
+//		}
+//	}
 
 	/**
 	 * Resizes the window
