@@ -4,6 +4,104 @@ size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+anim_bunny_copter
+  rotate: false
+  xy: 412, 265
+  size: 125, 112
+  orig: 125, 112
+  offset: 0, 0
+  index: 1
+anim_bunny_copter
+  rotate: false
+  xy: 592, 345
+  size: 125, 112
+  orig: 125, 112
+  offset: 0, 0
+  index: 2
+anim_bunny_copter
+  rotate: false
+  xy: 719, 345
+  size: 125, 112
+  orig: 125, 112
+  offset: 0, 0
+  index: 3
+anim_bunny_copter
+  rotate: false
+  xy: 846, 345
+  size: 125, 112
+  orig: 125, 112
+  offset: 0, 0
+  index: 4
+anim_bunny_copter
+  rotate: false
+  xy: 412, 151
+  size: 125, 112
+  orig: 125, 112
+  offset: 0, 0
+  index: 5
+anim_bunny_normal
+  rotate: false
+  xy: 596, 459
+  size: 130, 85
+  orig: 130, 85
+  offset: 0, 0
+  index: 1
+anim_bunny_normal
+  rotate: false
+  xy: 728, 459
+  size: 130, 85
+  orig: 130, 85
+  offset: 0, 0
+  index: 2
+anim_bunny_normal
+  rotate: false
+  xy: 860, 459
+  size: 130, 85
+  orig: 130, 85
+  offset: 0, 0
+  index: 3
+anim_gold_coin
+  rotate: false
+  xy: 539, 279
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: 1
+anim_gold_coin
+  rotate: false
+  xy: 539, 221
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: 2
+anim_gold_coin
+  rotate: false
+  xy: 539, 163
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: 3
+anim_gold_coin
+  rotate: false
+  xy: 597, 287
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: 4
+anim_gold_coin
+  rotate: false
+  xy: 597, 229
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: 5
+anim_gold_coin
+  rotate: false
+  xy: 655, 287
+  size: 56, 56
+  orig: 56, 56
+  offset: 0, 0
+  index: 6
 badlogic
   rotate: false
   xy: 1, 288
@@ -13,7 +111,7 @@ badlogic
   index: -1
 bunny_head
   rotate: false
-  xy: 596, 462
+  xy: 237, 104
   size: 122, 82
   orig: 122, 82
   offset: 0, 0
@@ -55,14 +153,14 @@ goal
   index: -1
 item_feather
   rotate: false
-  xy: 720, 504
+  xy: 539, 337
   size: 46, 40
   orig: 46, 40
   offset: 0, 0
   index: -1
 item_gold_coin
   rotate: false
-  xy: 412, 321
+  xy: 597, 171
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
