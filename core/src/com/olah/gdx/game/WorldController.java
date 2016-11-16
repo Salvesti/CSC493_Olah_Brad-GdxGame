@@ -71,7 +71,7 @@ public class WorldController extends InputAdapter
 	{
 		score = 0;
 		scoreVisual = 0;
-		level = new Level(Constants.LEVEL_01F,Constants.LEVEL_01B);
+		level = new Level(Constants.ORIGINF,Constants.ORIGINB);
 		cameraHelper.setTarget(level.cat);
 		timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
 	}

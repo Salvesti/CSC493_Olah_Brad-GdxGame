@@ -26,6 +26,8 @@ public class Constants
 	//Location of image files for level 01
 	public static final String LEVEL_01F = "levels/level-01.png";
 	public static final String LEVEL_01B = "levels/level-01b.png";
+	public static final String ORIGINF = "levels/origin.png";
+	public static final String ORIGINB = "levels/originb.png";
 	//Starting time limit
 	public static final int START_TIME = 21;
 
@@ -56,6 +58,8 @@ public class Constants
 	public static final short MASK_SCOREOBJECT_LIVE = CATEGORY_PLAYER|CATEGORY_SCOREOBJECT_LIVE|CATEGORY_SCENERY;
 	public static final short MASK_SCOREOBJECT_DEAD = 0; //Collides with nothing.
 	public static final short MASK_SCENERY = -1; //Collides with everything.
+
+
 
 
 

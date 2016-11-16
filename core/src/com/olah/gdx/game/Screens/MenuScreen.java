@@ -322,7 +322,8 @@ public class MenuScreen extends AbstractGameScreen
 	 * Builds the debug options window.
 	 * @return tbl - A table with the debug window.
 	 */
-	private Table buildOptWinDebug() {
+	private Table buildOptWinDebug()
+	{
 		Table tbl = new Table();
 		// + Title: "Debug"
 		tbl.pad(10, 10, 0, 10);
@@ -338,7 +339,8 @@ public class MenuScreen extends AbstractGameScreen
 		return tbl;
 	}
 
-	private Table buildOptWinButtons() {
+	private Table buildOptWinButtons()
+	{
 		Table tbl = new Table();
 		// + Separator
 		Label lbl = null;

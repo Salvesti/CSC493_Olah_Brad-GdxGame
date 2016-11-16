@@ -107,8 +107,10 @@ public class Level
 		collisionZones = new Array<CollisionZone>();
 
 		//Builds the two layers.
-		buildFromLayer(background);
-		buildFromLayer(foreground);
+		buildFromLayer(background,0);
+		buildFromLayer(foreground,0);
+		buildFromLayer("levels/level-01.png",128);
+		buildFromLayer("levels/level-01b.png",128);
 
 
 	}
@@ -117,7 +119,7 @@ public class Level
 	 * Draws objects based on the image passed into the method.
 	 * @param layer
 	 */
-	private void buildFromLayer(String layer)
+	private void buildFromLayer(String layer,int offset)
 	{
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(layer));
@@ -144,85 +146,85 @@ public class Level
 				else if(BLOCK_TYPE.FLOOR_TABLE.sameColor(currentPixel))
 				{
 					obj  = new FloorTable();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					floorTables.add((FloorTable)obj);
 
 					obj = new CollisionZone(floorTables.peek());
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					collisionZones.add((CollisionZone)obj);
 				}
 				else if(BLOCK_TYPE.FLOOR_GRASS.sameColor(currentPixel))
 				{
 					obj  = new FloorGrass();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					floorGrass.add((FloorGrass)obj);
 
 					obj = new CollisionZone(floorGrass.peek());
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					collisionZones.add((CollisionZone)obj);
 				}
 				else if(BLOCK_TYPE.WALL_BLACK.sameColor(currentPixel))
 				{
 					obj  = new WallBlack();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					wallBlack.add((WallBlack)obj);
 
 					obj = new CollisionZone(wallBlack.peek());
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					collisionZones.add((CollisionZone)obj);
 				}
 				else if(BLOCK_TYPE.BACK_WALL_WALLPAPER.sameColor(currentPixel))
 				{
 					obj  = new BackWallWallpaper();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					backWallWallpaper.add((BackWallWallpaper)obj);
 				}
 				else if(BLOCK_TYPE.WALL_GAP.sameColor(currentPixel))
 				{
 					obj  = new BackWallGap();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					wallGaps.add((BackWallGap)obj);
 				}
 				else if(BLOCK_TYPE.BACK_WALL_WINDOW.sameColor(currentPixel))
 				{
 					obj  = new BackWallWindow();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					backWallWindows.add((BackWallWindow)obj);
 				}
 				else if(BLOCK_TYPE.FLOOR_WOOD.sameColor(currentPixel))
 				{
 					obj  = new FloorWood();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					floorWood.add((FloorWood)obj);
 
 					obj = new CollisionZone(floorWood.peek());
-					obj.position.set(pixelX,baseHeight*obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y);
 					collisionZones.add((CollisionZone)obj);
 				}
 				//Player Spawn point
 				else if(BLOCK_TYPE.PLAYER_SPAWNPOINT.sameColor(currentPixel))
 				{
 					obj = new Cat();
-					obj.position.set(pixelX,baseHeight*obj.dimension.y/2);
+					obj.position.set(pixelX + offset,baseHeight*obj.dimension.y/2);
 					cat = (Cat)obj;
 				}
 				//Sardine
 				else if(BLOCK_TYPE.ITEM_SARDINE.sameColor(currentPixel))
 				{
 					obj = new Sardines();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight * obj.dimension.y);
 					sardines.add((Sardines)obj);
 				}
 				//Score Object
 				else if(BLOCK_TYPE.ITEM_SCORE_OBJECT.sameColor(currentPixel))
 				{
 					obj = new ScoreObject();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight * obj.dimension.y);
 					scoreObjects.add((ScoreObject)obj);
 				}else if(BLOCK_TYPE.ITEM_LASER_POINTER.sameColor(currentPixel))
 				{
 					obj = new LaserPointer();
-					obj.position.set(pixelX,baseHeight * obj.dimension.y);
+					obj.position.set(pixelX + offset,baseHeight * obj.dimension.y);
 					laserPointers.add((LaserPointer)obj);
 				}
 				//Unknown object/pixel color

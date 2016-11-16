@@ -33,7 +33,6 @@ public class GameScreen extends AbstractGameScreen
 		worldController = new WorldController(game);
 		worldRenderer = new WorldRenderer(worldController);
 		Gdx.input.setCatchBackKey(true);
-
 	}
 
 	@Override
