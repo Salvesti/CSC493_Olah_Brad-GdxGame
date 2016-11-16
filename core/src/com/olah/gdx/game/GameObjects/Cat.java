@@ -2,8 +2,10 @@ package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.olah.gdx.game.Assets;
@@ -24,7 +26,11 @@ public class Cat extends AbstractGameObject
 
 	public enum VIEW_DIRECTION{LEFT, RIGHT}
 
-	private Texture regHead;
+	private TextureRegion regHead;
+	private Animation animIdle;
+	private Animation animWalk;
+	private Animation animRun;
+	private Animation animJump;
 
 	public VIEW_DIRECTION viewDirection;
 	public boolean hasSardinePowerup;
@@ -45,6 +51,12 @@ public class Cat extends AbstractGameObject
 	{
 		dimension.set(2,2);
 		regHead = Assets.instance.cat.cat;
+		animIdle = Assets.instance.cat.animIdle;
+		animWalk = Assets.instance.cat.animWalk;
+		animRun = Assets.instance.cat.animRun;
+		animJump = Assets.instance.cat.animJump;
+		
+		setAnimation(animIdle);
 		//Center image on game object
 		origin.set(dimension.x/2,dimension.y/2);
 		//Bounding box for collision detection
@@ -165,6 +177,23 @@ public class Cat extends AbstractGameObject
 			dustParticles.allowCompletion();
 		}
 		dustParticles.update(deltaTime);
+		
+		if(numFootContacts == 0)
+		{
+			setAnimation(animJump);
+		}else
+		{
+			if(body.getLinearVelocity().x == 0)
+			{
+				setAnimation(animIdle);
+			}else
+			{
+				if(animation != animWalk)
+				{
+					setAnimation(animWalk);
+				}
+			}
+		}
 	}
 
 	/**
@@ -236,7 +265,7 @@ public class Cat extends AbstractGameObject
 	@Override
 	public void render (SpriteBatch batch)
 	{
-		Texture reg = null;
+		TextureRegion reg = null;
 
 		//Draw Particles
 		dustParticles.draw(batch);
@@ -250,8 +279,9 @@ public class Cat extends AbstractGameObject
 			batch.setColor(1.0f,0.8f,0.0f,1.0f);
 		}
 		//Draw image
-		reg = regHead;
-		batch.draw(regHead, position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, 2, 2,reg.getWidth(), reg.getHeight(), viewDirection == VIEW_DIRECTION.LEFT, false);
+		reg = animation.getKeyFrame(stateTime,true);
+		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),reg.getRegionWidth(), reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT, false);
+		
 		//Resets the color to white
 		batch.setColor(1,1,1,1);
 	}

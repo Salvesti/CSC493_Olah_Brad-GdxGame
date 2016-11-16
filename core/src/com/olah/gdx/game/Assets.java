@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetErrorListener;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.Array;
@@ -149,11 +150,46 @@ public class Assets implements Disposable, AssetErrorListener
 	 */
 	public class AssetCat
 	{
-		public final Texture cat;
-
+		public final TextureRegion cat;
+		public final Animation animIdle;
+		public final Animation animWalk;
+		public final Animation animRun;
+		public final Animation animJump;
+		
 		public AssetCat()
 		{
-			cat = new Texture(Gdx.files.internal("images/cat.png"));
+			TextureRegion[] idleRegions = new TextureRegion[1];
+			Array<TextureRegion> walkRegions = new Array<TextureRegion>();
+			TextureRegion[] runRegions = new TextureRegion[6];
+			TextureRegion[]	jumpRegions = new TextureRegion[1];
+			//cat = new Texture(Gdx.files.internal("images/cat.png"));
+			
+			Texture texture = null;
+			texture = new Texture(Gdx.files.internal("images/catspritesx4.png"));
+			idleRegions[0]=new TextureRegion(texture,252,0,64,60);
+			walkRegions.add(new TextureRegion(texture,8,69,72,60));
+			walkRegions.add(new TextureRegion(texture,96,69,72,60));
+			walkRegions.add(new TextureRegion(texture,184,69,72,60));
+			walkRegions.add(new TextureRegion(texture,272,69,72,60));
+			walkRegions.add(new TextureRegion(texture,356,69,72,60));
+			walkRegions.add(new TextureRegion(texture,444,69,72,60));
+			runRegions[0] = new TextureRegion(texture,12,136,80,68);
+			runRegions[1] = new TextureRegion(texture,100,136,80,68);
+			runRegions[2] = new TextureRegion(texture,192,136,80,68);
+			runRegions[3] = new TextureRegion(texture,280,136,80,68);
+			runRegions[4] = new TextureRegion(texture,372,136,80,68);
+			runRegions[5] = new TextureRegion(texture,468,136,80,68);
+			jumpRegions[0] = runRegions[0];
+			cat = idleRegions[0];
+			//Animation: Cat walking
+			animWalk = new Animation(.1f,walkRegions,Animation.PlayMode.LOOP);
+			animRun = new Animation(.25f,runRegions);
+			animIdle = new Animation(.25f,idleRegions);
+			animJump = new Animation(.25f,jumpRegions);
+			
+					
+			
+			//animWalk = new Animation(1.f/10.f,regions,Animation.PlayMode.LOOP_PINGPONG);
 		}
 	}
 

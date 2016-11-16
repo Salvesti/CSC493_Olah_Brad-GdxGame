@@ -1,5 +1,6 @@
 package com.olah.gdx.game.GameObjects;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -14,6 +15,9 @@ public abstract class AbstractGameObject
 {
 	protected String type = "untyped";
 
+	public float stateTime;
+	public Animation animation;
+	
 	public Vector2 velocity;
 	public Vector2 terminalVelocity;
 	public Vector2 friction;
@@ -43,6 +47,7 @@ public abstract class AbstractGameObject
 
 	public void update(float deltaTime)
 	{
+		stateTime += deltaTime;
 		if (body == null){
 		updateMotionX(deltaTime);
 		updateMotionY(deltaTime);
@@ -99,6 +104,12 @@ public abstract class AbstractGameObject
 		velocity.y = MathUtils.clamp(velocity.y, -terminalVelocity.y, terminalVelocity.y);
 	}
 
+	public void setAnimation(Animation animation)
+	{
+		this.animation = animation;
+		stateTime = 0;
+	}
+	
 	/**
 	 * Renders the graphic.
 	 * @param batch
