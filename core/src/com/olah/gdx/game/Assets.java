@@ -150,20 +150,18 @@ public class Assets implements Disposable, AssetErrorListener
 	 */
 	public class AssetCat
 	{
-		public final TextureRegion cat;
 		public final Animation animIdle;
 		public final Animation animWalk;
 		public final Animation animRun;
 		public final Animation animJump;
-		
+
 		public AssetCat()
 		{
 			TextureRegion[] idleRegions = new TextureRegion[1];
 			Array<TextureRegion> walkRegions = new Array<TextureRegion>();
 			TextureRegion[] runRegions = new TextureRegion[6];
 			TextureRegion[]	jumpRegions = new TextureRegion[1];
-			//cat = new Texture(Gdx.files.internal("images/cat.png"));
-			
+
 			Texture texture = null;
 			texture = new Texture(Gdx.files.internal("images/catspritesx4.png"));
 			idleRegions[0]=new TextureRegion(texture,252,0,64,60);
@@ -180,16 +178,14 @@ public class Assets implements Disposable, AssetErrorListener
 			runRegions[4] = new TextureRegion(texture,372,136,80,68);
 			runRegions[5] = new TextureRegion(texture,468,136,80,68);
 			jumpRegions[0] = runRegions[0];
-			cat = idleRegions[0];
 			//Animation: Cat walking
 			animWalk = new Animation(.1f,walkRegions,Animation.PlayMode.LOOP);
+			//Animation: Cat Running
 			animRun = new Animation(.25f,runRegions);
+			//Animation: Cat Idling
 			animIdle = new Animation(.25f,idleRegions);
+			//Animation: Cat Jumping
 			animJump = new Animation(.25f,jumpRegions);
-			
-					
-			
-			//animWalk = new Animation(1.f/10.f,regions,Animation.PlayMode.LOOP_PINGPONG);
 		}
 	}
 

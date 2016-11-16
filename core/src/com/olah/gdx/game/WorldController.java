@@ -205,7 +205,7 @@ public class WorldController extends InputAdapter
 		fixtureDef.filter.maskBits = Constants.MASK_PLAYER;
 		body.createFixture(fixtureDef).setUserData("cat");
 		FixtureDef footFixture = new FixtureDef();
-		polygonShape.setAsBox(0.6f, 0.1f, new Vector2(1,0), 0);
+		polygonShape.setAsBox(0.8f, 0.1f, new Vector2(1,0), 0);
 		footFixture.isSensor = true;
 		footFixture.shape = polygonShape;
 		body.createFixture(footFixture).setUserData("foot");

@@ -50,12 +50,11 @@ public class Cat extends AbstractGameObject
 	public void init()
 	{
 		dimension.set(2,2);
-		regHead = Assets.instance.cat.cat;
 		animIdle = Assets.instance.cat.animIdle;
 		animWalk = Assets.instance.cat.animWalk;
 		animRun = Assets.instance.cat.animRun;
 		animJump = Assets.instance.cat.animJump;
-		
+
 		setAnimation(animIdle);
 		//Center image on game object
 		origin.set(dimension.x/2,dimension.y/2);
@@ -177,7 +176,7 @@ public class Cat extends AbstractGameObject
 			dustParticles.allowCompletion();
 		}
 		dustParticles.update(deltaTime);
-		
+
 		if(numFootContacts == 0)
 		{
 			setAnimation(animJump);
@@ -281,7 +280,7 @@ public class Cat extends AbstractGameObject
 		//Draw image
 		reg = animation.getKeyFrame(stateTime,true);
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),reg.getRegionWidth(), reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT, false);
-		
+
 		//Resets the color to white
 		batch.setColor(1,1,1,1);
 	}
