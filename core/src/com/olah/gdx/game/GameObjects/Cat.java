@@ -202,19 +202,28 @@ public class Cat extends AbstractGameObject
 	public void moveCat(String direction)
 	{
 		float speedMod = 1;
+		float speed = 7;
 		if(hasSardinePowerup == true)
 		{
 			speedMod = 2;
 		}
 		if(direction == "Left")
 		{
-			body.applyLinearImpulse(-10*speedMod,0,position.x,position.y,true);
-			scale = new Vector2(1,1);
+			//Limits the speed
+			if(body.getLinearVelocity().x > -speed)
+			{
+				body.applyLinearImpulse(-50*speedMod,0,position.x,position.y,true);
+				scale = new Vector2(1,1);
+			}
 		}
 		if(direction == "Right")
 		{
-			body.applyLinearImpulse(10*speedMod,0,position.x,position.y,true);
-			scale = new Vector2(-1,1);
+			//Limits the speed
+			if(body.getLinearVelocity().x < speed)
+			{
+				body.applyLinearImpulse(50*speedMod,0,position.x,position.y,true);
+				scale = new Vector2(-1,1);
+			}
 		}
 	}
 	/**
@@ -254,7 +263,7 @@ public class Cat extends AbstractGameObject
 		if(numFootContacts > 0)
 		{
 			AudioManager.instance.play(Assets.instance.sounds.jump);
-			body.applyLinearImpulse(0,600,position.x,position.y,true);
+			body.applyLinearImpulse(0,3200,position.x,position.y,true);
 		}
 	}
 

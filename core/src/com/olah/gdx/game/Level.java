@@ -109,17 +109,12 @@ public class Level
 		//Builds the two layers.
 		buildFromLayer(background,0);
 		buildFromLayer(foreground,0);
-		buildFromLayer("levels/level-01.png",128);
-		buildFromLayer("levels/level-01b.png",128);
-
-
 	}
-
 	/**
 	 * Draws objects based on the image passed into the method.
 	 * @param layer
 	 */
-	private void buildFromLayer(String layer,int offset)
+	public void buildFromLayer(String layer,float offset)
 	{
 		//load image file that represents the level data
 		Pixmap pixmap = new Pixmap(Gdx.files.internal(layer));

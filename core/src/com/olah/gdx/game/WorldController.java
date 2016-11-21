@@ -3,6 +3,7 @@ package com.olah.gdx.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -42,6 +43,7 @@ public class WorldController extends InputAdapter
 	public World b2World;
 	public LevelContactListener levelContactChecker;
 	public float scoreVisual;
+	public Vector2 levelBounds;
 
 	public WorldController(Game game)
 	{
@@ -59,6 +61,7 @@ public class WorldController extends InputAdapter
 		time = Constants.START_TIME;
 		timeRunning = 0;
 		timeLeftGameOverDelay = 0f;
+		levelBounds = new Vector2(0,128);
 		initLevel();
 		levelContactChecker = new LevelContactListener(this);
 		initPhysics();
@@ -198,7 +201,7 @@ public class WorldController extends InputAdapter
 		polygonShape.setAsBox(cat.bounds.width/2.1f,.8f,origin,0);
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = polygonShape;
-		fixtureDef.density = 20;
+		fixtureDef.density = 100;
 		fixtureDef.friction = 0.5f;
 		//Sets what the fixture can collide with.
 		fixtureDef.filter.categoryBits = Constants.CATEGORY_PLAYER;
@@ -235,12 +238,46 @@ public class WorldController extends InputAdapter
 			handleInputGame(deltaTime);
 			time -= deltaTime;
 		}
+
+		checkIfAtBounds();
+
 		level.update(deltaTime);
 		b2World.step(deltaTime, 10,20);
 		cameraHelper.update(deltaTime);
 		if(scoreVisual < score)
 		{
 			scoreVisual = Math.min(score,  scoreVisual + 250 * deltaTime);
+		}
+	}
+
+	/**
+	 * Checks if the cat is near the bounds and renders a new section of the level if it is.
+	 */
+	private void checkIfAtBounds()
+	{
+		String[][] levels = new String[1][2];
+		levels[0][0] = "levels/level-01.png";
+		levels[0][1] = "levels/level-01b.png";
+
+		if(level.cat.position.x < levelBounds.x+9)
+		{
+			int levelNum = Math.round(MathUtils.random(1));
+			System.out.print(levelNum);
+			level.buildFromLayer(levels[0][0],levelBounds.x-128);
+			level.buildFromLayer(levels[0][1],levelBounds.x-128);
+			initPhysics();
+			level.cat.numFootContacts=0;
+			levelBounds.x += -128;
+		}
+		if(level.cat.position.x > levelBounds.y-9)
+		{
+			int levelNum = Math.round(MathUtils.random(1));
+			System.out.print(levelNum);
+			level.buildFromLayer(levels[0][0],levelBounds.y);
+			level.buildFromLayer(levels[0][1],levelBounds.y);
+			initPhysics();
+			level.cat.numFootContacts=0;
+			levelBounds.y += 128;
 		}
 	}
 
@@ -280,7 +317,6 @@ public class WorldController extends InputAdapter
 					level.cat.moveCat("Right");
 				}
 			}
-
 			//Cat Jump
 			if(Gdx.input.isKeyJustPressed(Keys.SPACE))
 			{
