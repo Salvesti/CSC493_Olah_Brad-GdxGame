@@ -81,8 +81,8 @@ public class GameScreen extends AbstractGameScreen
 	@Override
 	public void dispose()
 	{
-		worldRenderer.dispose();
 		worldController.dispose();
+		worldRenderer.dispose();
 		// TODO Auto-generated method stub
 	}
 }
