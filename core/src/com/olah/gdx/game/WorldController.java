@@ -400,4 +400,14 @@ public class WorldController extends InputAdapter
 		}
 		return false;
 	}
+
+	public void dispose() 
+	{
+		if(b2World != null)
+		{
+			b2World.dispose();
+		}
+		// TODO Auto-generated method stub
+		
+	}
 }
