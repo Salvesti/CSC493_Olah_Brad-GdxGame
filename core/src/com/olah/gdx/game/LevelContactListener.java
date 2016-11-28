@@ -1,7 +1,6 @@
 package com.olah.gdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.olah.gdx.game.GameObjects.AbstractGameObject;
 import com.olah.gdx.game.GameObjects.LaserPointer;
 import com.olah.gdx.game.GameObjects.Sardines;
+import com.olah.gdx.game.GameObjects.ScoreNotification;
 import com.olah.gdx.game.GameObjects.ScoreObject;
 import com.olah.gdx.game.util.Constants;
 
@@ -23,6 +23,7 @@ public class LevelContactListener implements ContactListener
 	private WorldController worldController;
 	private Level level;
 
+
 	public LevelContactListener(WorldController worldController)
 	{
 		this.worldController = worldController;
@@ -30,7 +31,7 @@ public class LevelContactListener implements ContactListener
 	}
 
 	/**
-	 *
+	 * Checks for collisions with objects and handles it.
 	 */
 	@Override
 	public void beginContact(Contact contact)
@@ -71,7 +72,32 @@ public class LevelContactListener implements ContactListener
 		AbstractGameObject objectB= (AbstractGameObject) contact.getFixtureB().getBody().getUserData();
 		String objectAType = objectA.getType();
 		String objectBType = objectB.getType();
-
+		//If objectA is the collidableObject finds its type and performs appropriate logic.
+		if(objectAType.equals("laserPointer") && objectBType.equals("player"))
+		{
+			LaserPointer laser = (LaserPointer)objectA;
+			//Changes the filter mask that the object uses.
+			Filter filter = new Filter();
+			filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
+			contact.getFixtureB().setFilterData(filter);
+			laser.setDisabled(true);
+			level.cat.setLaserPointer(true);
+			level.cat.body.setLinearVelocity(0, level.cat.body.getLinearVelocity().y);
+			Gdx.app.log(TAG, "Hit Laser Pointer");
+		}
+		//If objectB is the collidableObject finds its type and performs appropriate logic.
+		if(objectBType.equals("laserPointer") && objectAType.equals("player"))
+		{
+			LaserPointer laser = (LaserPointer)objectB;
+			//Changes the filter mask that the object uses.
+			Filter filter = new Filter();
+			filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
+			contact.getFixtureB().setFilterData(filter);
+			laser.setDisabled(true);
+			level.cat.setLaserPointer(true);
+			level.cat.body.setLinearVelocity(0, level.cat.body.getLinearVelocity().y);
+			Gdx.app.log(TAG, "Hit Laser Pointer");
+		}
 		//If objectA is the collidableObject finds its type and performs appropriate logic.
 		if(objectAType.equals("collidableObject") && objectBType.equals("player"))
 		{
@@ -92,30 +118,7 @@ public class LevelContactListener implements ContactListener
 			//Updates the score based on what the collidableObject is
 			updateScore(objectB);
 		}
-		//If objectA is the collidableObject finds its type and performs appropriate logic.
-		if(objectAType.equals("laserPointer") && objectBType.equals("player"))
-		{
-			LaserPointer laser = (LaserPointer)objectA;
-			//Changes the filter mask that the object uses.
-			Filter filter = new Filter();
-			filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
-			contact.getFixtureB().setFilterData(filter);
-			laser.setDisabled(true);
-			level.cat.setLaserPointer(true);
-			Gdx.app.log(TAG, "Hit Laser Pointer");
-		}
-		//If objectB is the collidableObject finds its type and performs appropriate logic.
-		if(objectBType.equals("laserPointer") && objectAType.equals("player"))
-		{
-			LaserPointer laser = (LaserPointer)objectB;
-			//Changes the filter mask that the object uses.
-			Filter filter = new Filter();
-			filter.maskBits = Constants.MASK_SCOREOBJECT_DEAD;
-			contact.getFixtureB().setFilterData(filter);
-			laser.setDisabled(true);
-			level.cat.setLaserPointer(true);
-			Gdx.app.log(TAG, "Hit Laser Pointer");
-		}
+
 	}
 
 	/**
@@ -131,6 +134,8 @@ public class LevelContactListener implements ContactListener
 			worldController.score += obj.getScore();
 			level.cat.setSardinePowerup(true);
 			worldController.time += obj.setSardineTime();
+			worldController.
+			level.scorePopups.add(new ScoreNotification(obj.getScore(),level.cat.position));
 			Gdx.app.log(TAG, "Sardine collected");
 		}
 		if(object.getClass().equals(ScoreObject.class))
@@ -138,9 +143,9 @@ public class LevelContactListener implements ContactListener
 			AudioManager.instance.play(Assets.instance.sounds.objectHit);
 			ScoreObject obj = (ScoreObject) object;
 			worldController.score += obj.getScore();
+			level.scorePopups.add(new ScoreNotification(obj.getScore(),level.cat.position));
 			Gdx.app.log(TAG, "Score Object collected");
 		}
-
 	}
 
 	@Override

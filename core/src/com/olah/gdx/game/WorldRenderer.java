@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
@@ -24,6 +22,8 @@ public class WorldRenderer implements Disposable
 	private WorldController worldController;
 	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
 	private Box2DDebugRenderer b2dDebugRenderer;
+
+
 	public WorldRenderer (WorldController worldController)
 	{
 		this.worldController = worldController;
@@ -56,6 +56,7 @@ public class WorldRenderer implements Disposable
 	public void render()
 	{
 		renderWorld(batch);
+		//renderScorePopups(batch);
 		renderGui(batch);
 	}
 
@@ -63,7 +64,8 @@ public class WorldRenderer implements Disposable
 	 * Renders all the elements of the gui
 	 * @param batch
 	 */
-	private void renderGui(SpriteBatch batch) {
+	private void renderGui(SpriteBatch batch)
+	{
 		batch.setProjectionMatrix(cameraGUI.combined);
 		batch.begin();
 		renderGuiTime(batch);
@@ -77,6 +79,22 @@ public class WorldRenderer implements Disposable
 		//renderInfo(batch);
 		batch.end();
 	}
+
+//	/**
+//	 * Renders score popups
+//	 * @param batch
+//	 */
+//	public void renderScorePopups(SpriteBatch batch)
+//	{
+//		batch.setProjectionMatrix(cameraGUI.combined);
+//		batch.begin();
+//		Array<ScoreNotification> scorePopups = worldController.level.scorePopups;
+//		for(ScoreNotification score : scorePopups)
+//		{
+//			score.render(batch);
+//		}
+//		batch.end();
+//	}
 
 	/**
 	 * Renders the world

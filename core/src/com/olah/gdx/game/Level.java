@@ -16,6 +16,7 @@ import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.FloorWood;
 import com.olah.gdx.game.GameObjects.LaserPointer;
 import com.olah.gdx.game.GameObjects.Sardines;
+import com.olah.gdx.game.GameObjects.ScoreNotification;
 import com.olah.gdx.game.GameObjects.ScoreObject;
 
 /**
@@ -75,6 +76,7 @@ public class Level
 	public Array<BackWallWallpaper> backWallWallpaper;
 	public Array<BackWallWindow> backWallWindows;
 	public Array<CollisionZone>	collisionZones;
+	public Array<ScoreNotification> scorePopups;
 
 
 	//decoration
@@ -105,6 +107,7 @@ public class Level
 		backWallWindows = new Array<BackWallWindow>();
 		floorWood = new Array<FloorWood>();
 		collisionZones = new Array<CollisionZone>();
+		scorePopups = new Array<ScoreNotification>();
 
 		//Builds the two layers.
 		buildFromLayer(background,0);
@@ -295,7 +298,11 @@ public class Level
 		{
 			laser.render(batch);
 		}
-
+		//Draw ScorePopups
+		for(ScoreNotification score : scorePopups)
+		{
+			score.render(batch);
+		}
 		//Draw player
 		cat.render(batch);
 	}

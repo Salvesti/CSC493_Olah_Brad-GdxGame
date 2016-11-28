@@ -1,7 +1,6 @@
 package com.olah.gdx.game.GameObjects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -26,7 +25,6 @@ public class Cat extends AbstractGameObject
 
 	public enum VIEW_DIRECTION{LEFT, RIGHT}
 
-	private TextureRegion regHead;
 	private Animation animIdle;
 	private Animation animWalk;
 	private Animation animRun;
@@ -128,11 +126,16 @@ public class Cat extends AbstractGameObject
 	public void update(float deltaTime)
 	{
 		super.update(deltaTime);
-		//Changes the facing of the bunny sprite depending on direction of movement
+		//Changes the facing of the cat sprite depending on direction of movement
 		if(velocity.x !=0)
 		{
 			viewDirection = velocity.x <0 ? VIEW_DIRECTION.RIGHT : VIEW_DIRECTION.LEFT;
 		}
+		if(body.getLinearVelocity().y <0)
+		{
+			body.setLinearVelocity(body.getLinearVelocity().x,body.getLinearVelocity().y -.2f);
+		}
+
 		//Counts down laser pointer time if there is any.
 		if(timeLeftLaserPointer > 0)
 		{
@@ -177,6 +180,7 @@ public class Cat extends AbstractGameObject
 		}
 		dustParticles.update(deltaTime);
 
+		//Sets animations
 		if(numFootContacts == 0)
 		{
 			setAnimation(animJump);

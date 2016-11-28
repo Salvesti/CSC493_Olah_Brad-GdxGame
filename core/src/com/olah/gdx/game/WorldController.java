@@ -13,8 +13,6 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
-import com.olah.gdx.game.GameObjects.AbstractGameObject;
 import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.LaserPointer;
@@ -176,9 +174,9 @@ public class WorldController extends InputAdapter
 			circleShape.setPosition(origin);
 			circleShape.setRadius(.2f);
 			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.isSensor = true;
 			fixtureDef.shape = circleShape;
 			fixtureDef.density = 2;
-			fixtureDef.restitution= 0.2f;
 			//Sets what the fixture can collide with.
 			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
 			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
@@ -401,13 +399,11 @@ public class WorldController extends InputAdapter
 		return false;
 	}
 
-	public void dispose() 
+	public void dispose()
 	{
 		if(b2World != null)
 		{
 			b2World.dispose();
 		}
-		// TODO Auto-generated method stub
-		
 	}
 }
