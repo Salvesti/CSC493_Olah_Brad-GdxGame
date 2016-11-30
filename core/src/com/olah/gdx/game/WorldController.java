@@ -216,10 +216,10 @@ public class WorldController extends InputAdapter
 			PolygonShape polygonShape = new PolygonShape();
 			origin.x = cat.bounds.width/2.0f;
 			origin.y = (cat.bounds.height/2.0f)-.2f;
-			polygonShape.setAsBox(cat.bounds.width/2.1f,.8f,origin,0);
+			polygonShape.setAsBox(cat.bounds.width/2.4f,.8f,origin,0);
 			FixtureDef fixtureDef = new FixtureDef();
 			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 100;
+			fixtureDef.density = 115;
 			fixtureDef.friction = 0.5f;
 			//Sets what the fixture can collide with.
 			fixtureDef.filter.categoryBits = Constants.CATEGORY_PLAYER;

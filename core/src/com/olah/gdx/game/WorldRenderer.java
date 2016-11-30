@@ -140,7 +140,7 @@ public class WorldRenderer implements Disposable
 	{
 		float x = cameraGUI.viewportWidth/2;
 		float y = cameraGUI.viewportHeight/3;
-		if(worldController.level.cat.hitLaserPointer)
+		if(worldController.level.cat.hitLaserPointer && (worldController.isGameOver()==false))
 		{
 			BitmapFont fontDelayed = Assets.instance.fonts.defaultBig;
 			fontDelayed.setColor(1,0,0,1);
