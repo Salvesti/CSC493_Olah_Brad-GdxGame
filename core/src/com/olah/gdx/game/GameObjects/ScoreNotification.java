@@ -11,12 +11,13 @@ public class ScoreNotification extends AbstractGameObject
 	public ScoreNotification(int score,Vector2 position)
 	{
 		this.score = score;
-		this.position.x = position.x;
+		this.position.x = position.y;
 		this.position.y = position.y;
+		this.scale.x = -1;
 	}
 
 	public void render(SpriteBatch batch)
 	{
-		Assets.instance.fonts.defaultTiny.draw(batch, "+" + score, position.x, position.y);
+		Assets.instance.fonts.defaultBig.draw(batch, "+" + score, position.x, position.y);
 	}
 }

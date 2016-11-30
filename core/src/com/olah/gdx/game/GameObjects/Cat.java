@@ -126,12 +126,8 @@ public class Cat extends AbstractGameObject
 	public void update(float deltaTime)
 	{
 		super.update(deltaTime);
-		//Changes the facing of the cat sprite depending on direction of movement
-		if(velocity.x !=0)
-		{
-			viewDirection = velocity.x <0 ? VIEW_DIRECTION.RIGHT : VIEW_DIRECTION.LEFT;
-		}
-		if(body.getLinearVelocity().y <0)
+
+		if(body.getLinearVelocity().y < 0)
 		{
 			body.setLinearVelocity(body.getLinearVelocity().x,body.getLinearVelocity().y -.2f);
 		}
@@ -217,6 +213,7 @@ public class Cat extends AbstractGameObject
 			if(body.getLinearVelocity().x > -speed)
 			{
 				body.applyLinearImpulse(-50*speedMod,0,position.x,position.y,true);
+				//Changes the facing of the cat sprite depending on direction of movement
 				scale = new Vector2(1,1);
 			}
 		}
@@ -226,39 +223,10 @@ public class Cat extends AbstractGameObject
 			if(body.getLinearVelocity().x < speed)
 			{
 				body.applyLinearImpulse(50*speedMod,0,position.x,position.y,true);
+				//Changes the facing of the cat sprite depending on direction of movement
 				scale = new Vector2(-1,1);
 			}
 		}
-	}
-	/**
-	 * Updates the cats X motion based on deltaTime.
-	 * TODO Determine if this is needed, or if movement should be moved to here.
-	 */
-	@Override
-	public void updateMotionX(float deltaTime)
-	{
-		float speedMod = 1;
-		if(hasSardinePowerup == true)
-		{
-			speedMod = 2;
-		}
-		if(velocity.x != 0)
-		{
-			//Apply friction
-			if(velocity.x > 0)
-			{
-				velocity.x = Math.max(velocity.x*speedMod - friction.x * deltaTime,0);
-			}
-			else
-			{
-				velocity.x = Math.min(velocity.x*speedMod + friction.x * deltaTime, 0);
-			}
-		}
-		//Apply acceleration
-		velocity.x += acceleration.x * deltaTime;
-		//Make sure the object's velocity does not exceed the
-		//positive or negative terminal velocity
-		velocity.x = MathUtils.clamp(velocity.x, -terminalVelocity.x*speedMod, terminalVelocity.x*speedMod);
 	}
 
 	public void jump()

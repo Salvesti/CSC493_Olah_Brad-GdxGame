@@ -82,135 +82,156 @@ public class WorldController extends InputAdapter
 	 */
 	private void initPhysics()
 	{
-		if(b2World != null)
-		{
-			b2World.dispose();
-		}
-		b2World = new World(new Vector2(0,-9.81f),true);
 
+//		TODO This code is most likely not needed now.
+//		if(b2World != null)
+//		{
+//			b2World.dispose();
+//		}
+//		b2World = new World(new Vector2(0,-9.81f),true);
+
+		if(b2World == null)
+		{
+			b2World = new World(new Vector2(0,-9.81f),true);
+		}
 		Vector2 origin = new Vector2();
 		//CollisionZones
 		for(CollisionZone zone : level.collisionZones)
 		{
-			BodyDef bodyDef = new BodyDef();
-			bodyDef.type = BodyType.StaticBody;
-			bodyDef.position.set(zone.position);
-			Body body = b2World.createBody(bodyDef);
-			body.setUserData(zone);
-			zone.body = body;
-			EdgeShape edgeShape = new EdgeShape();
-			edgeShape.set(0, zone.bounds.height, zone.bounds.width, zone.bounds.height);
-			/**
-			PolygonShape polygonShape = new PolygonShape();
-			origin.x = zone.bounds.width/2.0f;
-			origin.y = zone.bounds.height/2.0f;
-			polygonShape.setAsBox(zone.bounds.height/2.0f,zone.bounds.width/2.0f,origin,0);
-			**/
-			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.shape = edgeShape;
-			fixtureDef.friction = .1f;
-			//Sets what the fixture can collide with.
-			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCENERY;
-			fixtureDef.filter.maskBits = Constants.MASK_SCENERY;
-			body.createFixture(fixtureDef).setUserData("collisionZone");
-			edgeShape.set(0, 0, zone.bounds.width, 0);
-			body.createFixture(fixtureDef).setUserData("collisionZone");
-			edgeShape.dispose();
+			if(zone.body == null)
+			{
+				BodyDef bodyDef = new BodyDef();
+				bodyDef.type = BodyType.StaticBody;
+				bodyDef.position.set(zone.position);
+				Body body = b2World.createBody(bodyDef);
+				body.setUserData(zone);
+				zone.body = body;
+				EdgeShape edgeShape = new EdgeShape();
+				edgeShape.set(0, zone.bounds.height, zone.bounds.width, zone.bounds.height);
+				/**
+				PolygonShape polygonShape = new PolygonShape();
+				origin.x = zone.bounds.width/2.0f;
+				origin.y = zone.bounds.height/2.0f;
+				polygonShape.setAsBox(zone.bounds.height/2.0f,zone.bounds.width/2.0f,origin,0);
+				**/
+				FixtureDef fixtureDef = new FixtureDef();
+				fixtureDef.shape = edgeShape;
+				fixtureDef.friction = .1f;
+				//Sets what the fixture can collide with.
+				fixtureDef.filter.categoryBits = Constants.CATEGORY_SCENERY;
+				fixtureDef.filter.maskBits = Constants.MASK_SCENERY;
+				body.createFixture(fixtureDef).setUserData("collisionZone");
+				edgeShape.set(0, 0, zone.bounds.width, 0);
+				body.createFixture(fixtureDef).setUserData("collisionZone");
+				edgeShape.dispose();
+			}
 		}
 		//Score Objects
 		for(ScoreObject obj : level.scoreObjects)
 		{
-			BodyDef bodyDef = new BodyDef();
-			bodyDef.type = BodyType.DynamicBody;
-			bodyDef.position.set(obj.position);
-			Body body = b2World.createBody(bodyDef);
-			body.setUserData(obj);
-			obj.body = body;
-			PolygonShape polygonShape = new PolygonShape();
-			origin.x = obj.bounds.width/2.0f;
-			origin.y = obj.bounds.height/2.0f;
-			polygonShape.setAsBox(obj.bounds.height/2.0f,obj.bounds.width/2.0f,origin,0);
-			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 2;
-			//Sets what the fixture can collide with.
-			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
-			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
-			body.createFixture(fixtureDef).setUserData("collidableObject");
-			polygonShape.dispose();
+			if(obj.body == null)
+			{
+				BodyDef bodyDef = new BodyDef();
+				bodyDef.type = BodyType.DynamicBody;
+				bodyDef.position.set(obj.position);
+				Body body = b2World.createBody(bodyDef);
+				body.setUserData(obj);
+				obj.body = body;
+				PolygonShape polygonShape = new PolygonShape();
+				origin.x = obj.bounds.width/2.0f;
+				origin.y = obj.bounds.height/2.0f;
+				polygonShape.setAsBox(obj.bounds.height/2.0f,obj.bounds.width/2.0f,origin,0);
+				FixtureDef fixtureDef = new FixtureDef();
+				fixtureDef.shape = polygonShape;
+				fixtureDef.density = 2;
+				//Sets what the fixture can collide with.
+				fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
+				fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
+				body.createFixture(fixtureDef).setUserData("collidableObject");
+				polygonShape.dispose();
+			}
 		}
 		//Score Objects
 		for(Sardines sardine : level.sardines)
 		{
-			BodyDef bodyDef = new BodyDef();
-			bodyDef.type = BodyType.DynamicBody;
-			bodyDef.position.set(sardine.position);
-			Body body = b2World.createBody(bodyDef);
-			body.setUserData(sardine);
-			sardine.body = body;
-			PolygonShape polygonShape = new PolygonShape();
-			origin.x = sardine.bounds.width/2.0f;
-			origin.y = sardine.bounds.height/2.0f;
-			polygonShape.setAsBox(sardine.bounds.height/2.0f,sardine.bounds.width/2.0f,origin,0);
-			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.shape = polygonShape;
-			fixtureDef.density = 2;
-			//Sets what the fixture can collide with.
-			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
-			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
-			body.createFixture(fixtureDef).setUserData("collidableObject");
-			polygonShape.dispose();
+			if(sardine.body == null)
+			{
+				BodyDef bodyDef = new BodyDef();
+				bodyDef.type = BodyType.DynamicBody;
+				bodyDef.position.set(sardine.position);
+				Body body = b2World.createBody(bodyDef);
+				body.setUserData(sardine);
+				sardine.body = body;
+				PolygonShape polygonShape = new PolygonShape();
+				origin.x = sardine.bounds.width/2.0f;
+				origin.y = sardine.bounds.height/2.0f;
+				polygonShape.setAsBox(sardine.bounds.height/2.0f,sardine.bounds.width/2.0f,origin,0);
+				FixtureDef fixtureDef = new FixtureDef();
+				fixtureDef.shape = polygonShape;
+				fixtureDef.density = 2;
+				//Sets what the fixture can collide with.
+				fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
+				fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
+				body.createFixture(fixtureDef).setUserData("collidableObject");
+				polygonShape.dispose();
+			}
 		}
 		//Laser Pointers
 		for(LaserPointer laser : level.laserPointers)
 		{
-			BodyDef bodyDef = new BodyDef();
-			bodyDef.type = BodyType.KinematicBody;
-			bodyDef.position.set(laser.position);
-			Body body = b2World.createBody(bodyDef);
-			body.setUserData(laser);
-			laser.body = body;
-			CircleShape circleShape = new CircleShape();
-			circleShape.setPosition(origin);
-			circleShape.setRadius(.2f);
-			FixtureDef fixtureDef = new FixtureDef();
-			fixtureDef.isSensor = true;
-			fixtureDef.shape = circleShape;
-			fixtureDef.density = 2;
-			//Sets what the fixture can collide with.
-			fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
-			fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
-			body.createFixture(fixtureDef).setUserData("collidableObject");
-			circleShape.dispose();
+			if(laser.body == null)
+			{
+				BodyDef bodyDef = new BodyDef();
+				bodyDef.type = BodyType.KinematicBody;
+				bodyDef.position.set(laser.position);
+				Body body = b2World.createBody(bodyDef);
+				body.setUserData(laser);
+				laser.body = body;
+				CircleShape circleShape = new CircleShape();
+				circleShape.setPosition(origin);
+				circleShape.setRadius(.2f);
+				FixtureDef fixtureDef = new FixtureDef();
+				fixtureDef.isSensor = true;
+				fixtureDef.shape = circleShape;
+				fixtureDef.density = 2;
+				//Sets what the fixture can collide with.
+				fixtureDef.filter.categoryBits = Constants.CATEGORY_SCOREOBJECT_LIVE;
+				fixtureDef.filter.maskBits = Constants.MASK_SCOREOBJECT_LIVE;
+				body.createFixture(fixtureDef).setUserData("collidableObject");
+				circleShape.dispose();
+			}
 		}
 		//Player Cat
 		Cat cat = level.cat;
-		BodyDef catBody = new BodyDef();
-		catBody.type = BodyType.DynamicBody;
-		catBody.position.set(cat.position);
-		catBody.fixedRotation = true;
-		catBody.bullet = true;
-		Body body = b2World.createBody(catBody);
-		body.setUserData(cat);
-		cat.body = body;
-		PolygonShape polygonShape = new PolygonShape();
-		origin.x = cat.bounds.width/2.0f;
-		origin.y = (cat.bounds.height/2.0f)-.2f;
-		polygonShape.setAsBox(cat.bounds.width/2.1f,.8f,origin,0);
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = polygonShape;
-		fixtureDef.density = 100;
-		fixtureDef.friction = 0.5f;
-		//Sets what the fixture can collide with.
-		fixtureDef.filter.categoryBits = Constants.CATEGORY_PLAYER;
-		fixtureDef.filter.maskBits = Constants.MASK_PLAYER;
-		body.createFixture(fixtureDef).setUserData("cat");
-		FixtureDef footFixture = new FixtureDef();
-		polygonShape.setAsBox(0.8f, 0.1f, new Vector2(1,0), 0);
-		footFixture.isSensor = true;
-		footFixture.shape = polygonShape;
-		body.createFixture(footFixture).setUserData("foot");
-		polygonShape.dispose();
+		if(level.cat.body == null)
+		{
+			BodyDef catBody = new BodyDef();
+			catBody.type = BodyType.DynamicBody;
+			catBody.position.set(cat.position);
+			catBody.fixedRotation = true;
+			catBody.bullet = true;
+			Body body = b2World.createBody(catBody);
+			body.setUserData(cat);
+			cat.body = body;
+			PolygonShape polygonShape = new PolygonShape();
+			origin.x = cat.bounds.width/2.0f;
+			origin.y = (cat.bounds.height/2.0f)-.2f;
+			polygonShape.setAsBox(cat.bounds.width/2.1f,.8f,origin,0);
+			FixtureDef fixtureDef = new FixtureDef();
+			fixtureDef.shape = polygonShape;
+			fixtureDef.density = 100;
+			fixtureDef.friction = 0.5f;
+			//Sets what the fixture can collide with.
+			fixtureDef.filter.categoryBits = Constants.CATEGORY_PLAYER;
+			fixtureDef.filter.maskBits = Constants.MASK_PLAYER;
+			body.createFixture(fixtureDef).setUserData("cat");
+			FixtureDef footFixture = new FixtureDef();
+			polygonShape.setAsBox(0.8f, 0.1f, new Vector2(1,0), 0);
+			footFixture.isSensor = true;
+			footFixture.shape = polygonShape;
+			body.createFixture(footFixture).setUserData("foot");
+			polygonShape.dispose();
+		}
 
 		b2World.setContactListener(levelContactChecker);
 	}
@@ -264,7 +285,6 @@ public class WorldController extends InputAdapter
 			level.buildFromLayer(levels[0][0],levelBounds.x-128);
 			level.buildFromLayer(levels[0][1],levelBounds.x-128);
 			initPhysics();
-			level.cat.numFootContacts=0;
 			levelBounds.x += -128;
 		}
 		if(level.cat.position.x > levelBounds.y-9)
@@ -274,7 +294,6 @@ public class WorldController extends InputAdapter
 			level.buildFromLayer(levels[0][0],levelBounds.y);
 			level.buildFromLayer(levels[0][1],levelBounds.y);
 			initPhysics();
-			level.cat.numFootContacts=0;
 			levelBounds.y += 128;
 		}
 	}

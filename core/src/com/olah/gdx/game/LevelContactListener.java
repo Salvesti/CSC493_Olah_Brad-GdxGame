@@ -134,7 +134,6 @@ public class LevelContactListener implements ContactListener
 			worldController.score += obj.getScore();
 			level.cat.setSardinePowerup(true);
 			worldController.time += obj.setSardineTime();
-			worldController.
 			level.scorePopups.add(new ScoreNotification(obj.getScore(),level.cat.position));
 			Gdx.app.log(TAG, "Sardine collected");
 		}

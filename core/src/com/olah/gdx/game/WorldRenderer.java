@@ -4,9 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
+import com.olah.gdx.game.GameObjects.ScoreNotification;
 import com.olah.gdx.game.util.Constants;
 import com.olah.gdx.game.util.GamePreferences;
 
@@ -56,7 +59,7 @@ public class WorldRenderer implements Disposable
 	public void render()
 	{
 		renderWorld(batch);
-		//renderScorePopups(batch);
+//		renderScorePopups(batch);
 		renderGui(batch);
 	}
 
@@ -91,6 +94,7 @@ public class WorldRenderer implements Disposable
 //		Array<ScoreNotification> scorePopups = worldController.level.scorePopups;
 //		for(ScoreNotification score : scorePopups)
 //		{
+//			score.position = new Vector2(cameraGUI.viewportWidth/2,cameraGUI.viewportHeight/2);
 //			score.render(batch);
 //		}
 //		batch.end();
@@ -100,7 +104,8 @@ public class WorldRenderer implements Disposable
 	 * Renders the world
 	 * @param batch
 	 */
-	private void renderWorld(SpriteBatch batch) {
+	private void renderWorld(SpriteBatch batch)
+	{
 		worldController.cameraHelper.applyTo(camera);
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
@@ -170,7 +175,6 @@ public class WorldRenderer implements Disposable
 		}
 		fpsFont.draw(batch, "FPS: "+fps, x, y);
 		fpsFont.setColor(1,1,1,1); //White
-
 	}
 
 	/**

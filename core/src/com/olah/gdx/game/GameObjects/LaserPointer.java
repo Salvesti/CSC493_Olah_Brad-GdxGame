@@ -45,7 +45,7 @@ public class LaserPointer extends AbstractGameObject
 		reg = regLaserPointer;
 		if(timeLeftDisabled > 0)
 		{
-			if(((int)timeLeftDisabled*1)%2 != 0)
+			if((int)timeLeftDisabled != 0)
 			{
 				batch.setColor(1,1,1,.5f);
 			}

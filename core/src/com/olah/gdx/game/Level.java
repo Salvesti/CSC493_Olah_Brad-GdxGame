@@ -298,11 +298,11 @@ public class Level
 		{
 			laser.render(batch);
 		}
-		//Draw ScorePopups
-		for(ScoreNotification score : scorePopups)
-		{
-			score.render(batch);
-		}
+//		//Draw ScorePopups
+//		for(ScoreNotification score : scorePopups)
+//		{
+//			score.render(batch);
+//		}
 		//Draw player
 		cat.render(batch);
 	}
@@ -326,7 +326,6 @@ public class Level
 		{
 			laser.update(deltaTime);
 		}
-
 	}
 
 }
