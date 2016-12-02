@@ -21,6 +21,7 @@ public class ScoreObject extends AbstractGameObject
 	/**
 	 * Initializes the score object.
 	 */
+	@Override
 	public void init()
 	{
 		dimension.set(1f,1f);

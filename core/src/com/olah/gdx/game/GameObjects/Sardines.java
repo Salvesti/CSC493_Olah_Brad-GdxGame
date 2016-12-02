@@ -21,6 +21,7 @@ public class Sardines extends AbstractGameObject
 	/**
 	 * Initializes the sardine.
 	 */
+	@Override
 	public void init()
 	{
 		dimension.set(1f,1f);

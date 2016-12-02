@@ -17,6 +17,7 @@ public class CollisionZone extends AbstractGameObject
 
 	}
 
+	@Override
 	public void init()
 	{
 		dimension.set(obj.dimension.x,obj.dimension.y);

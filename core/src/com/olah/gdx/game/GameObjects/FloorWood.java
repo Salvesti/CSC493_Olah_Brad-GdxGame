@@ -17,6 +17,7 @@ public class FloorWood extends Surface
 		init();
 	}
 
+	@Override
 	protected void init()
 	{
 		super.init();

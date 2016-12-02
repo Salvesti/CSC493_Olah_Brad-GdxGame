@@ -17,6 +17,7 @@ public class BackWallWindow  extends AbstractGameObject
 		init();
 	}
 
+	@Override
 	public void init()
 	{
 		super.init();

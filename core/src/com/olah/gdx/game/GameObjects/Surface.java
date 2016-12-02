@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Surface extends AbstractGameObject
 {
 
+	@Override
 	protected void init()
 	{
 		this.type = "surface";

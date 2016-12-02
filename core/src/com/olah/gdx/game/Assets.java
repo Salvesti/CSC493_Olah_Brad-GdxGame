@@ -56,7 +56,7 @@ public class Assets implements Disposable, AssetErrorListener
 		assetManager.load("sounds/object_collected.wav", Sound.class);
 		assetManager.load("sounds/object_hit.wav", Sound.class);
 		//Load music
-		assetManager.load("music/keith303_-_brand_new_highscore.mp3", Music.class);
+		assetManager.load("music/grassland-adventure.mp3", Music.class);
 		//Start loading assets and wait until finished
 		assetManager.finishLoading();
 		Gdx.app.debug(TAG, "# of assets loaded: "+assetManager.getAssetNames().size);
@@ -100,14 +100,14 @@ public class Assets implements Disposable, AssetErrorListener
 	@SuppressWarnings("rawtypes")
 	public void error(String filename, Class type, Throwable throwable)
 	{
-		Gdx.app.error(TAG, "Couldn't load asset '" + filename + "'", (Exception)throwable);
+		Gdx.app.error(TAG, "Couldn't load asset '" + filename + "'", throwable);
 	}
 
 	@SuppressWarnings("rawtypes")
 	@Override
 	public void error(AssetDescriptor asset, Throwable throwable)
 	{
-		Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'",(Exception)throwable);
+		Gdx.app.error(TAG, "Couldn't load asset '" + asset.fileName + "'",throwable);
 	}
 
 
@@ -333,7 +333,7 @@ public class Assets implements Disposable, AssetErrorListener
 
 		public AssetMusic(AssetManager am)
 		{
-			song01 = am.get("music/keith303_-_brand_new_highscore.mp3", Music.class);
+			song01 = am.get("music/grassland-adventure.mp3", Music.class);
 		}
 	}
 

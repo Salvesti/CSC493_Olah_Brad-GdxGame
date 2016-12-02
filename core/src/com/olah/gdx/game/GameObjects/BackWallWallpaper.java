@@ -17,6 +17,7 @@ public class BackWallWallpaper extends AbstractGameObject
 		init();
 	}
 
+	@Override
 	public void init()
 	{
 		super.init();

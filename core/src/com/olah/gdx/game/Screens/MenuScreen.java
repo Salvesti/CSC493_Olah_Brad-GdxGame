@@ -4,7 +4,9 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -44,8 +46,11 @@ public class MenuScreen extends AbstractGameScreen
 	private Image imgBackground;
 	private Image imgLogo;
 	private Image imgInfo;
-	private Image imgCoins;
+	private Image imgCat;
 	private Image imgBunny;
+	private Animation animCatRunning;
+	private Animation animCatSitting;
+	private Animation animCatWalking;
 	private Button btnMenuPlay;
 	private Button btnMenuOptions;
 
@@ -120,16 +125,16 @@ public class MenuScreen extends AbstractGameScreen
 	{
 		Table layer = new Table();
 		// + Coins
-		imgCoins = new Image(skinCanyonBunny, "coins");
-		layer.addActor(imgCoins);
-		imgCoins.setPosition(135, 80);
+		imgCat = new Image(Assets.instance.cat.animIdle.getKeyFrame(0));
+		layer.addActor(imgCat);
+		imgCat.scaleBy(5);
+		imgCat.setPosition(280, 50);
 
-		// + Bunny
-		imgBunny = new Image(skinCanyonBunny,"bunny");
-		layer.addActor(imgBunny);
-		imgBunny.setPosition(355, 40);
 		return layer;
 	}
+	
+	
+	
 
 	/**
 	 * Builds the table for the logo layer.

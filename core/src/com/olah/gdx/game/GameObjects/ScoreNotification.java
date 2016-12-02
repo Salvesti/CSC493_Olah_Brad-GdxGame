@@ -16,6 +16,7 @@ public class ScoreNotification extends AbstractGameObject
 		this.scale.x = -1;
 	}
 
+	@Override
 	public void render(SpriteBatch batch)
 	{
 		Assets.instance.fonts.defaultBig.draw(batch, "+" + score, position.x, position.y);

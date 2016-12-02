@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.olah.gdx.game.Assets;
 import com.olah.gdx.game.AudioManager;
@@ -45,6 +44,7 @@ public class Cat extends AbstractGameObject
 	/**
 	 * Initializes the cat.
 	 */
+	@Override
 	public void init()
 	{
 		dimension.set(2,2);
@@ -254,10 +254,10 @@ public class Cat extends AbstractGameObject
 		 batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());
 
 		//Set special color when game object has a feather powerup
-		if(hasSardinePowerup)
-		{
-			batch.setColor(1.0f,0.8f,0.0f,1.0f);
-		}
+//		if(hasSardinePowerup)
+//		{
+//			batch.setColor(1.0f,0.8f,0.0f,1.0f);
+//		}
 		//Draw image
 		reg = animation.getKeyFrame(stateTime,true);
 		batch.draw(reg.getTexture(), position.x, position.y, origin.x, origin.y, dimension.x, dimension.y, scale.x, scale.y, rotation, reg.getRegionX(), reg.getRegionY(),reg.getRegionWidth(), reg.getRegionHeight(), viewDirection == VIEW_DIRECTION.LEFT, false);

@@ -17,6 +17,7 @@ public class WallBlack extends Surface
 		init();
 	}
 
+	@Override
 	protected void init()
 	{
 		super.init();

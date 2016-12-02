@@ -4,12 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import com.olah.gdx.game.GameObjects.ScoreNotification;
 import com.olah.gdx.game.util.Constants;
 import com.olah.gdx.game.util.GamePreferences;
 
@@ -23,7 +20,7 @@ public class WorldRenderer implements Disposable
 	private OrthographicCamera cameraGUI;
 	private SpriteBatch batch;
 	private WorldController worldController;
-	private static final boolean DEBUG_DRAW_BOX2D_WORLD = true;
+	private static final boolean DEBUG_DRAW_BOX2D_WORLD = false;
 	private Box2DDebugRenderer b2dDebugRenderer;
 
 
