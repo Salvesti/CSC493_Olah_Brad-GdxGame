@@ -29,7 +29,7 @@ public class Constants
 	public static final String ORIGINF = "levels/origin.png";
 	public static final String ORIGINB = "levels/originb.png";
 	//Starting time limit
-	public static final int START_TIME = 41;
+	public static final int START_TIME = 1;
 
 	//The time in seconds the Sardines lasts for
 	public static final float ITEM_SARDINES_POWERUP_DURATION = 9;

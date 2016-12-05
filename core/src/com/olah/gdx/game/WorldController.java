@@ -18,6 +18,7 @@ import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.LaserPointer;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreObject;
+import com.olah.gdx.game.Screens.HighScoreUpdateScreen;
 import com.olah.gdx.game.Screens.MenuScreen;
 import com.olah.gdx.game.util.Constants;
 import com.badlogic.gdx.InputAdapter;
@@ -250,7 +251,8 @@ public class WorldController extends InputAdapter
 			timeLeftGameOverDelay -= deltaTime;
 			if(timeLeftGameOverDelay < 0)
 			{
-				backToMenu();
+				updateHighScores();
+				//backToMenu();
 			}
 		}else
 		{
@@ -267,6 +269,22 @@ public class WorldController extends InputAdapter
 		{
 			scoreVisual = Math.min(score,  scoreVisual + 250 * deltaTime);
 		}
+	}
+
+	/**
+	 * Adds a new highscore to the high score list.
+	 */
+	private void updateHighScores()
+	{
+		game.setScreen(new HighScoreUpdateScreen(game, true));
+	}
+
+	/**
+	 * Returns back to the menu screen.
+	 */
+	private void backToMenu()
+	{
+		game.setScreen(new MenuScreen(game));
 	}
 
 	/**
@@ -298,13 +316,7 @@ public class WorldController extends InputAdapter
 		}
 	}
 
-	/**
-	 * Returns back to the menu screen.
-	 */
-	private void backToMenu()
-	{
-		game.setScreen(new MenuScreen(game));
-	}
+
 
 	/**
 	 * Returns if the player is out of time.

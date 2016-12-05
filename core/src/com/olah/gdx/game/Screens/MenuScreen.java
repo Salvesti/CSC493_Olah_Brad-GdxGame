@@ -47,7 +47,6 @@ public class MenuScreen extends AbstractGameScreen
 	private Image imgLogo;
 	private Image imgInfo;
 	private Image imgCat;
-	private Image imgBunny;
 	private Animation animCatRunning;
 	private Animation animCatSitting;
 	private Animation animCatWalking;
@@ -70,6 +69,8 @@ public class MenuScreen extends AbstractGameScreen
 	private final float DEBUG_REBUILD_INTERVAL = 5.0f;
 	private boolean debugEnabled = false;
 	private float debugRebuildStage;
+
+	private Button btnMenuHighScore;
 
 	public MenuScreen(Game game)
 	{
@@ -132,9 +133,9 @@ public class MenuScreen extends AbstractGameScreen
 
 		return layer;
 	}
-	
-	
-	
+
+
+
 
 	/**
 	 * Builds the table for the logo layer.
@@ -186,11 +187,23 @@ public class MenuScreen extends AbstractGameScreen
 				onOptionsClicked();
 			}
 		});
+		layer.row();
+		btnMenuHighScore = new TextButton("High Scores",skinLibgdx);
+		layer.add(btnMenuHighScore);
+		btnMenuHighScore.addListener(new ChangeListener() {
+			@Override
+			public void changed(ChangeEvent event, Actor actor) {
+				game.setScreen(new HighScoreUpdateScreen(game, false));
+			}
+		});
+		layer.row();
 		if (debugEnabled) {
 			layer.debug();
 		}
 		return layer;
 	}
+
+
 
 	/**
 	 * Builds the table for the options window.
@@ -298,7 +311,8 @@ public class MenuScreen extends AbstractGameScreen
 	 * Builds the table for the option widow skin selector.
 	 * @return tbl - A table with the skin selector.
 	 */
-	private Table buildOptWinSkinSelection() {
+	private Table buildOptWinSkinSelection()
+	{
 		Table tbl = new Table();
 		// + Title: "Character Skin"
 		tbl.pad(10, 10, 0, 10);
@@ -447,6 +461,7 @@ public class MenuScreen extends AbstractGameScreen
 	{
 		stage.getViewport().update(width, height,true);
 	}
+
 	@Override
 	public void show()
 	{
@@ -454,6 +469,7 @@ public class MenuScreen extends AbstractGameScreen
 		Gdx.input.setInputProcessor(stage);
 		rebuildStage();
 	}
+
 	@Override
 	public void hide()
 	{
@@ -461,6 +477,7 @@ public class MenuScreen extends AbstractGameScreen
 		skinCanyonBunny.dispose();
 		skinLibgdx.dispose();
 	}
+
 	@Override
 	public void pause()
 	{
