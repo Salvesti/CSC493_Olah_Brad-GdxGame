@@ -47,6 +47,7 @@ public class Constants
 	public static final String SKIN_LIBGDX_UI = "images/uiskin.json";
 	public static final String SKIN_CANYONBUNNY_UI = "images/cat-tastrophe.json";
 	public static final String PREFERENCES = "canyonbunny.prefs";
+	public static final String HIGHSCORES = "highscores.prefs";
 
 	//Collision categories.
 	public static final short CATEGORY_PLAYER = 0x0001;

@@ -276,7 +276,9 @@ public class WorldController extends InputAdapter
 	 */
 	private void updateHighScores()
 	{
-		game.setScreen(new HighScoreUpdateScreen(game, true));
+		HighScoreUpdateScreen highScoreScreen = new HighScoreUpdateScreen(game, true);
+		highScoreScreen.giveScore(this.score);
+		game.setScreen(highScoreScreen);
 	}
 
 	/**

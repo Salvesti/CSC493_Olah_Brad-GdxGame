@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,9 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.olah.gdx.game.Assets;
 import com.olah.gdx.game.util.Constants;
+import com.olah.gdx.game.util.GamePreferences;
+import com.olah.gdx.game.util.HighScores;
 
 public class HighScoreUpdateScreen extends AbstractGameScreen
 {
@@ -27,6 +31,9 @@ public class HighScoreUpdateScreen extends AbstractGameScreen
 	private Skin skinLibgdx;
 	private Window winHighScore;
 	private boolean updateScore;
+	private TextField playerName;
+	private int newScore;
+	private ScrollPane scores;
 
 	/**
 	 *
@@ -45,48 +52,101 @@ public class HighScoreUpdateScreen extends AbstractGameScreen
 	{
 		skinLibgdx = new Skin(Gdx.files.internal(Constants.SKIN_LIBGDX_UI),new TextureAtlas(Constants.TEXTURE_ATLAS_LIBGDX_UI));
 
-		Gdx.app.debug(TAG, "Draw Stage");
 		//Build all layers
-		Table highScoreLayer = buildHighScoreLayer();
+		winHighScore = new Window("High Scores",skinLibgdx);
+		Table highScoreAddition = buildHighScoreAdditionMenu();
 		//Assemble stage.
 		stage.clear();
 		Stack stack = new Stack();
 		stage.addActor(stack);
 		stack.setSize(Constants.VIEWPORT_GUI_WIDTH, Constants.VIEWPORT_GUI_HEIGHT);
-		stack.add(highScoreLayer);
+		stack.add(highScoreAddition);
+	}
+
+	/**
+	 * Builds a ScrollPane holding the saved score values.
+	 * @return
+	 */
+	private ScrollPane buildHighScoreList()
+	{
+		HighScores highScores = HighScores.instance;
+		int numScores = highScores.numScores;
+		Table highScoreTable = new Table();
+		String[][] highScoresValues = highScores.loadScores();
+
+		for(int i = 0; i < numScores ; i++)
+		{
+			Label scoreLabel = new Label(highScoresValues[i][0] +" "+ highScoresValues[i][1], skinLibgdx);
+			highScoreTable.add(scoreLabel).row();
+		}
+		scores = new ScrollPane(highScoreTable,skinLibgdx);
+		return scores;
 	}
 
 	/**
 	 * Builds the high score layer info.
 	 * @return
 	 */
-	private Table buildHighScoreLayer()
+	private Table buildHighScoreAdditionMenu()
 	{
-		Gdx.app.debug(TAG, "Build High Score Layer");
-		winHighScore = new Window("High Score",skinLibgdx);
+		ScrollPane highScores = buildHighScoreList();
+		winHighScore.add(highScores).size(500, 100).colspan(4).padBottom(20).row();
+		//If this window came from the game allow a new score to be added..
 		if(updateScore)
 		{
-			Label nameLabel = new Label("Enter Name:", skinLibgdx);
-			TextField highScore = new TextField("adfasdf", skinLibgdx);
-			final TextButton button = new TextButton("Click me!", skinLibgdx);
-			winHighScore.add(nameLabel).row();
-			winHighScore.add(highScore).row();
-			winHighScore.add(button);
+			Label newScoreLabel = new Label("Your score was: "+newScore+"    ",skinLibgdx);
+			Label nameLabel = new Label("Enter Name: ", skinLibgdx);
+
+			playerName = new TextField("", skinLibgdx);
+			final TextButton button = new TextButton("Add Score", skinLibgdx);
+
+			winHighScore.add(newScoreLabel).colspan(4).row();
+			winHighScore.add(nameLabel).colspan(4).row();
+			winHighScore.add(playerName).colspan(4).row();
+			winHighScore.add(button).colspan(4).row();
 			button.addListener(new ChangeListener() {
 				public void changed (ChangeEvent event, Actor actor) {
 					//Insert a high score
 					System.out.println("insert a high score");
+					saveScore();
 					game.setScreen(new MenuScreen(game));
 				}
 			});
 		}
+		//Adds a back button to return to home without adding score.
+		final TextButton backButton = new TextButton("Return to Main Menu", skinLibgdx);
+		winHighScore.add(backButton).colspan(4);
+		backButton.addListener(new ChangeListener() {
+			public void changed (ChangeEvent event, Actor actor) {
+				game.setScreen(new MenuScreen(game));
+			}
+		});
 		//Make high score window slightly transparent
 		winHighScore.setColor(1, 1, 1, 0.8f);
 		// Move options window to bottom right corner
 		winHighScore.setPosition(Constants.VIEWPORT_GUI_WIDTH - winHighScore.getWidth() - 50, 50);
+		winHighScore.pack();
 		return winHighScore;
 	}
 
+	/**
+	 * Saves a highScore.
+	 */
+	protected void saveScore()
+	{
+		HighScores highScores = HighScores.instance;
+		highScores.addScore(playerName.getText(), newScore + "");
+
+	}
+
+	/**
+	 * Passes in a score from the game.
+	 * @param score
+	 */
+	public void giveScore(int score)
+	{
+		this.newScore = score;
+	}
 
 	@Override
 	public void render(float deltaTime)
