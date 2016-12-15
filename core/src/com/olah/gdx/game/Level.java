@@ -15,6 +15,7 @@ import com.olah.gdx.game.GameObjects.Cat;
 import com.olah.gdx.game.GameObjects.CollisionZone;
 import com.olah.gdx.game.GameObjects.FloorWood;
 import com.olah.gdx.game.GameObjects.LaserPointer;
+import com.olah.gdx.game.GameObjects.ParallaxBackground;
 import com.olah.gdx.game.GameObjects.Sardines;
 import com.olah.gdx.game.GameObjects.ScoreNotification;
 import com.olah.gdx.game.GameObjects.ScoreObject;
@@ -80,7 +81,7 @@ public class Level
 
 
 	//decoration
-
+	public ParallaxBackground parallaxBackground;
 
 	public Level (String foreground, String background)
 	{
@@ -108,7 +109,8 @@ public class Level
 		floorWood = new Array<FloorWood>();
 		collisionZones = new Array<CollisionZone>();
 		scorePopups = new Array<ScoreNotification>();
-
+		
+		
 		//Builds the two layers.
 		buildFromLayer(background,0);
 		buildFromLayer(foreground,0);
@@ -236,6 +238,9 @@ public class Level
 				}
 			}
 		}
+		
+		parallaxBackground = new ParallaxBackground(pixmap.getWidth());
+		parallaxBackground.position.set(-1,-1);
 		//Free memory
 		pixmap.dispose();
 		Gdx.app.debug(TAG, "Level '"+layer+"' loaded");

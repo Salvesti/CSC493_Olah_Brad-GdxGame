@@ -75,6 +75,7 @@ public class LevelContactListener implements ContactListener
 		//If objectA is the collidableObject finds its type and performs appropriate logic.
 		if(objectAType.equals("laserPointer") && objectBType.equals("player"))
 		{
+			AudioManager.instance.play(Assets.instance.sounds.laserHit);
 			LaserPointer laser = (LaserPointer)objectA;
 			//Changes the filter mask that the object uses.
 			Filter filter = new Filter();
@@ -88,6 +89,7 @@ public class LevelContactListener implements ContactListener
 		//If objectB is the collidableObject finds its type and performs appropriate logic.
 		if(objectBType.equals("laserPointer") && objectAType.equals("player"))
 		{
+			AudioManager.instance.play(Assets.instance.sounds.laserHit);
 			LaserPointer laser = (LaserPointer)objectB;
 			//Changes the filter mask that the object uses.
 			Filter filter = new Filter();

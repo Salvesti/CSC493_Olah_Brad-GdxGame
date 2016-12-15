@@ -265,6 +265,7 @@ public class WorldController extends InputAdapter
 		level.update(deltaTime);
 		b2World.step(deltaTime, 10,20);
 		cameraHelper.update(deltaTime);
+		level.parallaxBackground.updateScrollPosition(cameraHelper.getPosition());
 		if(scoreVisual < score)
 		{
 			scoreVisual = Math.min(score,  scoreVisual + 250 * deltaTime);

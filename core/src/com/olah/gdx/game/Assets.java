@@ -55,6 +55,7 @@ public class Assets implements Disposable, AssetErrorListener
 		assetManager.load("sounds/jump.wav",Sound.class);
 		assetManager.load("sounds/object_collected.wav", Sound.class);
 		assetManager.load("sounds/object_hit.wav", Sound.class);
+		assetManager.load("sounds/laser_hit.wav", Sound.class);
 		//Load music
 		assetManager.load("music/grassland-adventure.mp3", Music.class);
 		//Start loading assets and wait until finished
@@ -302,6 +303,11 @@ public class Assets implements Disposable, AssetErrorListener
 		public final AtlasRegion blackSpace;
 		public final AtlasRegion outsideWallGap;
 		public final AtlasRegion grass;
+		public final Texture trees;
+		public final Texture buildingsFront;
+		public final Texture buildingsMiddle;
+		public final Texture buildingsBack;
+		public final Texture sky;
 		public AssetLevelDecoration (TextureAtlas atlas)
 		{
 			woodFloor = atlas.findRegion("floor_block");
@@ -311,6 +317,11 @@ public class Assets implements Disposable, AssetErrorListener
 			blackSpace = atlas.findRegion("outside_wall");
 			outsideWallGap =atlas.findRegion("outside_wall_gap");
 			grass =atlas.findRegion("grass");
+			trees = new Texture(Gdx.files.internal("images/trees.png"));
+			buildingsFront = new Texture(Gdx.files.internal("images/buildingsFront.png"));
+			buildingsMiddle = new Texture(Gdx.files.internal("images/buildingsMiddle.png"));
+			buildingsBack = new Texture(Gdx.files.internal("images/buildingsBack.png"));
+			sky = new Texture(Gdx.files.internal("images/sky.png"));
 		}
 	}
 
@@ -319,11 +330,13 @@ public class Assets implements Disposable, AssetErrorListener
 		public final Sound jump;
 		public final Sound objectHit;
 		public final Sound objectCollected;
+		public final Sound laserHit;
 		public AssetSounds (AssetManager am)
 		{
 			jump = am.get("sounds/jump.wav", Sound.class);
 			objectHit = am.get("sounds/object_hit.wav", Sound.class);
 			objectCollected = am.get("sounds/object_collected.wav", Sound.class);
+			laserHit = am.get("sounds/laser_hit.wav",Sound.class);
 		}
 	}
 
