@@ -430,6 +430,24 @@ public class WorldController extends InputAdapter
 		{
 			backToMenu();
 		}
+		else if(keycode == Keys.F1)
+		{
+			level = new Level(Constants.ORIGIN2F,Constants.ORIGIN2B);
+			b2World = new World(new Vector2(0,-9.81f),true);
+			cameraHelper.setTarget(level.cat);
+			timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+			levelContactChecker = new LevelContactListener(this);
+			initPhysics();
+		}
+		else if(keycode == Keys.F2)
+		{
+			level = new Level(Constants.ORIGINF,Constants.ORIGINB);
+			b2World = new World(new Vector2(0,-9.81f),true);
+			cameraHelper.setTarget(level.cat);
+			timeLeftGameOverDelay = Constants.TIME_DELAY_GAME_OVER;
+			levelContactChecker = new LevelContactListener(this);
+			initPhysics();
+		}
 		return false;
 	}
 

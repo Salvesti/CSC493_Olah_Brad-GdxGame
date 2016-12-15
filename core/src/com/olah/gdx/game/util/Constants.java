@@ -28,6 +28,8 @@ public class Constants
 	public static final String LEVEL_01B = "levels/level-01b.png";
 	public static final String ORIGINF = "levels/origin.png";
 	public static final String ORIGINB = "levels/originb.png";
+	public static final String ORIGIN2F = "levels/origin2.png";
+	public static final String ORIGIN2B = "levels/origin2b.png";
 	//Starting time limit
 	public static final int START_TIME = 21;
 
