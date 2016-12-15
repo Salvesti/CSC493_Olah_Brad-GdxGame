@@ -1,6 +1,7 @@
 package com.olah.gdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -22,12 +23,14 @@ public class LevelContactListener implements ContactListener
 	public static final String TAG = LevelContactListener.class.getName();
 	private WorldController worldController;
 	private Level level;
+	
 
 
 	public LevelContactListener(WorldController worldController)
 	{
 		this.worldController = worldController;
 		this.level = worldController.level;
+		
 	}
 
 	/**

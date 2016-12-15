@@ -1,5 +1,7 @@
 package com.olah.gdx.game.GameObjects;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.olah.gdx.game.Assets;
@@ -12,6 +14,7 @@ import com.olah.gdx.game.Assets;
 public class ScoreObject extends AbstractGameObject
 {
 	private TextureRegion regScoreObject;
+	private ParticleEffect puffParticles = new ParticleEffect();
 
 	public ScoreObject()
 	{

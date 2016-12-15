@@ -35,6 +35,7 @@ public class Cat extends AbstractGameObject
 	public float timeLeftSardinePowerup;
 	public float timeLeftLaserPointer;
 	public ParticleEffect dustParticles = new ParticleEffect();
+	public ParticleEffect puffParticles = new ParticleEffect();
 
 	public Cat()
 	{
@@ -72,6 +73,7 @@ public class Cat extends AbstractGameObject
 		numFootContacts = 0;
 		//Particles
 		dustParticles.load(Gdx.files.internal("particles/dust.pfx"),Gdx.files.internal("particles"));
+		puffParticles.load(Gdx.files.internal("particles/puff.pfx"),Gdx.files.internal("particles"));
 		type = "player";
 	}
 
@@ -136,11 +138,14 @@ public class Cat extends AbstractGameObject
 		if(timeLeftLaserPointer > 0)
 		{
 			timeLeftLaserPointer -= deltaTime;
+			puffParticles.setPosition(position.x + dimension.x, position.y+dimension.y/1.4f);
+			puffParticles.start();
 			if(timeLeftLaserPointer < 0)
 			{
 				//disable laser pointer
 				timeLeftLaserPointer = 0;
 				setLaserPointer(false);
+				puffParticles.allowCompletion();
 			}
 		}
 
@@ -148,13 +153,16 @@ public class Cat extends AbstractGameObject
 		if(timeLeftSardinePowerup > 0)
 		{
 			timeLeftSardinePowerup -= deltaTime;
+			
 			if(timeLeftSardinePowerup < 0)
 			{
 				//disable Powerup
 				timeLeftSardinePowerup = 0;
 				setSardinePowerup(false);
+				
 			}
 		}
+		puffParticles.update(deltaTime);
 
 		//TODO fix flipping of the emitter when the Cat changes direction.
 		if(numFootContacts != 0)
@@ -249,6 +257,7 @@ public class Cat extends AbstractGameObject
 
 		//Draw Particles
 		dustParticles.draw(batch);
+		puffParticles.draw(batch);
 
 		//Apply Skin Color
 		 batch.setColor(CharacterSkin.values()[GamePreferences.instance.charSkin].getColor());

@@ -23,7 +23,7 @@ public class ParallaxBackground extends AbstractGameObject
 	
 	protected void init()
 	{
-		dimension.set(10,2);
+		dimension.set(5,2);
 		
 		trees = Assets.instance.levelDecoration.trees;
 		buildingsFront = Assets.instance.levelDecoration.buildingsFront;
@@ -48,11 +48,11 @@ public class ParallaxBackground extends AbstractGameObject
 		layerLength += MathUtils.ceil(0.5f * offsetX);
 		for (int i = 0; i < layerLength; i++) {
 			
-			batch.draw(texture, origin.x + xRel + position.x * parallaxSpeedX, origin.y + yRel + position.y, 
-			texture.getWidth(), texture.getHeight());
+			batch.draw(texture, origin.x + xRel + position.x * parallaxSpeedX, origin.y + position.y,
+			50, 40);
+			
 			xRel += dimension.x;
-
-			xRel += dimension.x;
+			yRel += dimension.y;
 		}
 	}
 	

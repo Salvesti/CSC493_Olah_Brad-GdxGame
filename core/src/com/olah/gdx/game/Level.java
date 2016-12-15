@@ -78,6 +78,7 @@ public class Level
 	public Array<BackWallWindow> backWallWindows;
 	public Array<CollisionZone>	collisionZones;
 	public Array<ScoreNotification> scorePopups;
+	public Array<ParallaxBackground> parallaxBackgrounds;
 
 
 	//decoration
@@ -109,11 +110,16 @@ public class Level
 		floorWood = new Array<FloorWood>();
 		collisionZones = new Array<CollisionZone>();
 		scorePopups = new Array<ScoreNotification>();
+		parallaxBackgrounds = new Array<ParallaxBackground>();
 		
 		
 		//Builds the two layers.
 		buildFromLayer(background,0);
 		buildFromLayer(foreground,0);
+		parallaxBackground = new ParallaxBackground(2000);
+		parallaxBackground.position.set(-1,-4);
+		parallaxBackgrounds.add(parallaxBackground);
+		
 	}
 	/**
 	 * Draws objects based on the image passed into the method.
@@ -239,8 +245,6 @@ public class Level
 			}
 		}
 		
-		parallaxBackground = new ParallaxBackground(pixmap.getWidth());
-		parallaxBackground.position.set(-1,-1);
 		//Free memory
 		pixmap.dispose();
 		Gdx.app.debug(TAG, "Level '"+layer+"' loaded");
@@ -252,7 +256,11 @@ public class Level
 	 */
 	public void render(SpriteBatch batch)
 	{
-
+		for(ParallaxBackground background : parallaxBackgrounds)
+		{
+			background.render(batch);
+		}
+		
 		//Draw grass
 		for(FloorGrass grass : floorGrass)
 		{
@@ -309,6 +317,7 @@ public class Level
 //			score.render(batch);
 //		}
 		//Draw player
+		
 		cat.render(batch);
 	}
 
